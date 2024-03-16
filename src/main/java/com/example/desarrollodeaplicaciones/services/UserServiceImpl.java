@@ -20,12 +20,12 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<UserDTO> getAll() {
-        return userRepository.getAll().stream().map(Mapper::userToUserDto).collect(Collectors.toList());
+        return userRepository.findAll().stream().map(Mapper::userToUserDto).collect(Collectors.toList());
     }
 
     @Override
     public UserDTO add(UserDTO user) {
-        userRepository.addUser(Mapper.userDtoToUser(user));
+        userRepository.insert(Mapper.userDtoToUser(user));
         return user;
     }
 
