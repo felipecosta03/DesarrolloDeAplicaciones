@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Valid
 @Builder
 @Document
 public class Movie {
@@ -23,8 +22,8 @@ public class Movie {
 	private String duration;
 	private String director;
 	private ArrayList<Actor> actors;
-	
-	
-	
-	
+
+
+
+
 }

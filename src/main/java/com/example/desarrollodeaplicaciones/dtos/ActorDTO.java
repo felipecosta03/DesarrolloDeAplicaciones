@@ -1,15 +1,14 @@
-package com.example.desarrollodeaplicaciones.models;
-
-import org.springframework.data.mongodb.core.mapping.Document;
+package com.example.desarrollodeaplicaciones.dtos;
 
 import jakarta.validation.Valid;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
+@Valid
 @Builder
-@Document
-public class Actor {
+public class ActorDTO {
 	private String firstName;
 	private String lastName;
 	@Override

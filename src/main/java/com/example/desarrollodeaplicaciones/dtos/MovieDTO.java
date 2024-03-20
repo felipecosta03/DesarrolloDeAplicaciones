@@ -1,11 +1,8 @@
 package com.example.desarrollodeaplicaciones.dtos;
 
-import java.util.ArrayList;
-
-import com.example.desarrollodeaplicaciones.models.Actor;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import java.util.ArrayList;
 import lombok.Builder;
 import lombok.Data;
 
@@ -26,7 +23,7 @@ public class MovieDTO {
 	private String releasedDate;
 	private String duration;
 	private String director;
-	private ArrayList<Actor> actors;
-	
-	
+	private ArrayList<ActorDTO> actors;
+
+
 }

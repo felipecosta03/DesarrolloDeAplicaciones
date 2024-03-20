@@ -6,7 +6,6 @@ import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Valid
 @Builder
 @Document
 public class User {
