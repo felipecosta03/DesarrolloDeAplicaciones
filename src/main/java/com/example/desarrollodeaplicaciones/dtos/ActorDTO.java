@@ -3,7 +3,6 @@ package com.example.desarrollodeaplicaciones.dtos;
 import jakarta.validation.Valid;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Valid

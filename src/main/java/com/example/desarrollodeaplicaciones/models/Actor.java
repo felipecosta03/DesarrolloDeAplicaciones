@@ -2,7 +2,6 @@ package com.example.desarrollodeaplicaciones.models;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import jakarta.validation.Valid;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,5 +14,9 @@ public class Actor {
 	@Override
 	public String toString() {
 		return (this.firstName   +  ' ' + this.lastName);
+	}
+	public Actor(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
 }
