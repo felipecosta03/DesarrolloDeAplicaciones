@@ -1,6 +1,5 @@
 package com.example.desarrollodeaplicaciones.dtos;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
 
@@ -8,10 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Valid
 @Builder
 public class MovieDTO {
-	@NotEmpty
+	@NotEmpty(message = "Es necesario ingresar un título")
 	private String title;
 	@NotEmpty(message = "Es necesario ingresar un subtítulo")
 	private String subtitle;
@@ -25,6 +23,4 @@ public class MovieDTO {
 	private String duration;
 	private String director;
 	private List<ActorDTO> actors;
-
-
 }

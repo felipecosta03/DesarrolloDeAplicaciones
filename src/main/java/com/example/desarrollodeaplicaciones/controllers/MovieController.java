@@ -9,13 +9,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
 import com.example.desarrollodeaplicaciones.services.IMovieService;
 
-@Validated
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+
+
 @RestController
+@Validated
 @RequestMapping("/api/v1/movies")
 public class MovieController {
 	
@@ -28,7 +33,7 @@ public class MovieController {
 	
 	
 	@PostMapping
-	public ResponseEntity<MovieDTO> add(@RequestBody MovieDTO movie) {
+	public ResponseEntity<MovieDTO> add(@RequestBody @Valid MovieDTO movie) {
 		return ResponseEntity.status(200).body(movieServices.add(movie));
 	}
 	
@@ -41,6 +46,11 @@ public class MovieController {
 	public ResponseEntity<MovieDTO> findById(@PathVariable String id) {
 		return ResponseEntity.status(200).body(movieServices.findById(id));
 	}
+	
+    @GetMapping("/hello")
+    public String sayHello(@NotBlank(message = "Name no puede ver blanco") @RequestParam String name) {
+        return "Hello, " + name + "!";
+    }
 
 	
 }
