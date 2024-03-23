@@ -3,12 +3,12 @@ package com.example.desarrollodeaplicaciones.dtos;
 import lombok.Getter;
 
 @Getter
-public enum ErrorCode {
-  NOT_FOUND(404);
+public enum ErrorCodeDTO {
+  NOT_FOUND(404), CONFLICT(409), BAD_REQUEST(400), INTERNAL_SERVER_ERROR(500);
 
   private Integer status;
 
-  ErrorCode(Integer status) {
+  ErrorCodeDTO(Integer status) {
     this.status = status;
   }
 }

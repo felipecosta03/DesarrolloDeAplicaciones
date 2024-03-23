@@ -5,8 +5,6 @@ import lombok.Data;
 
 @Data
 @Builder
-public class OAuthUserDTO {
-    private String name;
-    private String lastName;
-    private String email;
+public class JwtTokenDTO {
+    private String token;
 }
