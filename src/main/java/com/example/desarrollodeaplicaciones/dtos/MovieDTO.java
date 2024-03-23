@@ -2,6 +2,7 @@ package com.example.desarrollodeaplicaciones.dtos;
 
 import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
+import java.util.ArrayList;
 
 import lombok.Builder;
 import lombok.Data;
@@ -17,10 +18,12 @@ public class MovieDTO {
 	private String synapsis;
 	@NotEmpty(message = "Es necesario ingresar un género")
 	private String genre;
-	private List<String> image;
+	@Builder.Default
+	private List<String> image = new ArrayList<>();
 	private String trailer;
 	private String releasedDate;
 	private String duration;
 	private String director;
-	private List<ActorDTO> actors;
+	@Builder.Default
+	private List<ActorDTO> actors = new ArrayList<>();
 }

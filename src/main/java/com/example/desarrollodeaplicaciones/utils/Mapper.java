@@ -2,6 +2,7 @@ package com.example.desarrollodeaplicaciones.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.example.desarrollodeaplicaciones.dtos.ActorDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
@@ -41,7 +42,7 @@ public class Mapper {
 			.releasedDate(movie.getReleasedDate())
 			.duration(movie.getDuration())
 			.director(movie.getDirector())
-			.actors(Mapper.actorsToActorsDTO(movie.getActors()))
+			.actors(Objects.nonNull(movie.getActors()) ? Mapper.actorsToActorsDTO(movie.getActors()) : null)
 			.build();
 			
 	}
@@ -56,7 +57,7 @@ public class Mapper {
 			.releasedDate(movieDto.getReleasedDate())
 			.duration(movieDto.getDuration())
 			.director(movieDto.getDirector())
-			.actors(Mapper.actorsDtoToActors(movieDto.getActors()))
+			.actors(Objects.nonNull(movieDto.getActors()) ? Mapper.actorsDtoToActors(movieDto.getActors()) : null)
 			.build();
 	}
 	
