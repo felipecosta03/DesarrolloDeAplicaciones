@@ -19,7 +19,8 @@ public class SecurityConfig {
               auth.requestMatchers("/", "/error", "/auth/**", "/oauth/**").permitAll();
               auth.anyRequest().authenticated();
             })
-        .oauth2Login(o->o.defaultSuccessUrl("/loginSuccess"))
+        .oauth2Login(withDefaults())
+        .logout(logout -> logout.logoutUrl("/logout"))
         .build();
   }
 }
