@@ -14,20 +14,28 @@ import com.example.desarrollodeaplicaciones.models.User;
 public class Mapper {
 	private Mapper() {}
 
-	public static User userDtoToUser(UserDTO userDTO) {
-	    return User.builder()
-	        .name(userDTO.getName())
-	        .lastName(userDTO.getLastName())
-	        .id(userDTO.getId())
-	        .build();
-	}
-
 	public static UserDTO userToUserDto(User user) {
 		return UserDTO.builder()
-	        .name(user.getName())
-	        .lastName(user.getLastName())
-	        .id(user.getId())
-	        .build();
+			.id(user.getId())
+			.name(user.getName())
+			.lastName(user.getLastName())
+			.nickName(user.getNickName())
+			.email(user.getEmail())
+			.imageUrl(user.getImageUrl())
+			.active(user.isActive())
+			.build();
+	}
+
+	public static User userDtoToUser(UserDTO userDto) {
+		return User.builder()
+			.id(userDto.getId())
+			.name(userDto.getName())
+			.lastName(userDto.getLastName())
+			.nickName(userDto.getNickName())
+			.email(userDto.getEmail())
+			.imageUrl(userDto.getImageUrl())
+			.active(userDto.isActive())
+			.build();
 	}
 
 	public static MovieDTO movieToMovieDTO (Movie movie) {
@@ -43,7 +51,7 @@ public class Mapper {
 			.director(movie.getDirector())
 			.actors(Mapper.actorsToActorsDTO(movie.getActors()))
 			.build();
-			
+
 	}
 	public static Movie movieDtoToMovie(MovieDTO movieDto) {
 		return Movie.builder()
@@ -59,22 +67,22 @@ public class Mapper {
 			.actors(Mapper.actorsDtoToActors(movieDto.getActors()))
 			.build();
 	}
-	
+
 	public static Actor actorDtoToActor(ActorDTO actorDto) {
 		return Actor.builder()
 			.firstName(actorDto.getFirstName())
 			.lastName(actorDto.getLastName())
 			.build();
 	}
-	
+
 	public static ActorDTO actorToActorDTO(Actor actor) {
 		return ActorDTO.builder()
 			.firstName(actor.getFirstName())
 			.lastName(actor.getLastName())
 			.build();
 	}
-	
-	
+
+
 	public static List<Actor> actorsDtoToActors(List<ActorDTO> actorsDto) {
 		ArrayList<Actor> actors = new ArrayList<>();
 		for (ActorDTO actorDto : actorsDto) {
@@ -86,7 +94,7 @@ public class Mapper {
 		}
 		return actors;
 	}
-	
+
 	public static List<ActorDTO> actorsToActorsDTO(List<Actor> actors) {
 		ArrayList<ActorDTO> actorsDto = new ArrayList<>();
 		for (Actor actor : actors) {
@@ -102,5 +110,5 @@ public class Mapper {
 		}
 		return movies;
 	}
-	
+
 }
