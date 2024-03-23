@@ -21,8 +21,4 @@ public class Movie {
 	private String duration;
 	private String director;
 	private List<Actor> actors;
-
-
-
-
 }

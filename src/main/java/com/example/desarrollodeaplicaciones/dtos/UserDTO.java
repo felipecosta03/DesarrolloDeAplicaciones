@@ -1,24 +1,34 @@
 package com.example.desarrollodeaplicaciones.dtos;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 @Data
 @Valid
 @Builder
 public class UserDTO {
-  @NotEmpty(message = "Debe tener un id")
+  @NotEmpty(message = "Es necesario ingresar un id")
   private String id;
 
-  @NotEmpty(message = "Debe ingresar un nombre")
+  @NotEmpty(message = "Es necesario ingresar un nombre")
   private String name;
 
-  @Size(
-      min = 3,
-      max = 10,
-      message = "El apellido debe tener un largo de maximo 10 y minimo 3 caracteres")
+  @NotEmpty(message = "Es necesario ingresar un apellido")
   private String lastName;
+
+  @NotEmpty(message = "Es necesario ingresar un apodo")
+  private String nickName;
+
+  @Email(message = "El correo electrónico debe tener un formato válido")
+  @NotEmpty(message = "Es necesario ingresar un correo electrónico")
+  private String email;
+
+  @NotEmpty(message = "Es necesario ingresar una URL de imagen")
+  private String imageUrl;
+
+  private boolean active;
 }
