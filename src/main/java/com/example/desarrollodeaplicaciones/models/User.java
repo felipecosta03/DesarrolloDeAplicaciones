@@ -1,25 +1,30 @@
 package com.example.desarrollodeaplicaciones.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@Document
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "users")
 public class User {
   @Id
-  private String id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
   private String name;
   private String lastName;
 
-  @Indexed(unique = true)
   private String nickName;
 
-  @Indexed(unique = true)
   private String email;
 
   private String imageUrl;

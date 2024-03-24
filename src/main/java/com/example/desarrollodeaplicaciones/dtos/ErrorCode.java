@@ -4,12 +4,12 @@ import lombok.Getter;
 
 @Getter
 public enum ErrorCode {
-	NOT_FOUND(404),
-	BAD_REQUEST(409);
+  NOT_FOUND(404),
+  BAD_REQUEST(409);
 
-	private Integer status;
+  private Integer status;
 
-	ErrorCode(Integer status) {
-		this.status = status;
-	}
+  ErrorCode(Integer status) {
+    this.status = status;
+  }
 }

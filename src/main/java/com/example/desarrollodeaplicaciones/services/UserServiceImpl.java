@@ -23,12 +23,12 @@ public class UserServiceImpl implements IUserService {
 
   @Override
   public UserDTO add(UserDTO user) {
-    userRepository.insert(Mapper.userDtoToUser(user));
+    userRepository.save(Mapper.userDtoToUser(user));
     return user;
   }
 
   @Override
-  public UserDTO findById(String id) {
+  public UserDTO findById(Long id) {
     return Mapper.userToUserDto(
         userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id)));
   }

@@ -8,5 +8,5 @@ public interface IUserService {
 
   UserDTO add(UserDTO user);
 
-  UserDTO findById(String id);
+  UserDTO findById(Long id);
 }

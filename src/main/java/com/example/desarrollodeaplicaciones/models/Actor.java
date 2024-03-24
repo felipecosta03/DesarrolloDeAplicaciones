@@ -1,22 +1,31 @@
 package com.example.desarrollodeaplicaciones.models;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@Document
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name ="actors")
 public class Actor {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private String firstName;
 	private String lastName;
+
+
 	@Override
 	public String toString() {
 		return (this.firstName   +  ' ' + this.lastName);
-	}
-	public Actor(String firstName, String lastName) {
-		this.firstName = firstName;
-		this.lastName = lastName;
 	}
 }

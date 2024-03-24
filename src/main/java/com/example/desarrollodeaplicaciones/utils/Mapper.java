@@ -1,15 +1,13 @@
 package com.example.desarrollodeaplicaciones.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.example.desarrollodeaplicaciones.dtos.ActorDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
 import com.example.desarrollodeaplicaciones.dtos.UserDTO;
 import com.example.desarrollodeaplicaciones.models.Actor;
 import com.example.desarrollodeaplicaciones.models.Movie;
 import com.example.desarrollodeaplicaciones.models.User;
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class Mapper {
 	private Mapper() {}
@@ -44,7 +42,7 @@ public class Mapper {
 			.subtitle(movie.getSubtitle())
 			.synapsis(movie.getSynapsis())
 			.genre(movie.getGenre())
-			.image(movie.getImage())
+			.images(movie.getImages())
 			.trailer(movie.getTrailer())
 			.releasedDate(movie.getReleasedDate())
 			.duration(movie.getDuration())
@@ -59,7 +57,7 @@ public class Mapper {
 			.subtitle(movieDto.getSubtitle())
 			.synapsis(movieDto.getSynapsis())
 			.genre(movieDto.getGenre())
-			.image(movieDto.getImage())
+			.images(movieDto.getImages())
 			.trailer(movieDto.getTrailer())
 			.releasedDate(movieDto.getReleasedDate())
 			.duration(movieDto.getDuration())
