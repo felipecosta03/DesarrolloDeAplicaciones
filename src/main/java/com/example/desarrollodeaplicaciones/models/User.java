@@ -7,6 +7,9 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Builder
 @Document
@@ -16,12 +19,12 @@ public class User {
   private String name;
   private String lastName;
 
-  @Indexed(unique = true)
   private String nickName;
 
-  @Indexed(unique = true)
   private String email;
 
   private String imageUrl;
   private boolean active;
+  @Indexed
+  private List<Movie> favoriteMovies;
 }

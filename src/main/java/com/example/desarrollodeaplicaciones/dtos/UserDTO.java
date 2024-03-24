@@ -7,11 +7,13 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.mongodb.core.index.Indexed;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Valid
 @Builder
 public class UserDTO {
-  @NotEmpty(message = "Es necesario ingresar un id")
   private String id;
 
   @NotEmpty(message = "Es necesario ingresar un nombre")
@@ -31,4 +33,5 @@ public class UserDTO {
   private String imageUrl;
 
   private boolean active;
+  private List<MovieDTO> favoriteMovies = new ArrayList<>();
 }

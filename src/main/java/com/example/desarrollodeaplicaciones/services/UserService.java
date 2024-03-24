@@ -8,11 +8,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserService implements IUserService {
 
   private final IUserRepository userRepository;
 
-  public UserServiceImpl(IUserRepository userRepository) {
+  public UserService(IUserRepository userRepository) {
     this.userRepository = userRepository;
   }
 
