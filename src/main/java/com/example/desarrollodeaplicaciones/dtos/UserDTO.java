@@ -5,14 +5,13 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.mongodb.core.index.Indexed;
 
 @Data
 @Valid
 @Builder
 public class UserDTO {
   @NotEmpty(message = "Es necesario ingresar un id")
-  private String id;
+  private Long id;
 
   @NotEmpty(message = "Es necesario ingresar un nombre")
   private String name;
