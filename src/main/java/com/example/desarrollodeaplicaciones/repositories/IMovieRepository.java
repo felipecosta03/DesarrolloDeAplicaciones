@@ -1,6 +1,8 @@
 package com.example.desarrollodeaplicaciones.repositories;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
 import com.example.desarrollodeaplicaciones.models.Movie;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface IMovieRepository extends MongoRepository<Movie, String> {}
+@Repository
+public interface IMovieRepository extends JpaRepository<Movie, Long> {}

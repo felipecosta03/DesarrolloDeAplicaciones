@@ -1,12 +1,12 @@
 package com.example.desarrollodeaplicaciones.repositories;
 
 import com.example.desarrollodeaplicaciones.models.User;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface IUserRepository extends MongoRepository<User, String> {
-    User findByNickName(String nickname);
-    User findByEmail(String email);
-    boolean existsUserByEmail(String email);
+import java.util.Optional;
 
-    boolean existsUserByNickName(String nickname);
+@Repository
+public interface IUserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByEmail(String email);
 }
