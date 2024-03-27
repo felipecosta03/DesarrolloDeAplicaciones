@@ -5,10 +5,9 @@ import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 import lombok.Getter;
 
-public class BlobUsersImagesStrategy implements BlobClientStrategy{
+public class BlobUsersImagesStrategy implements BlobClientStrategy {
   private BlobServiceClient blobServiceClient;
-  @Getter
-  private BlobContainerClient blobContainerClient;
+  @Getter private BlobContainerClient blobContainerClient;
 
   public BlobUsersImagesStrategy(BlobServiceClient blobServiceClient) {
     this.blobServiceClient = blobServiceClient;
