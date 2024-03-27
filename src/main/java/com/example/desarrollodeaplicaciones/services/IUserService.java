@@ -1,5 +1,6 @@
 package com.example.desarrollodeaplicaciones.services;
 
+import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.dtos.UserDTO;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,5 +12,7 @@ public interface IUserService {
 
   UserDTO findById(Long id);
 
-  UserDTO updateUserImage(Long id, MultipartFile image);
+  StatusDTO updateUserImage(Long id, MultipartFile image);
+
+  StatusDTO deleteImage(Long id);
 }

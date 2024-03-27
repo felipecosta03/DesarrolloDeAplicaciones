@@ -1,12 +1,14 @@
 package com.example.desarrollodeaplicaciones.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-public class ErrorMessageDTO {
-  private String message;
+@AllArgsConstructor
+@NoArgsConstructor
+public class StatusDTO {
   private int status;
-  private ErrorCodeDTO code;
 }

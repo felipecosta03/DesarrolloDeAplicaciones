@@ -1,10 +1,12 @@
 package com.example.desarrollodeaplicaciones.controllers;
 
+import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.dtos.UserDTO;
 import com.example.desarrollodeaplicaciones.services.IUserService;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,8 +45,14 @@ public class UserController {
   }
 
   @PatchMapping("/{id}/image")
-  public ResponseEntity<UserDTO> updateImage(
+  public ResponseEntity<StatusDTO> updateImage(
       @PathVariable Long id, @RequestParam("image") MultipartFile image) {
     return ResponseEntity.status(200).body(userService.updateUserImage(id, image));
+  }
+
+  @DeleteMapping("/{id}/image")
+  public ResponseEntity<StatusDTO> deleteImage(
+          @PathVariable Long id) {
+    return ResponseEntity.status(200).body(userService.deleteImage(id));
   }
 }

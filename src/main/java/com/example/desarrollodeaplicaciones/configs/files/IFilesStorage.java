@@ -1,9 +1,10 @@
 package com.example.desarrollodeaplicaciones.configs.files;
 
-import java.io.ByteArrayInputStream;
+import com.example.desarrollodeaplicaciones.models.Image;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface IFilesStorage {
-  String uploadFile(String container, String blobName, byte[] imageBytes);
+  Image uploadFile(MultipartFile file);
 
-  void deleteFile(String container, String blobName);
+  void deleteFile(String id);
 }
