@@ -1,11 +1,11 @@
 package com.example.desarrollodeaplicaciones.utils;
 
 import com.example.desarrollodeaplicaciones.dtos.ActorDTO;
-import com.example.desarrollodeaplicaciones.dtos.ImageDTO;
+import com.example.desarrollodeaplicaciones.dtos.MediaDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
 import com.example.desarrollodeaplicaciones.dtos.UserDTO;
 import com.example.desarrollodeaplicaciones.models.Actor;
-import com.example.desarrollodeaplicaciones.models.Image;
+import com.example.desarrollodeaplicaciones.models.Media;
 import com.example.desarrollodeaplicaciones.models.Movie;
 import com.example.desarrollodeaplicaciones.models.User;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class Mapper {
         .lastName(user.getLastName())
         .nickName(user.getNickName())
         .email(user.getEmail())
-        .image(imageToImageDto(user.getImage()))
+        .image(mediaToMediaDto(user.getImage()))
         .active(user.isActive())
         .build();
   }
@@ -33,7 +33,7 @@ public class Mapper {
         .lastName(userDto.getLastName())
         .nickName(userDto.getNickName())
         .email(userDto.getEmail())
-        .image(imageDtoToImage(userDto.getImage()))
+        .image(mediaDtoToMedia(userDto.getImage()))
         .active(userDto.isActive())
         .build();
   }
@@ -44,7 +44,7 @@ public class Mapper {
         .subtitle(movie.getSubtitle())
         .synapsis(movie.getSynapsis())
         .genre(movie.getGenre())
-        .images(movie.getImages())
+        .images(movie.getImages().stream().map(Mapper::mediaToMediaDto).toList())
         .trailer(movie.getTrailer())
         .releasedDate(movie.getReleasedDate())
         .duration(movie.getDuration())
@@ -53,18 +53,18 @@ public class Mapper {
         .build();
   }
 
-  public static Image imageDtoToImage(ImageDTO imageDto) {
-    if(imageDto== null){
-      return new Image();
+  public static Media mediaDtoToMedia(MediaDTO mediaDto) {
+    if (mediaDto == null) {
+      return null;
     }
-    return Image.builder().url(imageDto.getUrl()).id(imageDto.getId()).build();
+    return Media.builder().url(mediaDto.getUrl()).id(mediaDto.getId()).build();
   }
 
-  public static ImageDTO imageToImageDto(Image image) {
-    if (image == null) {
-      return new ImageDTO();
+  public static MediaDTO mediaToMediaDto(Media media) {
+    if (media == null) {
+      return null;
     }
-    return ImageDTO.builder().url(image.getUrl()).id(image.getId()).build();
+    return MediaDTO.builder().url(media.getUrl()).id(media.getId()).build();
   }
 
   public static Movie movieDtoToMovie(MovieDTO movieDto) {
@@ -73,7 +73,7 @@ public class Mapper {
         .subtitle(movieDto.getSubtitle())
         .synapsis(movieDto.getSynapsis())
         .genre(movieDto.getGenre())
-        .images(movieDto.getImages())
+        .images(movieDto.getImages().stream().map(Mapper::mediaDtoToMedia).toList())
         .trailer(movieDto.getTrailer())
         .releasedDate(movieDto.getReleasedDate())
         .duration(movieDto.getDuration())

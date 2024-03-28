@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ImageDTO {
+public class MediaDTO {
     private String id;
     private String url;
 }

@@ -1,5 +1,6 @@
 package com.example.desarrollodeaplicaciones.dtos;
 
+import com.example.desarrollodeaplicaciones.models.Media;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
 
@@ -22,8 +23,8 @@ public class MovieDTO {
   @NotEmpty(message = "Es necesario ingresar un género")
   private String genre;
 
-  private List<String> images;
-  private String trailer;
+  private List<MediaDTO> images;
+  private Media trailer;
   private String releasedDate;
   private String duration;
   private String director;

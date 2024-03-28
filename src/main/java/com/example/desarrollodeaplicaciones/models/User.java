@@ -31,7 +31,7 @@ public class User {
   private String email;
 
   @OneToOne(cascade = CascadeType.ALL)
-  private Image image;
+  private Media image;
 
   private boolean active;
 }
