@@ -15,20 +15,20 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest
 class UserRepositoryTest {
 
-    @Autowired
-    IUserRepository userRepository;
+  @Autowired IUserRepository userRepository;
 
-    @AfterEach
-    void after() {
-        userRepository.deleteAll();
-    }
-    @Test
-    void test_fail_when_users_with_same_email_are_inserted() {
-        // Arrange
-        User user1 = User.builder().nickName("felipae").email("mail.prueba@gmail.com").build();
-        User user2 = User.builder().nickName("marcoas").email("mail.prueba@gmail.com").build();
-        userRepository.insert(user1);
-        // Act & Assert
-        assertThrows(DuplicateKeyException.class, () -> userRepository.insert(user2));
-    }
+  @AfterEach
+  void after() {
+    userRepository.deleteAll();
+  }
+
+  @Test
+  void test_fail_when_users_with_same_email_are_inserted() {
+    // Arrange
+    User user1 = User.builder().nickName("felipae").email("mail.prueba@gmail.com").build();
+    User user2 = User.builder().nickName("marcoas").email("mail.prueba@gmail.com").build();
+    userRepository.insert(user1);
+    // Act & Assert
+    assertThrows(DuplicateKeyException.class, () -> userRepository.insert(user2));
+  }
 }

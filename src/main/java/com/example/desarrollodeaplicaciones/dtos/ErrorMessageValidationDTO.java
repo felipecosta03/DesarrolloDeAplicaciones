@@ -8,9 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 public class ErrorMessageValidationDTO {
-	private int status;
-	private ErrorCode code;
-	List<String> messages;
+  List<String> messages;
+  private int status;
+  private ErrorCodeDTO code;
 }
-		
-

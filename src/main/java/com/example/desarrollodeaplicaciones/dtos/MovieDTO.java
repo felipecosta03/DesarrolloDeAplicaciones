@@ -1,5 +1,6 @@
 package com.example.desarrollodeaplicaciones.dtos;
 
+import com.example.desarrollodeaplicaciones.models.Media;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
 
@@ -9,18 +10,23 @@ import lombok.Data;
 @Data
 @Builder
 public class MovieDTO {
-	@NotEmpty(message = "Es necesario ingresar un título")
-	private String title;
-	@NotEmpty(message = "Es necesario ingresar un subtítulo")
-	private String subtitle;
-	@NotEmpty(message = "Es necesario ingresar una sinópsis")
-	private String synapsis;
-	@NotEmpty(message = "Es necesario ingresar un género")
-	private String genre;
-	private List<String> image;
-	private String trailer;
-	private String releasedDate;
-	private String duration;
-	private String director;
-	private List<ActorDTO> actors;
+  private Long id;
+  @NotEmpty(message = "Es necesario ingresar un título")
+  private String title;
+
+  @NotEmpty(message = "Es necesario ingresar un subtítulo")
+  private String subtitle;
+
+  @NotEmpty(message = "Es necesario ingresar una sinópsis")
+  private String synapsis;
+
+  @NotEmpty(message = "Es necesario ingresar un género")
+  private String genre;
+
+  private List<MediaDTO> images;
+  private Media trailer;
+  private String releasedDate;
+  private String duration;
+  private String director;
+  private List<ActorDTO> actors;
 }

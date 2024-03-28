@@ -5,16 +5,13 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.mongodb.core.index.Indexed;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Valid
 @Builder
 public class UserDTO {
-  private String id;
+  @NotEmpty(message = "Es necesario ingresar un id")
+  private Long id;
 
   @NotEmpty(message = "Es necesario ingresar un nombre")
   private String name;
@@ -29,8 +26,7 @@ public class UserDTO {
   @NotEmpty(message = "Es necesario ingresar un correo electrónico")
   private String email;
 
-  @NotEmpty(message = "Es necesario ingresar una URL de imagen")
-  private String imageUrl;
+  private MediaDTO image;
 
   private boolean active;
   private List<MovieDTO> favoriteMovies = new ArrayList<>();
