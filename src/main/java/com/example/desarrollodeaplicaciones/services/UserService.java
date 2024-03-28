@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserService implements IUserService {
 
   private final IUserRepository userRepository;
   private final IFilesStorage filesStorage;
 
-  public UserServiceImpl(IUserRepository userRepository, IFilesStorage filesStorage) {
+  public UserService(IUserRepository userRepository, IFilesStorage filesStorage) {
     this.userRepository = userRepository;
     this.filesStorage = filesStorage;
   }

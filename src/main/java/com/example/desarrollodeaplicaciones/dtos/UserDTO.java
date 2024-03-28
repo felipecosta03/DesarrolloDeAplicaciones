@@ -3,6 +3,8 @@ package com.example.desarrollodeaplicaciones.dtos;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 
@@ -29,4 +31,5 @@ public class UserDTO {
   private MediaDTO image;
 
   private boolean active;
+  private List<MovieDTO> favoriteMovies;
 }
