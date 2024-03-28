@@ -1,6 +1,6 @@
 package com.example.desarrollodeaplicaciones.exceptions;
 
-import com.example.desarrollodeaplicaciones.dtos.ErrorCode;
+import com.example.desarrollodeaplicaciones.dtos.ErrorCodeDTO;
 import com.example.desarrollodeaplicaciones.dtos.ErrorMessageDTO;
 import com.example.desarrollodeaplicaciones.dtos.ErrorMessageValidationDTO;
 import jakarta.validation.ConstraintViolationException;
@@ -16,54 +16,94 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionGlobalController {
   @ExceptionHandler
   public ResponseEntity<ErrorMessageDTO> userNotFoundException(UserNotFoundException exception) {
-    ErrorCode errorCode = ErrorCode.NOT_FOUND;
-    return ResponseEntity.status(errorCode.getStatus())
+    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.NOT_FOUND;
+    return ResponseEntity.status(errorCodeDTO.getStatus())
         .body(
             ErrorMessageDTO.builder()
                 .message(exception.getMessage())
-                .status(errorCode.getStatus())
-                .code(errorCode)
+                .status(errorCodeDTO.getStatus())
+                .code(errorCodeDTO)
                 .build());
   }
 
   @ExceptionHandler(MovieNotFoundException.class)
   public ResponseEntity<ErrorMessageDTO> movieNotFoundException(MovieNotFoundException exception) {
-	  ErrorCode errorCode = ErrorCode.NOT_FOUND;
-	  return ResponseEntity.status(errorCode.getStatus())
-		  .body( ErrorMessageDTO.builder()
+    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.NOT_FOUND;
+    return ResponseEntity.status(errorCodeDTO.getStatus())
+        .body(
+            ErrorMessageDTO.builder()
                 .message(exception.getMessage())
-                .status(errorCode.getStatus())
-                .code(errorCode)
+                .status(errorCodeDTO.getStatus())
+                .code(errorCodeDTO)
                 .build());
   }
 
   @ExceptionHandler(ConstraintViolationException.class)
-  public ResponseEntity<ErrorMessageDTO> handleConstraintViolationException(ConstraintViolationException exception) {
-      ErrorCode errorCode = ErrorCode.BAD_REQUEST;
+  public ResponseEntity<ErrorMessageDTO> handleConstraintViolationException(
+      ConstraintViolationException exception) {
+    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.BAD_REQUEST;
 
-      return ResponseEntity.status(errorCode.getStatus())
-		  .body( ErrorMessageDTO.builder()
+    return ResponseEntity.status(errorCodeDTO.getStatus())
+        .body(
+            ErrorMessageDTO.builder()
                 .message(exception.getMessage())
-                .status(errorCode.getStatus())
-                .code(errorCode)
+                .status(errorCodeDTO.getStatus())
+                .code(errorCodeDTO)
                 .build());
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<ErrorMessageValidationDTO> handleConstraintViolationException(MethodArgumentNotValidException exception) {
-      ErrorCode errorCode = ErrorCode.BAD_REQUEST;
-      List<String> errors = new ArrayList<>();
+  public ResponseEntity<ErrorMessageValidationDTO> handleConstraintViolationException(
+      MethodArgumentNotValidException exception) {
+    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.BAD_REQUEST;
+    List<String> errors = new ArrayList<>();
 
-      for (ObjectError error : exception.getAllErrors()) {
-      	errors.add(error.getDefaultMessage());
-      }
+    for (ObjectError error : exception.getAllErrors()) {
+      errors.add(error.getDefaultMessage());
+    }
 
-      return ResponseEntity.status(errorCode.getStatus())
-		  .body( ErrorMessageValidationDTO.builder()
-                .status(errorCode.getStatus())
-                .code(errorCode)
+    return ResponseEntity.status(errorCodeDTO.getStatus())
+        .body(
+            ErrorMessageValidationDTO.builder()
+                .status(errorCodeDTO.getStatus())
+                .code(errorCodeDTO)
                 .messages(errors)
                 .build());
   }
 
+  @ExceptionHandler(UserImageNotFound.class)
+  public ResponseEntity<ErrorMessageDTO> userImageNotFound(UserImageNotFound exception) {
+    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.NOT_FOUND;
+    return ResponseEntity.status(errorCodeDTO.getStatus())
+        .body(
+            ErrorMessageDTO.builder()
+                .message(exception.getMessage())
+                .status(errorCodeDTO.getStatus())
+                .code(errorCodeDTO)
+                .build());
+  }
+
+  @ExceptionHandler(ImageDeleteException.class)
+  public ResponseEntity<ErrorMessageDTO> imageDeleteException(ImageDeleteException exception) {
+    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.BAD_REQUEST;
+    return ResponseEntity.status(errorCodeDTO.getStatus())
+        .body(
+            ErrorMessageDTO.builder()
+                .message(exception.getMessage())
+                .status(errorCodeDTO.getStatus())
+                .code(errorCodeDTO)
+                .build());
+  }
+
+  @ExceptionHandler(ImageUploadException.class)
+  public ResponseEntity<ErrorMessageDTO> imageUploadException(ImageUploadException exception) {
+    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.INTERNAL_SERVER_ERROR;
+    return ResponseEntity.status(errorCodeDTO.getStatus())
+        .body(
+            ErrorMessageDTO.builder()
+                .message(exception.getMessage())
+                .status(errorCodeDTO.getStatus())
+                .code(errorCodeDTO)
+                .build());
+  }
 }

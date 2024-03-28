@@ -26,8 +26,7 @@ public class UserDTO {
   @NotEmpty(message = "Es necesario ingresar un correo electrónico")
   private String email;
 
-  @NotEmpty(message = "Es necesario ingresar una URL de imagen")
-  private String imageUrl;
+  private ImageDTO image;
 
   private boolean active;
 }
