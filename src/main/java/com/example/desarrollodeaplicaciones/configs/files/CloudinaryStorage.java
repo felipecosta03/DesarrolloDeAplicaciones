@@ -4,9 +4,10 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.desarrollodeaplicaciones.exceptions.ImageDeleteException;
 import com.example.desarrollodeaplicaciones.exceptions.ImageUploadException;
-import com.example.desarrollodeaplicaciones.models.Image;
+import com.example.desarrollodeaplicaciones.models.Media;
 import java.io.IOException;
 import java.util.Map;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,10 +20,10 @@ public class CloudinaryStorage implements IFilesStorage {
   }
 
   @Override
-  public Image uploadFile(MultipartFile file) {
+  public Media uploadFile(MultipartFile file) {
     try {
       Map imageInfo = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
-      return Image.builder()
+      return Media.builder()
           .url(imageInfo.get("url").toString())
           .id(imageInfo.get("public_id").toString())
           .build();
