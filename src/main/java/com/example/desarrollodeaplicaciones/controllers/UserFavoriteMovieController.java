@@ -20,12 +20,12 @@ public class UserFavoriteMovieController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<MovieDTO>> getFavoriteMovies(@PathVariable String userId) {
+    public ResponseEntity<List<MovieDTO>> getFavoriteMovies(@PathVariable Long userId) {
         return ResponseEntity.ok(userFavoriteMovieService.getFavoriteMovies(userId));
     }
     @PostMapping("/{userId}/movie/{movieId}")
-    public ResponseEntity<List<MovieDTO>> getFavoriteMovies(@PathVariable String userId,@PathVariable String movieId) {
-        return ResponseEntity.ok(userFavoriteMovieService.getFavoriteMovies(userId));
+    public ResponseEntity<List<MovieDTO>> getFavoriteMovies(@PathVariable Long userId,@PathVariable Long movieId) {
+        return ResponseEntity.ok(userFavoriteMovieService.addFavoriteMovie(userId, movieId));
     }
 
 

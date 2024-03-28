@@ -8,9 +8,8 @@ import com.example.desarrollodeaplicaciones.models.User;
 import com.example.desarrollodeaplicaciones.repositories.IMovieRepository;
 import com.example.desarrollodeaplicaciones.repositories.IUserRepository;
 import com.example.desarrollodeaplicaciones.utils.Mapper;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserFavoriteMovieService implements IUserFavoriteMovieService {
@@ -23,30 +22,28 @@ public class UserFavoriteMovieService implements IUserFavoriteMovieService {
     this.movieRepository = movieRepository;
   }
 
-  @Override
-  public List<MovieDTO> addFavoriteMovie(String userId, String movieId) {
+  public List<MovieDTO> addFavoriteMovie(Long userId, Long movieId) {
     User user = getUser(userId);
     Movie favoriteMovie =
         movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
     if (!user.getFavoriteMovies().contains(favoriteMovie)) {
       user.getFavoriteMovies().add(favoriteMovie);
+      userRepository.save(user);
     }
     return user.getFavoriteMovies().stream().map(Mapper::movieToMovieDTO).toList();
   }
 
-  @Override
-  public List<MovieDTO> removeFavoriteMovie(String userId, String movieId) {
+  public List<MovieDTO> removeFavoriteMovie(Long userId, Long movieId) {
     User user = getUser(userId);
     user.getFavoriteMovies().removeIf(movie -> movie.getId().equals(movieId));
     return user.getFavoriteMovies().stream().map(Mapper::movieToMovieDTO).toList();
   }
 
-  private User getUser(String userId) {
+  private User getUser(Long userId) {
     return userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
   }
 
-  @Override
-  public List<MovieDTO> getFavoriteMovies(String userId) {
+  public List<MovieDTO> getFavoriteMovies(Long userId) {
     return getUser(userId).getFavoriteMovies().stream().map(Mapper::movieToMovieDTO).toList();
   }
 }

@@ -23,6 +23,10 @@ public class Mapper {
         .email(user.getEmail())
         .image(mediaToMediaDto(user.getImage()))
         .active(user.isActive())
+        .favoriteMovies(
+            Optional.ofNullable(user.getFavoriteMovies())
+                .map(movies -> movies.stream().map(Mapper::movieToMovieDTO).toList())
+                .orElse(new ArrayList<>()))
         .build();
   }
 
@@ -40,16 +44,23 @@ public class Mapper {
 
   public static MovieDTO movieToMovieDTO(Movie movie) {
     return MovieDTO.builder()
+        .id(movie.getId())
         .title(movie.getTitle())
         .subtitle(movie.getSubtitle())
         .synapsis(movie.getSynapsis())
         .genre(movie.getGenre())
-        .images(movie.getImages().stream().map(Mapper::mediaToMediaDto).toList())
+        .images(
+            Optional.ofNullable(movie.getImages())
+                .map(images -> images.stream().map(Mapper::mediaToMediaDto).toList())
+                .orElse(new ArrayList<>()))
         .trailer(movie.getTrailer())
         .releasedDate(movie.getReleasedDate())
         .duration(movie.getDuration())
         .director(movie.getDirector())
-        .actors(Mapper.actorsToActorsDTO(movie.getActors()))
+        .actors(
+            Optional.ofNullable(movie.getActors())
+                .map(actors -> actors.stream().map(Mapper::actorToActorDTO).toList())
+                .orElse(new ArrayList<>()))
         .build();
   }
 
@@ -69,26 +80,38 @@ public class Mapper {
 
   public static Movie movieDtoToMovie(MovieDTO movieDto) {
     return Movie.builder()
+        .id(movieDto.getId())
         .title(movieDto.getTitle())
         .subtitle(movieDto.getSubtitle())
         .synapsis(movieDto.getSynapsis())
         .genre(movieDto.getGenre())
-        .images(movieDto.getImages().stream().map(Mapper::mediaDtoToMedia).toList())
+        .images(
+            Optional.ofNullable(movieDto.getImages())
+                .map(images -> images.stream().map(Mapper::mediaDtoToMedia).toList())
+                .orElse(new ArrayList<>()))
         .trailer(movieDto.getTrailer())
         .releasedDate(movieDto.getReleasedDate())
         .duration(movieDto.getDuration())
         .director(movieDto.getDirector())
+        .actors(
+            Optional.ofNullable(movieDto.getActors())
+                .map(actors -> actors.stream().map(Mapper::actorDtoToActor).toList())
+                .orElse(new ArrayList<>()))
         .build();
   }
 
   public static Actor actorDtoToActor(ActorDTO actorDto) {
-    return Actor.builder()
+    return Actor.builder().id(actorDto.getId())
         .firstName(actorDto.getFirstName())
         .lastName(actorDto.getLastName())
         .build();
   }
 
   public static ActorDTO actorToActorDTO(Actor actor) {
-    return ActorDTO.builder().firstName(actor.getFirstName()).lastName(actor.getLastName()).build();
+    return ActorDTO.builder()
+        .id(actor.getId())
+        .firstName(actor.getFirstName())
+        .lastName(actor.getLastName())
+        .build();
   }
 }

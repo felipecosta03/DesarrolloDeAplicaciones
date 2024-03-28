@@ -5,15 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Builder
@@ -37,6 +36,5 @@ public class User {
   private Media image;
 
   private boolean active;
-  @Indexed
-  private List<Movie> favoriteMovies;
+  @ManyToMany private List<Movie> favoriteMovies;
 }
