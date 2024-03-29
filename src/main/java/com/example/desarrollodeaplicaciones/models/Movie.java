@@ -40,7 +40,7 @@ public class Movie {
   @OneToOne(cascade = CascadeType.ALL)
   private Media trailer;
 
-  private LocalDate releasedDate;
+  private LocalDate releaseDate;
   private Integer duration;
   @ManyToOne(cascade = CascadeType.ALL)
   private Person director;

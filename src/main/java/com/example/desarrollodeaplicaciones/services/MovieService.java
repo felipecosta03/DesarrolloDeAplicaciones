@@ -2,6 +2,7 @@ package com.example.desarrollodeaplicaciones.services;
 
 import com.example.desarrollodeaplicaciones.configs.files.IFilesStorage;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.exceptions.MovieNotFoundException;
 import com.example.desarrollodeaplicaciones.models.Movie;
@@ -88,7 +89,17 @@ public class MovieService implements IMovieService {
   }
 
   @Override
-  public StatusDTO update(Long id, MovieDTO movie) {
-    return null;
+  public StatusDTO update(Long id, MovieSimpleDTO movie) {
+    Movie movieToUpdate = getMovie(id);
+    movieToUpdate.setTitle(movie.getTitle());
+    movieToUpdate.setReleaseDate(movie.getReleaseDate());
+    movieToUpdate.setDuration(movie.getDuration());
+    movieToUpdate.setDirector(Mapper.personDtoToPerson(movie.getDirector()));
+    movieToUpdate.setActors(movie.getActors().stream().map(Mapper::personDtoToPerson).toList());
+    movieToUpdate.setGenre(movie.getGenre());
+    movieToUpdate.setSubtitle(movie.getSubtitle());
+    movieToUpdate.setSynapsis(movie.getSynapsis());
+    movieRepository.save(movieToUpdate);
+    return StatusDTO.builder().status(200).build();
   }
 }

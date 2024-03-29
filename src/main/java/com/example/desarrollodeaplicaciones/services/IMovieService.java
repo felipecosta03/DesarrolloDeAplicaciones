@@ -1,6 +1,7 @@
 package com.example.desarrollodeaplicaciones.services;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,5 +22,5 @@ public interface IMovieService {
 
   StatusDTO deleteMovieTrailer(Long id);
 
-  StatusDTO update(Long id, MovieDTO movie);
+  StatusDTO update(Long id, MovieSimpleDTO movie);
 }

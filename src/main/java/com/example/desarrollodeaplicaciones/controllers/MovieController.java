@@ -1,6 +1,7 @@
 package com.example.desarrollodeaplicaciones.controllers;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.services.IMovieService;
 import jakarta.validation.Valid;
@@ -59,13 +60,13 @@ public class MovieController {
     StatusDTO statusDTO = movieService.deleteMovieImage(id, imageId);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
-	@PutMapping("/{id}")
-	public ResponseEntity<StatusDTO> update(@PathVariable Long id, @RequestBody @Valid MovieDTO movie) {
-		StatusDTO statusDTO = movieService.update(id, movie);
-		return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
 
-	}
-
+  @PutMapping("/{id}")
+  public ResponseEntity<StatusDTO> update(
+      @PathVariable Long id, @RequestBody @Valid MovieSimpleDTO movie) {
+    StatusDTO statusDTO = movieService.update(id, movie);
+    return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
+  }
 
   @PatchMapping("/{id}/trailer")
   public ResponseEntity<StatusDTO> updateTrailer(

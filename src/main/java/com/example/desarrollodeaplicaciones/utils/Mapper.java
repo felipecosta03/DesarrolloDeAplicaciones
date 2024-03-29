@@ -54,7 +54,7 @@ public class Mapper {
                 .map(images -> images.stream().map(Mapper::mediaToMediaDto).toList())
                 .orElse(new ArrayList<>()))
         .trailer(movie.getTrailer())
-        .releasedDate(movie.getReleasedDate())
+        .releaseDate(movie.getReleaseDate())
         .duration(movie.getDuration())
         .director(personToPersonDto(movie.getDirector()))
         .actors(
@@ -90,7 +90,7 @@ public class Mapper {
                 .map(images -> images.stream().map(Mapper::mediaDtoToMedia).toList())
                 .orElse(new ArrayList<>()))
         .trailer(movieDto.getTrailer())
-        .releasedDate(movieDto.getReleasedDate())
+        .releasedDate(movieDto.getReleaseDate())
         .duration(movieDto.getDuration())
         .director(personDtoToPerson(movieDto.getDirector()))
         .actors(
