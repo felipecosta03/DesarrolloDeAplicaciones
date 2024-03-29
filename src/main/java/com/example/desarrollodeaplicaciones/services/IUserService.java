@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface IUserService {
   List<UserDTO> getAll();
 
-  UserDTO add(UserDTO user);
+  StatusDTO add(UserDTO user);
 
   UserDTO findById(Long id);
 
