@@ -1,6 +1,7 @@
 package com.example.desarrollodeaplicaciones.controllers;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.services.IMovieService;
 import jakarta.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,6 +58,13 @@ public class MovieController {
   public ResponseEntity<StatusDTO> deleteImage(
       @PathVariable Long id, @PathVariable String imageId) {
     StatusDTO statusDTO = movieService.deleteMovieImage(id, imageId);
+    return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<StatusDTO> update(
+      @PathVariable Long id, @RequestBody @Valid MovieSimpleDTO movie) {
+    StatusDTO statusDTO = movieService.update(id, movie);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 

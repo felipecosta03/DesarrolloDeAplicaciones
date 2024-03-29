@@ -2,12 +2,15 @@ package com.example.desarrollodeaplicaciones.services;
 
 import com.example.desarrollodeaplicaciones.configs.files.IFilesStorage;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.exceptions.MovieNotFoundException;
 import com.example.desarrollodeaplicaciones.models.Movie;
 import com.example.desarrollodeaplicaciones.repositories.IMovieRepository;
 import com.example.desarrollodeaplicaciones.utils.Mapper;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,7 +32,7 @@ public class MovieService implements IMovieService {
   }
 
   public List<MovieDTO> getAll() {
-    return movieRepository.findAll().stream().map(Mapper::movieToMovieDTO).toList();
+    return movieRepository.findAll().stream().map(Mapper::movieToMovieDTO).collect(Collectors.toList());
   }
 
   public MovieDTO findById(Long id) {
@@ -85,5 +88,20 @@ public class MovieService implements IMovieService {
     filesStorage.deleteFile(movie.getTrailer().getId());
     movie.setTrailer(null);
     movieRepository.save(movie);
+  }
+
+  @Override
+  public StatusDTO update(Long id, MovieSimpleDTO movie) {
+    Movie movieToUpdate = getMovie(id);
+    movieToUpdate.setTitle(movie.getTitle());
+    movieToUpdate.setReleaseDate(movie.getReleaseDate());
+    movieToUpdate.setDuration(movie.getDuration());
+    movieToUpdate.setDirector(Mapper.personDtoToPerson(movie.getDirector()));
+    movieToUpdate.setActors(movie.getActors().stream().map(Mapper::personDtoToPerson).collect(Collectors.toList()));
+    movieToUpdate.setGenre(movie.getGenre());
+    movieToUpdate.setSubtitle(movie.getSubtitle());
+    movieToUpdate.setSynapsis(movie.getSynapsis());
+    movieRepository.save(movieToUpdate);
+    return StatusDTO.builder().status(200).build();
   }
 }

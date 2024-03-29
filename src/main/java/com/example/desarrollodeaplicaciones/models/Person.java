@@ -15,16 +15,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name ="actors")
-public class Actor {
+@Table(name ="persons")
+public class Person {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String firstName;
 	private String lastName;
 
-	@Override
-	public String toString() {
-		return (this.firstName   +  ' ' + this.lastName);
-	}
 }

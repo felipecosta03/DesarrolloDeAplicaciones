@@ -1,15 +1,16 @@
 package com.example.desarrollodeaplicaciones.utils;
 
-import com.example.desarrollodeaplicaciones.dtos.ActorDTO;
 import com.example.desarrollodeaplicaciones.dtos.MediaDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.PersonDTO;
 import com.example.desarrollodeaplicaciones.dtos.UserDTO;
-import com.example.desarrollodeaplicaciones.models.Actor;
 import com.example.desarrollodeaplicaciones.models.Media;
 import com.example.desarrollodeaplicaciones.models.Movie;
+import com.example.desarrollodeaplicaciones.models.Person;
 import com.example.desarrollodeaplicaciones.models.User;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Mapper {
   private Mapper() {}
@@ -25,7 +26,7 @@ public class Mapper {
         .active(user.isActive())
         .favoriteMovies(
             Optional.ofNullable(user.getFavoriteMovies())
-                .map(movies -> movies.stream().map(Mapper::movieToMovieDTO).toList())
+                .map(movies -> movies.stream().map(Mapper::movieToMovieDTO).collect(Collectors.toList()))
                 .orElse(new ArrayList<>()))
         .build();
   }
@@ -51,15 +52,15 @@ public class Mapper {
         .genre(movie.getGenre())
         .images(
             Optional.ofNullable(movie.getImages())
-                .map(images -> images.stream().map(Mapper::mediaToMediaDto).toList())
+                .map(images -> images.stream().map(Mapper::mediaToMediaDto).collect(Collectors.toList()))
                 .orElse(new ArrayList<>()))
         .trailer(movie.getTrailer())
-        .releasedDate(movie.getReleasedDate())
+        .releaseDate(movie.getReleaseDate())
         .duration(movie.getDuration())
-        .director(movie.getDirector())
+        .director(personToPersonDto(movie.getDirector()))
         .actors(
             Optional.ofNullable(movie.getActors())
-                .map(actors -> actors.stream().map(Mapper::actorToActorDTO).toList())
+                .map(actors -> actors.stream().map(Mapper::personToPersonDto).collect(Collectors.toList()))
                 .orElse(new ArrayList<>()))
         .build();
   }
@@ -87,31 +88,32 @@ public class Mapper {
         .genre(movieDto.getGenre())
         .images(
             Optional.ofNullable(movieDto.getImages())
-                .map(images -> images.stream().map(Mapper::mediaDtoToMedia).toList())
+                .map(images -> images.stream().map(Mapper::mediaDtoToMedia).collect(Collectors.toList()))
                 .orElse(new ArrayList<>()))
         .trailer(movieDto.getTrailer())
-        .releasedDate(movieDto.getReleasedDate())
+        .releaseDate(movieDto.getReleaseDate())
         .duration(movieDto.getDuration())
-        .director(movieDto.getDirector())
+        .director(personDtoToPerson(movieDto.getDirector()))
         .actors(
             Optional.ofNullable(movieDto.getActors())
-                .map(actors -> actors.stream().map(Mapper::actorDtoToActor).toList())
+                .map(actors -> actors.stream().map(Mapper::personDtoToPerson).collect(Collectors.toList()))
                 .orElse(new ArrayList<>()))
         .build();
   }
 
-  public static Actor actorDtoToActor(ActorDTO actorDto) {
-    return Actor.builder().id(actorDto.getId())
-        .firstName(actorDto.getFirstName())
-        .lastName(actorDto.getLastName())
+  public static Person personDtoToPerson(PersonDTO personDto) {
+    return Person.builder()
+        .id(personDto.getId())
+        .firstName(personDto.getFirstName())
+        .lastName(personDto.getLastName())
         .build();
   }
 
-  public static ActorDTO actorToActorDTO(Actor actor) {
-    return ActorDTO.builder()
-        .id(actor.getId())
-        .firstName(actor.getFirstName())
-        .lastName(actor.getLastName())
+  public static PersonDTO personToPersonDto(Person person) {
+    return PersonDTO.builder()
+        .id(person.getId())
+        .firstName(person.getFirstName())
+        .lastName(person.getLastName())
         .build();
   }
 }
