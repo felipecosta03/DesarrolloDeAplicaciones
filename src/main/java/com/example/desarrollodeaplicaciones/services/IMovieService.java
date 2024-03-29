@@ -1,14 +1,23 @@
 package com.example.desarrollodeaplicaciones.services;
 
-import java.util.List;
-
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
+import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface IMovieService {
 
-  public MovieDTO add(MovieDTO movie);
+  StatusDTO add(MovieDTO movie);
 
-  public List<MovieDTO> getAll();
+  List<MovieDTO> getAll();
 
-  public MovieDTO findById(Long id);
+  MovieDTO findById(Long id);
+
+  StatusDTO updateMovieImage(Long id, MultipartFile image);
+
+  StatusDTO deleteMovieImage(Long id, String mediaId);
+
+  StatusDTO updateMovieTrailer(Long id, MultipartFile image);
+
+  StatusDTO deleteMovieTrailer(Long id);
 }

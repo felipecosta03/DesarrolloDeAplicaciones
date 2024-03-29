@@ -29,9 +29,9 @@ public class UserService implements IUserService {
   }
 
   @Override
-  public UserDTO add(UserDTO user) {
+  public StatusDTO add(UserDTO user) {
     userRepository.save(Mapper.userDtoToUser(user));
-    return user;
+    return StatusDTO.builder().status(200).build();
   }
 
   @Override
@@ -46,6 +46,9 @@ public class UserService implements IUserService {
   @Override
   public StatusDTO updateUserImage(Long id, MultipartFile image) {
     User user = getUserById(id);
+    if(user.getImage()!=null){
+      deleteImageFromUser(user);
+    }
     user.setImage(filesStorage.uploadFile(image));
     userRepository.save(user);
     return StatusDTO.builder().status(200).build();
