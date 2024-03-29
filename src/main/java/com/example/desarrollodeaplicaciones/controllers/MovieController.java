@@ -1,6 +1,7 @@
 package com.example.desarrollodeaplicaciones.controllers;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.services.IMovieService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,6 +43,13 @@ public class MovieController {
 	@GetMapping("/{id}")
 	public ResponseEntity<MovieDTO> findById(@PathVariable Long id) {
 		return ResponseEntity.status(200).body(movieServices.findById(id));
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<StatusDTO> update(@PathVariable Long id, @RequestBody @Valid MovieDTO movie) {
+		StatusDTO statusDTO = movieServices.update(id, movie);
+		return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
+
 	}
 
     @GetMapping("/hello")

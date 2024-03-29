@@ -6,9 +6,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+
+import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,10 +40,11 @@ public class Movie {
   @OneToOne(cascade = CascadeType.ALL)
   private Media trailer;
 
-  private String releasedDate;
-  private String duration;
-  private String director;
+  private LocalDate releasedDate;
+  private Integer duration;
+  @ManyToOne(cascade = CascadeType.ALL)
+  private Person director;
 
   @ManyToMany(cascade = CascadeType.ALL)
-  private List<Actor> actors;
+  private List<Person> actors;
 }

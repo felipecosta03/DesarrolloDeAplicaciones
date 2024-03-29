@@ -2,8 +2,12 @@ package com.example.desarrollodeaplicaciones.dtos;
 
 import com.example.desarrollodeaplicaciones.models.Media;
 import jakarta.validation.constraints.NotEmpty;
+
+import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 import lombok.Data;
 
@@ -25,8 +29,12 @@ public class MovieDTO {
 
   private List<MediaDTO> images;
   private Media trailer;
-  private String releasedDate;
-  private String duration;
-  private String director;
-  private List<ActorDTO> actors;
+  @NotNull(message = "Es necesario ingresar una fecha de lanzamiento")
+  private LocalDate releasedDate;
+  @NotNull(message = "Es necesario ingresar una duración")
+  @Positive(message = "La duración debe ser mayor a 0")
+  private Integer duration;
+  @NotNull(message = "Es necesario ingresar un director")
+  private PersonDTO director;
+  private List<PersonDTO> actors;
 }
