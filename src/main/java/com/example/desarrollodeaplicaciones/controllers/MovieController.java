@@ -80,4 +80,10 @@ public class MovieController {
     StatusDTO statusDTO = movieService.deleteMovieTrailer(id);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
+
+  @DeleteMapping("/{id}/actors/{actorId}")
+  public ResponseEntity<StatusDTO> deleteActor(@PathVariable Long id, @PathVariable Long actorId) {
+    StatusDTO statusDTO = movieService.deleteActor(id, actorId);
+    return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
+  }
 }

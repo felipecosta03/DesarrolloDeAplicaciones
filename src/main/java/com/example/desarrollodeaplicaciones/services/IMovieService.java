@@ -23,4 +23,6 @@ public interface IMovieService {
   StatusDTO deleteMovieTrailer(Long id);
 
   StatusDTO update(Long id, MovieSimpleDTO movie);
+
+  StatusDTO deleteActor(Long id, Long actorId);
 }

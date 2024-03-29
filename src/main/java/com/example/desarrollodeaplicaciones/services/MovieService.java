@@ -104,4 +104,15 @@ public class MovieService implements IMovieService {
     movieRepository.save(movieToUpdate);
     return StatusDTO.builder().status(200).build();
   }
+
+  @Override
+  public StatusDTO deleteActor(Long id, Long actorId) {
+    Movie movie = getMovie(id);
+    boolean isActorRemoved = movie.getActors().removeIf(actor -> actor.getId().equals(actorId));
+    if (isActorRemoved) {
+      movieRepository.save(movie);
+      return StatusDTO.builder().status(200).build();
+    }
+    return StatusDTO.builder().status(400).build();
+  }
 }
