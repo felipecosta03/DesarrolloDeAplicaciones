@@ -16,4 +16,8 @@ public interface IMovieService {
   StatusDTO updateMovieImage(Long id, MultipartFile image);
 
   StatusDTO deleteMovieImage(Long id, String mediaId);
+
+  StatusDTO updateMovieTrailer(Long id, MultipartFile image);
+
+  StatusDTO deleteMovieTrailer(Long id);
 }

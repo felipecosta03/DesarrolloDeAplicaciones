@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,15 +43,16 @@ public class UserController {
     return ResponseEntity.status(200).body(userService.findById(id));
   }
 
-  @PostMapping("/{id}/image")
+  @PatchMapping("/{id}/image")
   public ResponseEntity<StatusDTO> updateImage(
       @PathVariable Long id, @RequestParam("image") MultipartFile image) {
-    return ResponseEntity.status(200).body(userService.updateUserImage(id, image));
+    StatusDTO statusDTO = userService.updateUserImage(id, image);
+    return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 
   @DeleteMapping("/{id}/image")
-  public ResponseEntity<StatusDTO> deleteImage(
-          @PathVariable Long id) {
-    return ResponseEntity.status(200).body(userService.deleteImage(id));
+  public ResponseEntity<StatusDTO> deleteImage(@PathVariable Long id) {
+    StatusDTO statusDTO = userService.deleteImage(id);
+    return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 }

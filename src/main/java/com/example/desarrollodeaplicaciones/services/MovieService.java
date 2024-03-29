@@ -54,8 +54,36 @@ public class MovieService implements IMovieService {
     boolean isImageRemoved = movie.getImages().removeIf(media -> media.getId().equals(mediaId));
     if (isImageRemoved) {
       movieRepository.save(movie);
+      filesStorage.deleteFile(mediaId);
       return StatusDTO.builder().status(200).build();
     }
     return StatusDTO.builder().status(400).build();
+  }
+
+  @Override
+  public StatusDTO updateMovieTrailer(Long id, MultipartFile image) {
+    Movie movie = getMovie(id);
+    if (movie.getTrailer() != null) {
+      deleteTrailerFromMovie(movie);
+    }
+    movie.setTrailer(filesStorage.uploadFile(image));
+    movieRepository.save(movie);
+    return StatusDTO.builder().status(200).build();
+  }
+
+  @Override
+  public StatusDTO deleteMovieTrailer(Long id) {
+    Movie movie = getMovie(id);
+    if (movie.getTrailer() == null) {
+      return StatusDTO.builder().status(400).build();
+    }
+    deleteTrailerFromMovie(movie);
+    return StatusDTO.builder().status(200).build();
+  }
+
+  private void deleteTrailerFromMovie(Movie movie) {
+    filesStorage.deleteFile(movie.getTrailer().getId());
+    movie.setTrailer(null);
+    movieRepository.save(movie);
   }
 }
