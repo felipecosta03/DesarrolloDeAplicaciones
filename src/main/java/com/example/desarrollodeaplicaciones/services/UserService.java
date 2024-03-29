@@ -29,9 +29,9 @@ public class UserService implements IUserService {
   }
 
   @Override
-  public UserDTO add(UserDTO user) {
+  public StatusDTO add(UserDTO user) {
     userRepository.save(Mapper.userDtoToUser(user));
-    return user;
+    return StatusDTO.builder().status(200).build();
   }
 
   @Override

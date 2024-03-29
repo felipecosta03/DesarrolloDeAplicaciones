@@ -48,26 +48,26 @@ public class MovieController {
   @PatchMapping("/{id}/image")
   public ResponseEntity<StatusDTO> updateImage(
       @PathVariable Long id, @RequestParam("image") MultipartFile image) {
-    return ResponseEntity.status(200).body(movieService.updateMovieImage(id, image));
+    StatusDTO statusDTO = movieService.updateMovieImage(id, image);
+    return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 
   @DeleteMapping("/{id}/image/{imageId}")
   public ResponseEntity<StatusDTO> deleteImage(
-      @PathVariable Long id,
-      @PathVariable String imageId) {
+      @PathVariable Long id, @PathVariable String imageId) {
     StatusDTO statusDTO = movieService.deleteMovieImage(id, imageId);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 
   @PatchMapping("/{id}/trailer")
   public ResponseEntity<StatusDTO> updateTrailer(
-          @PathVariable Long id, @RequestParam("image") MultipartFile image) {
-    return ResponseEntity.status(200).body(movieService.updateMovieTrailer(id, image));
+      @PathVariable Long id, @RequestParam("image") MultipartFile image) {
+    StatusDTO statusDTO = movieService.updateMovieTrailer(id, image);
+    return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 
   @DeleteMapping("/{id}/trailer")
-  public ResponseEntity<StatusDTO> deleteTrailer(
-          @PathVariable Long id) {
+  public ResponseEntity<StatusDTO> deleteTrailer(@PathVariable Long id) {
     StatusDTO statusDTO = movieService.deleteMovieTrailer(id);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }

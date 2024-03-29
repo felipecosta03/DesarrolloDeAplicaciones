@@ -34,8 +34,9 @@ public class UserController {
   }
 
   @PostMapping
-  public ResponseEntity<UserDTO> add(@RequestBody UserDTO user) {
-    return ResponseEntity.status(200).body(userService.add(user));
+  public ResponseEntity<StatusDTO> add(@RequestBody UserDTO user) {
+    StatusDTO statusDTO = userService.add(user);
+    return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 
   @GetMapping("/{id}")
