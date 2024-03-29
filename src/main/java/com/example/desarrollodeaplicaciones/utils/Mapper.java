@@ -10,6 +10,7 @@ import com.example.desarrollodeaplicaciones.models.Person;
 import com.example.desarrollodeaplicaciones.models.User;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Mapper {
   private Mapper() {}
@@ -25,7 +26,7 @@ public class Mapper {
         .active(user.isActive())
         .favoriteMovies(
             Optional.ofNullable(user.getFavoriteMovies())
-                .map(movies -> movies.stream().map(Mapper::movieToMovieDTO).toList())
+                .map(movies -> movies.stream().map(Mapper::movieToMovieDTO).collect(Collectors.toList()))
                 .orElse(new ArrayList<>()))
         .build();
   }
@@ -51,7 +52,7 @@ public class Mapper {
         .genre(movie.getGenre())
         .images(
             Optional.ofNullable(movie.getImages())
-                .map(images -> images.stream().map(Mapper::mediaToMediaDto).toList())
+                .map(images -> images.stream().map(Mapper::mediaToMediaDto).collect(Collectors.toList()))
                 .orElse(new ArrayList<>()))
         .trailer(movie.getTrailer())
         .releaseDate(movie.getReleaseDate())
@@ -59,7 +60,7 @@ public class Mapper {
         .director(personToPersonDto(movie.getDirector()))
         .actors(
             Optional.ofNullable(movie.getActors())
-                .map(actors -> actors.stream().map(Mapper::personToPersonDto).toList())
+                .map(actors -> actors.stream().map(Mapper::personToPersonDto).collect(Collectors.toList()))
                 .orElse(new ArrayList<>()))
         .build();
   }
@@ -87,15 +88,15 @@ public class Mapper {
         .genre(movieDto.getGenre())
         .images(
             Optional.ofNullable(movieDto.getImages())
-                .map(images -> images.stream().map(Mapper::mediaDtoToMedia).toList())
+                .map(images -> images.stream().map(Mapper::mediaDtoToMedia).collect(Collectors.toList()))
                 .orElse(new ArrayList<>()))
         .trailer(movieDto.getTrailer())
-        .releasedDate(movieDto.getReleaseDate())
+        .releaseDate(movieDto.getReleaseDate())
         .duration(movieDto.getDuration())
         .director(personDtoToPerson(movieDto.getDirector()))
         .actors(
             Optional.ofNullable(movieDto.getActors())
-                .map(actors -> actors.stream().map(Mapper::personDtoToPerson).toList())
+                .map(actors -> actors.stream().map(Mapper::personDtoToPerson).collect(Collectors.toList()))
                 .orElse(new ArrayList<>()))
         .build();
   }

@@ -9,6 +9,8 @@ import com.example.desarrollodeaplicaciones.models.Movie;
 import com.example.desarrollodeaplicaciones.repositories.IMovieRepository;
 import com.example.desarrollodeaplicaciones.utils.Mapper;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,7 +32,7 @@ public class MovieService implements IMovieService {
   }
 
   public List<MovieDTO> getAll() {
-    return movieRepository.findAll().stream().map(Mapper::movieToMovieDTO).toList();
+    return movieRepository.findAll().stream().map(Mapper::movieToMovieDTO).collect(Collectors.toList());
   }
 
   public MovieDTO findById(Long id) {
@@ -95,7 +97,7 @@ public class MovieService implements IMovieService {
     movieToUpdate.setReleaseDate(movie.getReleaseDate());
     movieToUpdate.setDuration(movie.getDuration());
     movieToUpdate.setDirector(Mapper.personDtoToPerson(movie.getDirector()));
-    movieToUpdate.setActors(movie.getActors().stream().map(Mapper::personDtoToPerson).toList());
+    movieToUpdate.setActors(movie.getActors().stream().map(Mapper::personDtoToPerson).collect(Collectors.toList()));
     movieToUpdate.setGenre(movie.getGenre());
     movieToUpdate.setSubtitle(movie.getSubtitle());
     movieToUpdate.setSynapsis(movie.getSynapsis());
