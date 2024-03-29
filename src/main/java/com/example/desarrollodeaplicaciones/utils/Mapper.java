@@ -26,7 +26,9 @@ public class Mapper {
         .active(user.isActive())
         .favoriteMovies(
             Optional.ofNullable(user.getFavoriteMovies())
-                .map(movies -> movies.stream().map(Mapper::movieToMovieDTO).collect(Collectors.toList()))
+                .map(
+                    movies ->
+                        movies.stream().map(Mapper::movieToMovieDTO).collect(Collectors.toList()))
                 .orElse(new ArrayList<>()))
         .build();
   }
@@ -52,7 +54,9 @@ public class Mapper {
         .genre(movie.getGenre())
         .images(
             Optional.ofNullable(movie.getImages())
-                .map(images -> images.stream().map(Mapper::mediaToMediaDto).collect(Collectors.toList()))
+                .map(
+                    images ->
+                        images.stream().map(Mapper::mediaToMediaDto).collect(Collectors.toList()))
                 .orElse(new ArrayList<>()))
         .trailer(mediaToMediaDto(movie.getTrailer()))
         .releaseDate(movie.getReleaseDate())
@@ -60,7 +64,9 @@ public class Mapper {
         .director(personToPersonDto(movie.getDirector()))
         .actors(
             Optional.ofNullable(movie.getActors())
-                .map(actors -> actors.stream().map(Mapper::personToPersonDto).collect(Collectors.toList()))
+                .map(
+                    actors ->
+                        actors.stream().map(Mapper::personToPersonDto).collect(Collectors.toList()))
                 .orElse(new ArrayList<>()))
         .build();
   }
@@ -88,7 +94,9 @@ public class Mapper {
         .genre(movieDto.getGenre())
         .images(
             Optional.ofNullable(movieDto.getImages())
-                .map(images -> images.stream().map(Mapper::mediaDtoToMedia).collect(Collectors.toList()))
+                .map(
+                    images ->
+                        images.stream().map(Mapper::mediaDtoToMedia).collect(Collectors.toList()))
                 .orElse(new ArrayList<>()))
         .trailer(mediaDtoToMedia(movieDto.getTrailer()))
         .releaseDate(movieDto.getReleaseDate())
@@ -96,24 +104,18 @@ public class Mapper {
         .director(personDtoToPerson(movieDto.getDirector()))
         .actors(
             Optional.ofNullable(movieDto.getActors())
-                .map(actors -> actors.stream().map(Mapper::personDtoToPerson).collect(Collectors.toList()))
+                .map(
+                    actors ->
+                        actors.stream().map(Mapper::personDtoToPerson).collect(Collectors.toList()))
                 .orElse(new ArrayList<>()))
         .build();
   }
 
   public static Person personDtoToPerson(PersonDTO personDto) {
-    return Person.builder()
-        .id(personDto.getId())
-        .firstName(personDto.getFirstName())
-        .lastName(personDto.getLastName())
-        .build();
+    return Person.builder().id(personDto.getId()).fullName(personDto.getFullName()).build();
   }
 
   public static PersonDTO personToPersonDto(Person person) {
-    return PersonDTO.builder()
-        .id(person.getId())
-        .firstName(person.getFirstName())
-        .lastName(person.getLastName())
-        .build();
+    return PersonDTO.builder().id(person.getId()).fullName(person.getFullName()).build();
   }
 }

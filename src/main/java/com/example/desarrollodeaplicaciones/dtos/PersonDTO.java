@@ -17,8 +17,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PersonDTO {
   private Long id;
-  @NotEmpty(message = "Es necesario ingresar un nombre")
-  private String firstName;
-  @NotEmpty(message = "Es necesario ingresar un apellido")
-  private String lastName;
+  @NotEmpty(message = "Es necesario ingresar un nombre completo")
+  private String fullName;
 }
