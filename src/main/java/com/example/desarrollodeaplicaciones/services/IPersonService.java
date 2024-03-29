@@ -11,4 +11,6 @@ public interface IPersonService {
     PersonDTO getById(Long id);
 
     StatusDTO add(PersonDTO person);
+
+    StatusDTO delete(Long id);
 }
