@@ -59,9 +59,7 @@ public class MovieService implements IMovieService {
       Optional<String> qualificationOrder,
       Optional<String> genre,
       Optional<Integer> page) {
-    Sort sort = getSort(dateOrder, qualificationOrder);
-    PageRequest pageRequest = PageRequest.of(page.orElse(0), 10, sort);
-
+    PageRequest pageRequest = getPageRequest(page, dateOrder, qualificationOrder);
     return genre
         .map(
             genreName ->
@@ -75,9 +73,25 @@ public class MovieService implements IMovieService {
                     .toList());
   }
 
+  @Override
+  public List<MovieDTO> getAllByTitleOrActor(
+      Optional<String> dateOrder,
+      Optional<String> qualificationOrder,
+      Optional<String> value,
+      Optional<Integer> page) {
+    PageRequest pageRequest = getPageRequest(page, dateOrder, qualificationOrder);
+    return moviePageableRepository.findAllByTitleOrActor(pageRequest, value.orElse("")).stream()
+        .map(Mapper::movieToMovieDTO)
+        .toList();
+  }
+
+  private PageRequest getPageRequest(
+      Optional<Integer> page, Optional<String> dateOrder, Optional<String> qualificationOrder) {
+    return PageRequest.of(page.orElse(0), 10, getSort(dateOrder, qualificationOrder));
+  }
+
   private Sort getSort(Optional<String> dateOrder, Optional<String> qualificationOrder) {
     Sort sort = Sort.by(Sort.Order.desc(RELEASE_DATE));
-
     if (dateOrder.isPresent()) {
       if (dateOrder.get().equalsIgnoreCase(ORDER_ASC)) {
         sort = Sort.by(Sort.Order.asc(RELEASE_DATE));
