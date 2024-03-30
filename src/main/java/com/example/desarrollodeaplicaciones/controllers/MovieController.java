@@ -1,5 +1,6 @@
 package com.example.desarrollodeaplicaciones.controllers;
 
+import com.example.desarrollodeaplicaciones.dtos.MovieCreationDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
@@ -32,7 +33,7 @@ public class MovieController {
   }
 
   @PostMapping
-  public ResponseEntity<StatusDTO> add(@RequestBody @Valid MovieDTO movie) {
+  public ResponseEntity<StatusDTO> add(@RequestBody @Valid MovieCreationDTO movie) {
     StatusDTO statusDTO = movieService.add(movie);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
@@ -63,7 +64,7 @@ public class MovieController {
 
   @PutMapping("/{id}")
   public ResponseEntity<StatusDTO> update(
-      @PathVariable Long id, @RequestBody @Valid MovieSimpleDTO movie) {
+      @PathVariable Long id, @RequestBody @Valid MovieCreationDTO movie) {
     StatusDTO statusDTO = movieService.update(id, movie);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }

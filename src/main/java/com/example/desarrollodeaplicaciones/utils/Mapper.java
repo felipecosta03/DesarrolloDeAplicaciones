@@ -1,6 +1,7 @@
 package com.example.desarrollodeaplicaciones.utils;
 
 import com.example.desarrollodeaplicaciones.dtos.MediaDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieCreationDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
 import com.example.desarrollodeaplicaciones.dtos.PersonDTO;
 import com.example.desarrollodeaplicaciones.dtos.UserDTO;
@@ -117,5 +118,16 @@ public class Mapper {
 
   public static PersonDTO personToPersonDto(Person person) {
     return PersonDTO.builder().id(person.getId()).fullName(person.getFullName()).build();
+  }
+
+  public static Movie movieCreationDtoToMovie(MovieCreationDTO movieCreationDTO) {
+    return Movie.builder()
+        .title(movieCreationDTO.getTitle())
+        .subtitle(movieCreationDTO.getSubtitle())
+        .synapsis(movieCreationDTO.getSynapsis())
+        .genre(movieCreationDTO.getGenre())
+        .releaseDate(movieCreationDTO.getReleaseDate())
+        .duration(movieCreationDTO.getDuration())
+        .build();
   }
 }
