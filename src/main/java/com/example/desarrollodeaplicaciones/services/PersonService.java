@@ -3,7 +3,9 @@ package com.example.desarrollodeaplicaciones.services;
 import com.example.desarrollodeaplicaciones.dtos.PersonDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.exceptions.PersonNotFoundException;
+import com.example.desarrollodeaplicaciones.models.Movie;
 import com.example.desarrollodeaplicaciones.models.Person;
+import com.example.desarrollodeaplicaciones.repositories.IMovieRepository;
 import com.example.desarrollodeaplicaciones.repositories.IPersonRepository;
 import com.example.desarrollodeaplicaciones.utils.Mapper;
 import java.util.List;
@@ -13,9 +15,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class PersonService implements IPersonService {
   private final IPersonRepository personRepository;
+  private final IMovieRepository movieRepository;
 
-  public PersonService(IPersonRepository personRepository) {
+  public PersonService(IPersonRepository personRepository, IMovieRepository movieRepository) {
     this.personRepository = personRepository;
+    this.movieRepository = movieRepository;
   }
 
   @Override
@@ -38,8 +42,14 @@ public class PersonService implements IPersonService {
 
   @Override
   public StatusDTO delete(Long id) {
-    if (!personRepository.existsById(id)) {
-      throw new PersonNotFoundException(id);
+    Person person = getPersonById(id);
+    List<Movie> movies = movieRepository.findByPersons(person);
+    for (Movie movie : movies) {
+      movie.getActors().remove(person);
+      if (movie.getDirector().equals(person)) {
+        movie.setDirector(null);
+      }
+      movieRepository.save(movie);
     }
     personRepository.deleteById(id);
     return StatusDTO.builder().status(200).build();

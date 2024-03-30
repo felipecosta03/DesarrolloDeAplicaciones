@@ -38,7 +38,6 @@ public class MovieDTO {
   @Positive(message = "La duración debe ser mayor a 0")
   private Integer duration;
 
-  @NotNull(message = "Es necesario ingresar un director")
   private PersonDTO director;
 
   private List<PersonDTO> actors;
