@@ -48,6 +48,16 @@ public class MovieController {
         .body(movieService.getAll(dateOrder, qualificationOrder, genre, page));
   }
 
+  @GetMapping("/search")
+  public ResponseEntity<List<MovieDTO>> findAllByTitleOrActor(
+          @RequestParam(required = false) Optional<String> dateOrder,
+          @RequestParam(required = false) Optional<String> qualificationOrder,
+          @RequestParam(required = false) Optional<String> value,
+          @RequestParam(required = false) Optional<Integer> page) {
+    return ResponseEntity.status(200)
+            .body(movieService.getAllByTitleOrActor(dateOrder, qualificationOrder, value, page));
+  }
+
   @GetMapping("/{id}")
   public ResponseEntity<MovieDTO> findById(@PathVariable Long id) {
     return ResponseEntity.status(200).body(movieService.findById(id));

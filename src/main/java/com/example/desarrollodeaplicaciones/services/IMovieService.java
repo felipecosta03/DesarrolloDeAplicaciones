@@ -30,4 +30,10 @@ public interface IMovieService {
       Optional<String> qualificationOrder,
       Optional<String> genre,
       Optional<Integer> page);
+
+  List<MovieDTO> getAllByTitleOrActor(
+      Optional<String> dateOrder,
+      Optional<String> qualificationOrder,
+      Optional<String> value,
+      Optional<Integer> page);
 }
