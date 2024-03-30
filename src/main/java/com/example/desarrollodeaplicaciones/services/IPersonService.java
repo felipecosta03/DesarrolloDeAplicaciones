@@ -2,7 +2,6 @@ package com.example.desarrollodeaplicaciones.services;
 
 import com.example.desarrollodeaplicaciones.dtos.PersonDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
-
 import java.util.List;
 
 public interface IPersonService {

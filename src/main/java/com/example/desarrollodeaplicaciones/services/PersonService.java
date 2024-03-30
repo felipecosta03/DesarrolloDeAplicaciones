@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PersonService implements IPersonService {
-  private IPersonRepository personRepository;
+  private final IPersonRepository personRepository;
 
   public PersonService(IPersonRepository personRepository) {
     this.personRepository = personRepository;

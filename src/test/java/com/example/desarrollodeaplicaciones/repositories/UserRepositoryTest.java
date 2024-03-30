@@ -1,16 +1,13 @@
 package com.example.desarrollodeaplicaciones.repositories;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import com.example.desarrollodeaplicaciones.models.User;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.transaction.annotation.Transactional;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 class UserRepositoryTest {

@@ -1,14 +1,11 @@
 package com.example.desarrollodeaplicaciones.dtos;
 
-import com.example.desarrollodeaplicaciones.models.Media;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
-
-import java.time.LocalDate;
-import java.util.List;
-
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import java.time.LocalDate;
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 
