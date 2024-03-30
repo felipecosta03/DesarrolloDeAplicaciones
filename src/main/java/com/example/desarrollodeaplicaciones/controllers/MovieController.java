@@ -6,6 +6,7 @@ import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.services.IMovieService;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,8 +39,13 @@ public class MovieController {
   }
 
   @GetMapping
-  public ResponseEntity<List<MovieDTO>> findAll() {
-    return ResponseEntity.status(200).body(movieService.getAll());
+  public ResponseEntity<List<MovieDTO>> findAll(
+      @RequestParam(required = false) Optional<String> dateOrder,
+      @RequestParam(required = false) Optional<String> qualificationOrder,
+      @RequestParam(required = false) Optional<String> genre,
+      @RequestParam(required = false) Optional<Integer> page) {
+    return ResponseEntity.status(200)
+        .body(movieService.getAll(dateOrder, qualificationOrder, genre, page));
   }
 
   @GetMapping("/{id}")

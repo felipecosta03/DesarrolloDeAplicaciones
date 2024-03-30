@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MediaDTO {
-    private String id;
-    private String url;
+  private String id;
+  private String url;
 }

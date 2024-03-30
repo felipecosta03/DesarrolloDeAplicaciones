@@ -46,7 +46,7 @@ public class UserService implements IUserService {
   @Override
   public StatusDTO updateUserImage(Long id, MultipartFile image) {
     User user = getUserById(id);
-    if(user.getImage()!=null){
+    if (user.getImage() != null) {
       deleteImageFromUser(user);
     }
     user.setImage(filesStorage.uploadFile(image));

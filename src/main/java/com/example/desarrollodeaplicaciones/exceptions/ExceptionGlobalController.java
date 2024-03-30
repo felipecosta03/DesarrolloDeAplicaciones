@@ -108,14 +108,15 @@ public class ExceptionGlobalController {
   }
 
   @ExceptionHandler(PersonNotFoundException.class)
-    public ResponseEntity<ErrorMessageDTO> personNotFoundException(PersonNotFoundException exception) {
-        ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.NOT_FOUND;
-        return ResponseEntity.status(errorCodeDTO.getStatus())
-            .body(
-                ErrorMessageDTO.builder()
-                    .message(exception.getMessage())
-                    .status(errorCodeDTO.getStatus())
-                    .code(errorCodeDTO)
-                    .build());
-    }
+  public ResponseEntity<ErrorMessageDTO> personNotFoundException(
+      PersonNotFoundException exception) {
+    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.NOT_FOUND;
+    return ResponseEntity.status(errorCodeDTO.getStatus())
+        .body(
+            ErrorMessageDTO.builder()
+                .message(exception.getMessage())
+                .status(errorCodeDTO.getStatus())
+                .code(errorCodeDTO)
+                .build());
+  }
 }
