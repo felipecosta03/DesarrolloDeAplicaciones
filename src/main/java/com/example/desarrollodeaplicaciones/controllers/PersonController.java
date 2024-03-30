@@ -40,8 +40,8 @@ public class PersonController {
   }
 
   @DeleteMapping("/{id}")
-    public ResponseEntity<StatusDTO> delete(@PathVariable Long id) {
-        StatusDTO statusDTO = personService.delete(id);
-        return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
-    }
+  public ResponseEntity<StatusDTO> delete(@PathVariable Long id) {
+    StatusDTO statusDTO = personService.delete(id);
+    return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
+  }
 }

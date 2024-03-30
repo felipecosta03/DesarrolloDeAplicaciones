@@ -63,6 +63,7 @@ public class Mapper {
         .releaseDate(movie.getReleaseDate())
         .duration(movie.getDuration())
         .director(personToPersonDto(movie.getDirector()))
+        .qualification(movie.getQualification())
         .actors(
             Optional.ofNullable(movie.getActors())
                 .map(
@@ -103,6 +104,7 @@ public class Mapper {
         .releaseDate(movieDto.getReleaseDate())
         .duration(movieDto.getDuration())
         .director(personDtoToPerson(movieDto.getDirector()))
+        .qualification(movieDto.getQualification())
         .actors(
             Optional.ofNullable(movieDto.getActors())
                 .map(
@@ -128,6 +130,7 @@ public class Mapper {
         .genre(movieCreationDTO.getGenre())
         .releaseDate(movieCreationDTO.getReleaseDate())
         .duration(movieCreationDTO.getDuration())
+        .qualification(movieCreationDTO.getQualification())
         .build();
   }
 }

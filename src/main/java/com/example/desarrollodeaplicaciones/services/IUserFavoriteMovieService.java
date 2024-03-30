@@ -5,7 +5,9 @@ import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import java.util.List;
 
 public interface IUserFavoriteMovieService {
-    StatusDTO addFavoriteMovie(Long userId, Long movieId);
-    StatusDTO removeFavoriteMovie(Long userId, Long movieId);
-    List<MovieDTO> getFavoriteMovies(Long userId);
+  StatusDTO addFavoriteMovie(Long userId, Long movieId);
+
+  StatusDTO removeFavoriteMovie(Long userId, Long movieId);
+
+  List<MovieDTO> getFavoriteMovies(Long userId);
 }

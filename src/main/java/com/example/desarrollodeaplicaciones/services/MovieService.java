@@ -4,31 +4,44 @@ import com.example.desarrollodeaplicaciones.configs.files.IFilesStorage;
 import com.example.desarrollodeaplicaciones.dtos.MovieCreationDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
+import com.example.desarrollodeaplicaciones.exceptions.InvalidOrderParamException;
 import com.example.desarrollodeaplicaciones.exceptions.MovieNotFoundException;
+import com.example.desarrollodeaplicaciones.exceptions.PersonNotFoundException;
 import com.example.desarrollodeaplicaciones.models.Movie;
 import com.example.desarrollodeaplicaciones.models.Person;
+import com.example.desarrollodeaplicaciones.repositories.IMoviePageableRepository;
 import com.example.desarrollodeaplicaciones.repositories.IMovieRepository;
 import com.example.desarrollodeaplicaciones.repositories.IPersonRepository;
 import com.example.desarrollodeaplicaciones.utils.Mapper;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class MovieService implements IMovieService {
 
+  private static final String ORDER_ASC = "asc";
+  private static final String ORDER_DESC = "desc";
+  private static final String RELEASE_DATE = "releaseDate";
+  private static final String QUALIFICATION = "qualification";
   private final IMovieRepository movieRepository;
   private final IFilesStorage filesStorage;
   private final IPersonRepository personRepository;
+  private final IMoviePageableRepository moviePageableRepository;
 
   public MovieService(
       IMovieRepository movieRepository,
       IFilesStorage filesStorage,
-      IPersonRepository personRepository) {
+      IPersonRepository personRepository,
+      IMoviePageableRepository moviePageableRepository) {
     this.movieRepository = movieRepository;
     this.filesStorage = filesStorage;
     this.personRepository = personRepository;
+    this.moviePageableRepository = moviePageableRepository;
   }
 
   @Override
@@ -41,10 +54,51 @@ public class MovieService implements IMovieService {
     return StatusDTO.builder().status(200).build();
   }
 
-  public List<MovieDTO> getAll() {
-    return movieRepository.findAll().stream()
-        .map(Mapper::movieToMovieDTO)
-        .collect(Collectors.toList());
+  public List<MovieDTO> getAll(
+      Optional<String> dateOrder,
+      Optional<String> qualificationOrder,
+      Optional<String> genre,
+      Optional<Integer> page) {
+    Sort sort = getSort(dateOrder, qualificationOrder);
+    PageRequest pageRequest = PageRequest.of(page.orElse(0), 10, sort);
+
+    return genre
+        .map(
+            genreName ->
+                moviePageableRepository.findAllByGenre(pageRequest, genreName).stream()
+                    .map(Mapper::movieToMovieDTO)
+                    .toList())
+        .orElseGet(
+            () ->
+                moviePageableRepository.findAll(pageRequest).stream()
+                    .map(Mapper::movieToMovieDTO)
+                    .toList());
+  }
+
+  private Sort getSort(Optional<String> dateOrder, Optional<String> qualificationOrder) {
+    Sort sort = Sort.by(Sort.Order.asc(RELEASE_DATE));
+
+    if (dateOrder.isPresent()) {
+      if (dateOrder.get().equalsIgnoreCase(ORDER_ASC)) {
+        sort = Sort.by(Sort.Order.asc(RELEASE_DATE));
+      } else if (dateOrder.get().equalsIgnoreCase(ORDER_DESC)) {
+        sort = Sort.by(Sort.Order.desc(RELEASE_DATE));
+      } else {
+        throw new InvalidOrderParamException(RELEASE_DATE);
+      }
+    }
+
+    if (qualificationOrder.isPresent()) {
+      if (qualificationOrder.get().equalsIgnoreCase(ORDER_ASC)) {
+        sort = sort.and(Sort.by(Sort.Order.asc(QUALIFICATION)));
+      } else if (qualificationOrder.get().equalsIgnoreCase(ORDER_DESC)) {
+        sort = sort.and(Sort.by(Sort.Order.desc(QUALIFICATION)));
+      } else {
+        throw new InvalidOrderParamException(QUALIFICATION);
+      }
+    }
+
+    return sort;
   }
 
   public MovieDTO findById(Long id) {
@@ -130,6 +184,6 @@ public class MovieService implements IMovieService {
   private Person getPersonById(Long personId) {
     return personRepository
         .findById(personId)
-        .orElseThrow(() -> new MovieNotFoundException(personId));
+        .orElseThrow(() -> new PersonNotFoundException(personId));
   }
 }

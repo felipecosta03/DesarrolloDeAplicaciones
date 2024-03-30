@@ -41,9 +41,12 @@ public class Movie {
 
   private LocalDate releaseDate;
   private Integer duration;
+
   @ManyToOne(cascade = CascadeType.ALL)
   private Person director;
 
   @ManyToMany(cascade = CascadeType.ALL)
   private List<Person> actors;
+
+  private Double qualification;
 }
