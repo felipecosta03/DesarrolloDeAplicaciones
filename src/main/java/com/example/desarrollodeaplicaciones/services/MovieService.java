@@ -76,7 +76,7 @@ public class MovieService implements IMovieService {
   }
 
   private Sort getSort(Optional<String> dateOrder, Optional<String> qualificationOrder) {
-    Sort sort = Sort.by(Sort.Order.asc(RELEASE_DATE));
+    Sort sort = Sort.by(Sort.Order.desc(RELEASE_DATE));
 
     if (dateOrder.isPresent()) {
       if (dateOrder.get().equalsIgnoreCase(ORDER_ASC)) {
