@@ -119,6 +119,7 @@ public class Mapper {
   }
 
   public static PersonDTO personToPersonDto(Person person) {
+    if(person== null) return null;
     return PersonDTO.builder().id(person.getId()).fullName(person.getFullName()).build();
   }
 
