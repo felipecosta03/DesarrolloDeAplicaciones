@@ -7,13 +7,12 @@ import com.example.desarrollodeaplicaciones.exceptions.ImageUploadException;
 import com.example.desarrollodeaplicaciones.models.Media;
 import java.io.IOException;
 import java.util.Map;
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class CloudinaryStorage implements IFilesStorage {
-  private Cloudinary cloudinary;
+  private final Cloudinary cloudinary;
 
   public CloudinaryStorage(Cloudinary cloudinary) {
     this.cloudinary = cloudinary;

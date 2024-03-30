@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 @Builder
 @Valid
-public class MovieDTO {
+public class MovieCreationDTO {
   private Long id;
   @NotEmpty(message = "Es necesario ingresar un título")
   private String title;
@@ -26,14 +26,12 @@ public class MovieDTO {
   @NotEmpty(message = "Es necesario ingresar un género")
   private String genre;
 
-  private List<MediaDTO> images;
-  private MediaDTO trailer;
   @NotNull(message = "Es necesario ingresar una fecha de lanzamiento")
   private LocalDate releaseDate;
   @NotNull(message = "Es necesario ingresar una duración")
   @Positive(message = "La duración debe ser mayor a 0")
   private Integer duration;
   @NotNull(message = "Es necesario ingresar un director")
-  private PersonDTO director;
-  private List<PersonDTO> actors;
+  private Long director;
+  private List<Long> actors;
 }

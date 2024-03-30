@@ -1,7 +1,7 @@
 package com.example.desarrollodeaplicaciones.controllers;
 
+import com.example.desarrollodeaplicaciones.dtos.MovieCreationDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
-import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.services.IMovieService;
 import jakarta.validation.Valid;
@@ -25,14 +25,14 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/v1/movies")
 public class MovieController {
 
-  private IMovieService movieService;
+  private final IMovieService movieService;
 
   public MovieController(IMovieService movieController) {
     this.movieService = movieController;
   }
 
   @PostMapping
-  public ResponseEntity<StatusDTO> add(@RequestBody @Valid MovieDTO movie) {
+  public ResponseEntity<StatusDTO> add(@RequestBody @Valid MovieCreationDTO movie) {
     StatusDTO statusDTO = movieService.add(movie);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
@@ -63,7 +63,7 @@ public class MovieController {
 
   @PutMapping("/{id}")
   public ResponseEntity<StatusDTO> update(
-      @PathVariable Long id, @RequestBody @Valid MovieSimpleDTO movie) {
+      @PathVariable Long id, @RequestBody @Valid MovieCreationDTO movie) {
     StatusDTO statusDTO = movieService.update(id, movie);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
@@ -78,6 +78,12 @@ public class MovieController {
   @DeleteMapping("/{id}/trailer")
   public ResponseEntity<StatusDTO> deleteTrailer(@PathVariable Long id) {
     StatusDTO statusDTO = movieService.deleteMovieTrailer(id);
+    return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
+  }
+
+  @DeleteMapping("/{id}/actors/{actorId}")
+  public ResponseEntity<StatusDTO> deleteActor(@PathVariable Long id, @PathVariable Long actorId) {
+    StatusDTO statusDTO = movieService.deleteActor(id, actorId);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 }

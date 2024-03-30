@@ -1,16 +1,17 @@
 package com.example.desarrollodeaplicaciones.services;
 
 import com.example.desarrollodeaplicaciones.configs.files.IFilesStorage;
+import com.example.desarrollodeaplicaciones.dtos.MovieCreationDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
-import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.exceptions.MovieNotFoundException;
 import com.example.desarrollodeaplicaciones.models.Movie;
+import com.example.desarrollodeaplicaciones.models.Person;
 import com.example.desarrollodeaplicaciones.repositories.IMovieRepository;
+import com.example.desarrollodeaplicaciones.repositories.IPersonRepository;
 import com.example.desarrollodeaplicaciones.utils.Mapper;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,20 +20,31 @@ public class MovieService implements IMovieService {
 
   private final IMovieRepository movieRepository;
   private final IFilesStorage filesStorage;
+  private final IPersonRepository personRepository;
 
-  public MovieService(IMovieRepository movieRepository, IFilesStorage filesStorage) {
+  public MovieService(
+      IMovieRepository movieRepository,
+      IFilesStorage filesStorage,
+      IPersonRepository personRepository) {
     this.movieRepository = movieRepository;
     this.filesStorage = filesStorage;
+    this.personRepository = personRepository;
   }
 
   @Override
-  public StatusDTO add(MovieDTO movie) {
-    movieRepository.save(Mapper.movieDtoToMovie(movie));
+  public StatusDTO add(MovieCreationDTO movie) {
+    Movie newMovie = Mapper.movieCreationDtoToMovie(movie);
+    newMovie.setDirector(getPersonById(movie.getDirector()));
+    newMovie.setActors(
+        movie.getActors().stream().map(this::getPersonById).collect(Collectors.toList()));
+    movieRepository.save(newMovie);
     return StatusDTO.builder().status(200).build();
   }
 
   public List<MovieDTO> getAll() {
-    return movieRepository.findAll().stream().map(Mapper::movieToMovieDTO).collect(Collectors.toList());
+    return movieRepository.findAll().stream()
+        .map(Mapper::movieToMovieDTO)
+        .collect(Collectors.toList());
   }
 
   public MovieDTO findById(Long id) {
@@ -91,17 +103,33 @@ public class MovieService implements IMovieService {
   }
 
   @Override
-  public StatusDTO update(Long id, MovieSimpleDTO movie) {
-    Movie movieToUpdate = getMovie(id);
-    movieToUpdate.setTitle(movie.getTitle());
-    movieToUpdate.setReleaseDate(movie.getReleaseDate());
-    movieToUpdate.setDuration(movie.getDuration());
-    movieToUpdate.setDirector(Mapper.personDtoToPerson(movie.getDirector()));
-    movieToUpdate.setActors(movie.getActors().stream().map(Mapper::personDtoToPerson).collect(Collectors.toList()));
-    movieToUpdate.setGenre(movie.getGenre());
-    movieToUpdate.setSubtitle(movie.getSubtitle());
-    movieToUpdate.setSynapsis(movie.getSynapsis());
+  public StatusDTO update(Long id, MovieCreationDTO movie) {
+    Movie movieAux = getMovie(id);
+    Movie movieToUpdate = Mapper.movieCreationDtoToMovie(movie);
+    movieToUpdate.setId(id);
+    movieToUpdate.setImages(movieAux.getImages());
+    movieToUpdate.setTrailer(movieAux.getTrailer());
+    movieToUpdate.setDirector(getPersonById(movie.getDirector()));
+    movieToUpdate.setActors(
+        movie.getActors().stream().map(this::getPersonById).collect(Collectors.toList()));
     movieRepository.save(movieToUpdate);
     return StatusDTO.builder().status(200).build();
+  }
+
+  @Override
+  public StatusDTO deleteActor(Long id, Long actorId) {
+    Movie movie = getMovie(id);
+    boolean isActorRemoved = movie.getActors().removeIf(actor -> actor.getId().equals(actorId));
+    if (isActorRemoved) {
+      movieRepository.save(movie);
+      return StatusDTO.builder().status(200).build();
+    }
+    return StatusDTO.builder().status(400).build();
+  }
+
+  private Person getPersonById(Long personId) {
+    return personRepository
+        .findById(personId)
+        .orElseThrow(() -> new MovieNotFoundException(personId));
   }
 }
