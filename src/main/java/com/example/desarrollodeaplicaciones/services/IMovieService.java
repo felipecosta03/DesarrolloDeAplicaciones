@@ -2,6 +2,7 @@ package com.example.desarrollodeaplicaciones.services;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieCreationDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import java.util.List;
 import java.util.Optional;
@@ -36,4 +37,10 @@ public interface IMovieService {
       Optional<String> qualificationOrder,
       Optional<String> value,
       Optional<Integer> page);
+
+  StatusDTO addRate(Long movieId, RateDTO rate);
+
+  StatusDTO updateRate(Long movieId, RateDTO rate);
+
+  StatusDTO deleteRate(Long movieId, Long userId);
 }
