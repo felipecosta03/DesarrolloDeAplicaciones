@@ -41,17 +41,21 @@ public class MovieService implements IMovieService {
   private final IUserRepository userRepository;
   private final IMoviePageableRepository moviePageableRepository;
 
+  private final IRateRepository rateRepository;
+
   public MovieService(
       IMovieRepository movieRepository,
       IFilesStorage filesStorage,
       IPersonRepository personRepository,
       IUserRepository userRepository,
-      IMoviePageableRepository moviePageableRepository) {
+      IMoviePageableRepository moviePageableRepository,
+      IRateRepository rateRepository) {
     this.movieRepository = movieRepository;
     this.filesStorage = filesStorage;
     this.personRepository = personRepository;
     this.userRepository = userRepository;
     this.moviePageableRepository = moviePageableRepository;
+    this.rateRepository = rateRepository;
   }
 
   @Override
@@ -98,7 +102,7 @@ public class MovieService implements IMovieService {
   @Override
   public StatusDTO addRate(Long movieId, RateDTO rate) {
     Movie movie = getMovieById(movieId);
-    if (movie.getRates().stream().anyMatch(q -> q.getUser().getId().equals(rate.getUserId()))) {
+    if (rateRepository.existsByMovieIdAndUserId(movieId, rate.getUserId())) {
       return StatusDTO.builder().status(400).build();
     }
     User user = getUserById(rate.getUserId());
@@ -111,15 +115,10 @@ public class MovieService implements IMovieService {
 
   @Override
   public StatusDTO updateRate(Long movieId, RateDTO rate) {
-    Movie movie = getMovieById(movieId);
     Rate rateToUpdate =
-        movie.getRates().stream()
-            .filter(q -> q.getUser().getId().equals(rate.getUserId()))
-            .findFirst()
-            .orElseThrow(RateNotFoundException::new);
+        rateRepository.findByMovieIdAndUserId(movieId, rate.getUserId()).orElseThrow(RateNotFoundException::new);
     rateToUpdate.setScore(rate.getScore());
-    movie.setRateAverage(calculateRateAverage(movie.getRates()));
-    movieRepository.save(movie);
+    rateRepository.save(rateToUpdate);
     return StatusDTO.builder().status(200).build();
   }
 
@@ -127,7 +126,7 @@ public class MovieService implements IMovieService {
   public StatusDTO deleteRate(Long movieId, Long userId) {
     Movie movie = getMovieById(movieId);
     boolean rateWasRemoved = movie.getRates().removeIf(q -> q.getUser().getId().equals(userId));
-    if(!rateWasRemoved){
+    if (!rateWasRemoved) {
       throw new RateNotFoundException();
     }
     movie.setRateAverage(calculateRateAverage(movie.getRates()));
