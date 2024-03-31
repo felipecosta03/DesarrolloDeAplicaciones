@@ -119,4 +119,16 @@ public class ExceptionGlobalController {
                 .code(errorCodeDTO)
                 .build());
   }
+
+  @ExceptionHandler(RateNotFoundException.class)
+    public ResponseEntity<ErrorMessageDTO> rateNotFoundException(RateNotFoundException exception) {
+        ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.NOT_FOUND;
+        return ResponseEntity.status(errorCodeDTO.getStatus())
+            .body(
+                ErrorMessageDTO.builder()
+                    .message(exception.getMessage())
+                    .status(errorCodeDTO.getStatus())
+                    .code(errorCodeDTO)
+                    .build());
+    }
 }

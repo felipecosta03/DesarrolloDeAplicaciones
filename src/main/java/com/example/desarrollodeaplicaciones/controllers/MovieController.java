@@ -2,8 +2,10 @@ package com.example.desarrollodeaplicaciones.controllers;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieCreationDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.services.IMovieService;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -50,56 +52,76 @@ public class MovieController {
 
   @GetMapping("/search")
   public ResponseEntity<List<MovieDTO>> findAllByTitleOrActor(
-          @RequestParam(required = false) Optional<String> dateOrder,
-          @RequestParam(required = false) Optional<String> qualificationOrder,
-          @RequestParam(required = false) Optional<String> value,
-          @RequestParam(required = false) Optional<Integer> page) {
+      @RequestParam(required = false) Optional<String> dateOrder,
+      @RequestParam(required = false) Optional<String> qualificationOrder,
+      @RequestParam(required = false) Optional<String> value,
+      @RequestParam(required = false) Optional<Integer> page) {
     return ResponseEntity.status(200)
-            .body(movieService.getAllByTitleOrActor(dateOrder, qualificationOrder, value, page));
+        .body(movieService.getAllByTitleOrActor(dateOrder, qualificationOrder, value, page));
   }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<MovieDTO> findById(@PathVariable Long id) {
-    return ResponseEntity.status(200).body(movieService.findById(id));
+  @GetMapping("/{movieId}")
+  public ResponseEntity<MovieDTO> findById(@PathVariable Long movieId) {
+    return ResponseEntity.status(200).body(movieService.findById(movieId));
   }
 
-  @PatchMapping("/{id}/image")
+  @PatchMapping("/{movieId}/image")
   public ResponseEntity<StatusDTO> updateImage(
-      @PathVariable Long id, @RequestParam("image") MultipartFile image) {
-    StatusDTO statusDTO = movieService.updateMovieImage(id, image);
+          @PathVariable Long movieId, @RequestParam("image") MultipartFile image) {
+    StatusDTO statusDTO = movieService.updateMovieImage(movieId, image);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 
-  @DeleteMapping("/{id}/image/{imageId}")
+  @DeleteMapping("/{movieId}/image/{imageId}")
   public ResponseEntity<StatusDTO> deleteImage(
-      @PathVariable Long id, @PathVariable String imageId) {
-    StatusDTO statusDTO = movieService.deleteMovieImage(id, imageId);
+          @PathVariable Long movieId, @PathVariable String imageId) {
+    StatusDTO statusDTO = movieService.deleteMovieImage(movieId, imageId);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("/{movieId}")
   public ResponseEntity<StatusDTO> update(
-      @PathVariable Long id, @RequestBody @Valid MovieCreationDTO movie) {
-    StatusDTO statusDTO = movieService.update(id, movie);
+          @PathVariable Long movieId, @RequestBody @Valid MovieCreationDTO movie) {
+    StatusDTO statusDTO = movieService.update(movieId, movie);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 
-  @PatchMapping("/{id}/trailer")
+  @PatchMapping("/{movieId}/trailer")
   public ResponseEntity<StatusDTO> updateTrailer(
-      @PathVariable Long id, @RequestParam("image") MultipartFile image) {
-    StatusDTO statusDTO = movieService.updateMovieTrailer(id, image);
+          @PathVariable Long movieId, @RequestParam("image") MultipartFile image) {
+    StatusDTO statusDTO = movieService.updateMovieTrailer(movieId, image);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 
-  @DeleteMapping("/{id}/trailer")
-  public ResponseEntity<StatusDTO> deleteTrailer(@PathVariable Long id) {
-    StatusDTO statusDTO = movieService.deleteMovieTrailer(id);
+  @DeleteMapping("/{movieId}/trailer")
+  public ResponseEntity<StatusDTO> deleteTrailer(@PathVariable Long movieId) {
+    StatusDTO statusDTO = movieService.deleteMovieTrailer(movieId);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 
-  @DeleteMapping("/{id}/actors/{actorId}")
-  public ResponseEntity<StatusDTO> deleteActor(@PathVariable Long id, @PathVariable Long actorId) {
-    StatusDTO statusDTO = movieService.deleteActor(id, actorId);
+  @DeleteMapping("/{movieId}/actors/{actorId}")
+  public ResponseEntity<StatusDTO> deleteActor(@PathVariable Long movieId, @PathVariable Long actorId) {
+    StatusDTO statusDTO = movieService.deleteActor(movieId, actorId);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
+
+  @PostMapping("/{movieId}/rate")
+  public ResponseEntity<StatusDTO> addRate(
+          @PathVariable Long movieId,@Valid @RequestBody RateDTO rate) {
+    StatusDTO statusDTO = movieService.addRate(movieId, rate);
+    return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
+  }
+  @PutMapping("/{movieId}/rate")
+  public ResponseEntity<StatusDTO> updateRate(
+          @PathVariable Long movieId,@Valid @RequestBody RateDTO rate) {
+    StatusDTO statusDTO = movieService.updateRate(movieId, rate);
+    return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
+  }
+
+  @DeleteMapping("/{movieId}/rate/{userId}")
+    public ResponseEntity<StatusDTO> deleteRate(
+            @PathVariable Long movieId, @PathVariable Long userId) {
+        StatusDTO statusDTO = movieService.deleteRate(movieId, userId);
+        return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
+    }
 }

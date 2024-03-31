@@ -4,10 +4,12 @@ import com.example.desarrollodeaplicaciones.dtos.MediaDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieCreationDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
 import com.example.desarrollodeaplicaciones.dtos.PersonDTO;
+import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.UserDTO;
 import com.example.desarrollodeaplicaciones.models.Media;
 import com.example.desarrollodeaplicaciones.models.Movie;
 import com.example.desarrollodeaplicaciones.models.Person;
+import com.example.desarrollodeaplicaciones.models.Rate;
 import com.example.desarrollodeaplicaciones.models.User;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -63,7 +65,8 @@ public class Mapper {
         .releaseDate(movie.getReleaseDate())
         .duration(movie.getDuration())
         .director(personToPersonDto(movie.getDirector()))
-        .qualification(movie.getQualification())
+        .rateAverage(movie.getRateAverage())
+        .rates(movie.getRates().stream().map(Mapper::rateToRateDto).collect(Collectors.toList()))
         .actors(
             Optional.ofNullable(movie.getActors())
                 .map(
@@ -104,7 +107,6 @@ public class Mapper {
         .releaseDate(movieDto.getReleaseDate())
         .duration(movieDto.getDuration())
         .director(personDtoToPerson(movieDto.getDirector()))
-        .qualification(movieDto.getQualification())
         .actors(
             Optional.ofNullable(movieDto.getActors())
                 .map(
@@ -114,12 +116,16 @@ public class Mapper {
         .build();
   }
 
+  public static RateDTO rateToRateDto(Rate rate) {
+    return RateDTO.builder().userId(rate.getUser().getId()).score(rate.getScore()).build();
+  }
+
   public static Person personDtoToPerson(PersonDTO personDto) {
     return Person.builder().id(personDto.getId()).fullName(personDto.getFullName()).build();
   }
 
   public static PersonDTO personToPersonDto(Person person) {
-    if(person== null) return null;
+    if (person == null) return null;
     return PersonDTO.builder().id(person.getId()).fullName(person.getFullName()).build();
   }
 
@@ -131,7 +137,6 @@ public class Mapper {
         .genre(movieCreationDTO.getGenre())
         .releaseDate(movieCreationDTO.getReleaseDate())
         .duration(movieCreationDTO.getDuration())
-        .qualification(movieCreationDTO.getQualification())
         .build();
   }
 }

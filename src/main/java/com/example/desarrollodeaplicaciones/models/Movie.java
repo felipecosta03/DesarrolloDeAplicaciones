@@ -48,5 +48,8 @@ public class Movie {
   @ManyToMany(cascade = CascadeType.ALL)
   private List<Person> actors;
 
-  private Double qualification;
+  private Double rateAverage;
+
+  @ManyToMany(cascade = CascadeType.ALL)
+  private List<Rate> rates;
 }

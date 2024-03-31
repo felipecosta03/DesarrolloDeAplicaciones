@@ -3,15 +3,22 @@ package com.example.desarrollodeaplicaciones.services;
 import com.example.desarrollodeaplicaciones.configs.files.IFilesStorage;
 import com.example.desarrollodeaplicaciones.dtos.MovieCreationDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.exceptions.InvalidOrderParamException;
 import com.example.desarrollodeaplicaciones.exceptions.MovieNotFoundException;
 import com.example.desarrollodeaplicaciones.exceptions.PersonNotFoundException;
+import com.example.desarrollodeaplicaciones.exceptions.RateNotFoundException;
+import com.example.desarrollodeaplicaciones.exceptions.UserNotFoundException;
 import com.example.desarrollodeaplicaciones.models.Movie;
 import com.example.desarrollodeaplicaciones.models.Person;
+import com.example.desarrollodeaplicaciones.models.Rate;
+import com.example.desarrollodeaplicaciones.models.User;
 import com.example.desarrollodeaplicaciones.repositories.IMoviePageableRepository;
 import com.example.desarrollodeaplicaciones.repositories.IMovieRepository;
 import com.example.desarrollodeaplicaciones.repositories.IPersonRepository;
+import com.example.desarrollodeaplicaciones.repositories.IRateRepository;
+import com.example.desarrollodeaplicaciones.repositories.IUserRepository;
 import com.example.desarrollodeaplicaciones.utils.Mapper;
 import java.util.List;
 import java.util.Optional;
@@ -31,17 +38,24 @@ public class MovieService implements IMovieService {
   private final IMovieRepository movieRepository;
   private final IFilesStorage filesStorage;
   private final IPersonRepository personRepository;
+  private final IUserRepository userRepository;
   private final IMoviePageableRepository moviePageableRepository;
+
+  private final IRateRepository rateRepository;
 
   public MovieService(
       IMovieRepository movieRepository,
       IFilesStorage filesStorage,
       IPersonRepository personRepository,
-      IMoviePageableRepository moviePageableRepository) {
+      IUserRepository userRepository,
+      IMoviePageableRepository moviePageableRepository,
+      IRateRepository rateRepository) {
     this.movieRepository = movieRepository;
     this.filesStorage = filesStorage;
     this.personRepository = personRepository;
+    this.userRepository = userRepository;
     this.moviePageableRepository = moviePageableRepository;
+    this.rateRepository = rateRepository;
   }
 
   @Override
@@ -85,6 +99,45 @@ public class MovieService implements IMovieService {
         .toList();
   }
 
+  @Override
+  public StatusDTO addRate(Long movieId, RateDTO rate) {
+    Movie movie = getMovieById(movieId);
+    if (rateRepository.existsByMovieIdAndUserId(movieId, rate.getUserId())) {
+      return StatusDTO.builder().status(400).build();
+    }
+    User user = getUserById(rate.getUserId());
+    Rate newRate = Rate.builder().score(rate.getScore()).user(user).build();
+    movie.getRates().add(newRate);
+    movie.setRateAverage(calculateRateAverage(movie.getRates()));
+    movieRepository.save(movie);
+    return StatusDTO.builder().status(200).build();
+  }
+
+  @Override
+  public StatusDTO updateRate(Long movieId, RateDTO rate) {
+    Rate rateToUpdate =
+        rateRepository.findByMovieIdAndUserId(movieId, rate.getUserId()).orElseThrow(RateNotFoundException::new);
+    rateToUpdate.setScore(rate.getScore());
+    rateRepository.save(rateToUpdate);
+    return StatusDTO.builder().status(200).build();
+  }
+
+  @Override
+  public StatusDTO deleteRate(Long movieId, Long userId) {
+    Movie movie = getMovieById(movieId);
+    boolean rateWasRemoved = movie.getRates().removeIf(q -> q.getUser().getId().equals(userId));
+    if (!rateWasRemoved) {
+      throw new RateNotFoundException();
+    }
+    movie.setRateAverage(calculateRateAverage(movie.getRates()));
+    movieRepository.save(movie);
+    return StatusDTO.builder().status(200).build();
+  }
+
+  private Double calculateRateAverage(List<Rate> rates) {
+    return rates.stream().mapToDouble(Rate::getScore).average().orElse(0);
+  }
+
   private PageRequest getPageRequest(
       Optional<Integer> page, Optional<String> dateOrder, Optional<String> qualificationOrder) {
     return PageRequest.of(page.orElse(0), 10, getSort(dateOrder, qualificationOrder));
@@ -116,16 +169,16 @@ public class MovieService implements IMovieService {
   }
 
   public MovieDTO findById(Long id) {
-    return Mapper.movieToMovieDTO(getMovie(id));
+    return Mapper.movieToMovieDTO(getMovieById(id));
   }
 
-  private Movie getMovie(Long id) {
+  private Movie getMovieById(Long id) {
     return movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
   }
 
   @Override
   public StatusDTO updateMovieImage(Long id, MultipartFile image) {
-    Movie movie = getMovie(id);
+    Movie movie = getMovieById(id);
     movie.getImages().add(filesStorage.uploadFile(image));
     movieRepository.save(movie);
     return StatusDTO.builder().status(200).build();
@@ -133,7 +186,7 @@ public class MovieService implements IMovieService {
 
   @Override
   public StatusDTO deleteMovieImage(Long id, String mediaId) {
-    Movie movie = getMovie(id);
+    Movie movie = getMovieById(id);
     boolean isImageRemoved = movie.getImages().removeIf(media -> media.getId().equals(mediaId));
     if (isImageRemoved) {
       movieRepository.save(movie);
@@ -145,7 +198,7 @@ public class MovieService implements IMovieService {
 
   @Override
   public StatusDTO updateMovieTrailer(Long id, MultipartFile image) {
-    Movie movie = getMovie(id);
+    Movie movie = getMovieById(id);
     if (movie.getTrailer() != null) {
       deleteTrailerFromMovie(movie);
     }
@@ -156,7 +209,7 @@ public class MovieService implements IMovieService {
 
   @Override
   public StatusDTO deleteMovieTrailer(Long id) {
-    Movie movie = getMovie(id);
+    Movie movie = getMovieById(id);
     if (movie.getTrailer() == null) {
       return StatusDTO.builder().status(400).build();
     }
@@ -172,7 +225,7 @@ public class MovieService implements IMovieService {
 
   @Override
   public StatusDTO update(Long id, MovieCreationDTO movie) {
-    Movie movieAux = getMovie(id);
+    Movie movieAux = getMovieById(id);
     Movie movieToUpdate = Mapper.movieCreationDtoToMovie(movie);
     movieToUpdate.setId(id);
     movieToUpdate.setImages(movieAux.getImages());
@@ -186,7 +239,7 @@ public class MovieService implements IMovieService {
 
   @Override
   public StatusDTO deleteActor(Long id, Long actorId) {
-    Movie movie = getMovie(id);
+    Movie movie = getMovieById(id);
     boolean isActorRemoved = movie.getActors().removeIf(actor -> actor.getId().equals(actorId));
     if (isActorRemoved) {
       movieRepository.save(movie);
@@ -199,5 +252,9 @@ public class MovieService implements IMovieService {
     return personRepository
         .findById(personId)
         .orElseThrow(() -> new PersonNotFoundException(personId));
+  }
+
+  private User getUserById(Long userId) {
+    return userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
   }
 }
