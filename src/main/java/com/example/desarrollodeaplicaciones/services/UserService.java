@@ -69,4 +69,15 @@ public class UserService implements IUserService {
     deleteImageFromUser(user);
     return StatusDTO.builder().status(200).build();
   }
+
+  @Override
+  public StatusDTO update(UserDTO user) {
+    User userToUpdate = getUserById(user.getId());
+    userToUpdate.setName(user.getName());
+    userToUpdate.setLastName(user.getLastName());
+    userToUpdate.setEmail(user.getEmail());
+    userToUpdate.setNickName(user.getNickName());
+    userRepository.save(userToUpdate);
+    return StatusDTO.builder().status(200).build();
+  }
 }
