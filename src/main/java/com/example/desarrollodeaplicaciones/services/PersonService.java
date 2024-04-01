@@ -2,6 +2,7 @@ package com.example.desarrollodeaplicaciones.services;
 
 import com.example.desarrollodeaplicaciones.dtos.PersonDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
+import com.example.desarrollodeaplicaciones.dtos.StatusPersonDTO;
 import com.example.desarrollodeaplicaciones.exceptions.PersonNotFoundException;
 import com.example.desarrollodeaplicaciones.models.Person;
 import com.example.desarrollodeaplicaciones.repositories.IPersonRepository;
@@ -31,9 +32,13 @@ public class PersonService implements IPersonService {
   }
 
   @Override
-  public StatusDTO add(PersonDTO person) {
-    personRepository.save(Mapper.personDtoToPerson(person));
-    return StatusDTO.builder().status(200).build();
+  public StatusPersonDTO add(PersonDTO personDto) {
+  	Person person = Mapper.personDtoToPerson(personDto);
+    personRepository.save(person);
+    return StatusPersonDTO.builder()
+    		.status(200)
+    		.personDto(Mapper.personToPersonDto(person))
+    		.build();
   }
 
   @Override

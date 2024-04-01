@@ -2,6 +2,8 @@ package com.example.desarrollodeaplicaciones.services;
 
 import com.example.desarrollodeaplicaciones.dtos.PersonDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
+import com.example.desarrollodeaplicaciones.dtos.StatusPersonDTO;
+
 import java.util.List;
 
 public interface IPersonService {
@@ -9,7 +11,7 @@ public interface IPersonService {
 
     PersonDTO getById(Long id);
 
-    StatusDTO add(PersonDTO person);
+    StatusPersonDTO add(PersonDTO person);
 
     StatusDTO delete(Long id);
 }

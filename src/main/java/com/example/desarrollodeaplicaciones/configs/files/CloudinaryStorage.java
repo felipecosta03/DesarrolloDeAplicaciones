@@ -30,6 +30,20 @@ public class CloudinaryStorage implements IFilesStorage {
       throw new ImageUploadException();
     }
   }
+  
+  public Media uploadFileFromServer(byte[] file) {
+    try {
+      Map imageInfo = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+      return Media.builder()
+          .url(imageInfo.get("url").toString())
+          .id(imageInfo.get("public_id").toString())
+          .build();
+    } catch (IOException e) {
+      throw new ImageUploadException();
+    }
+  }
+  
+  
 
   @Override
   public void deleteFile(String id) {

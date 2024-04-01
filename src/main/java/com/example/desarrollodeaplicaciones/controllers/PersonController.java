@@ -2,6 +2,7 @@ package com.example.desarrollodeaplicaciones.controllers;
 
 import com.example.desarrollodeaplicaciones.dtos.PersonDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
+import com.example.desarrollodeaplicaciones.dtos.StatusPersonDTO;
 import com.example.desarrollodeaplicaciones.services.IPersonService;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +35,8 @@ public class PersonController {
   }
 
   @PostMapping()
-  public ResponseEntity<StatusDTO> add(@RequestBody PersonDTO person) {
-    StatusDTO statusDTO = personService.add(person);
+  public ResponseEntity<StatusPersonDTO> add(@RequestBody PersonDTO person) {
+    StatusPersonDTO statusDTO = personService.add(person);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 

@@ -4,13 +4,18 @@ import com.example.desarrollodeaplicaciones.configs.files.IFilesStorage;
 import com.example.desarrollodeaplicaciones.dtos.MovieCreationDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
+import com.example.desarrollodeaplicaciones.dtos.StatusMovieDTO;
 import com.example.desarrollodeaplicaciones.exceptions.MovieNotFoundException;
+import com.example.desarrollodeaplicaciones.models.Media;
 import com.example.desarrollodeaplicaciones.models.Movie;
 import com.example.desarrollodeaplicaciones.models.Person;
 import com.example.desarrollodeaplicaciones.repositories.IMovieRepository;
 import com.example.desarrollodeaplicaciones.repositories.IPersonRepository;
 import com.example.desarrollodeaplicaciones.utils.Mapper;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,13 +37,16 @@ public class MovieService implements IMovieService {
   }
 
   @Override
-  public StatusDTO add(MovieCreationDTO movie) {
+  public StatusMovieDTO add(MovieCreationDTO movie) {
     Movie newMovie = Mapper.movieCreationDtoToMovie(movie);
     newMovie.setDirector(getPersonById(movie.getDirector()));
     newMovie.setActors(
         movie.getActors().stream().map(this::getPersonById).collect(Collectors.toList()));
     movieRepository.save(newMovie);
-    return StatusDTO.builder().status(200).build();
+    return StatusMovieDTO.builder()
+    		.status(200)
+    		.movieDto(Mapper.movieToMovieDTO(newMovie))
+    		.build();
   }
 
   public List<MovieDTO> getAll() {
@@ -59,6 +67,20 @@ public class MovieService implements IMovieService {
   public StatusDTO updateMovieImage(Long id, MultipartFile image) {
     Movie movie = getMovie(id);
     movie.getImages().add(filesStorage.uploadFile(image));
+    movieRepository.save(movie);
+    return StatusDTO.builder().status(200).build();
+  }
+  
+  public StatusDTO updateMovieImageFromServer(Long id, byte[] image) {
+    Movie movie = getMovie(id);
+    Optional.ofNullable(movie)
+    	.map(Movie::getImages)
+    	.	orElseGet(() -> {
+        List<Media> images = new ArrayList<>();
+        movie.setImages(images); 
+        return images;
+    	})
+    	.add(filesStorage.uploadFileFromServer(image)); // Agregamos la nueva imagen
     movieRepository.save(movie);
     return StatusDTO.builder().status(200).build();
   }
@@ -111,7 +133,11 @@ public class MovieService implements IMovieService {
     movieToUpdate.setTrailer(movieAux.getTrailer());
     movieToUpdate.setDirector(getPersonById(movie.getDirector()));
     movieToUpdate.setActors(
-        movie.getActors().stream().map(this::getPersonById).collect(Collectors.toList()));
+        Optional.ofNullable(movie.getActors())
+        .map(
+            actors ->
+                actors.stream().map(this::getPersonById).collect(Collectors.toList()))
+        .orElse(new ArrayList<>()));
     movieRepository.save(movieToUpdate);
     return StatusDTO.builder().status(200).build();
   }

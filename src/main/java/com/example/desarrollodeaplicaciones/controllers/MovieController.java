@@ -3,6 +3,7 @@ package com.example.desarrollodeaplicaciones.controllers;
 import com.example.desarrollodeaplicaciones.dtos.MovieCreationDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
+import com.example.desarrollodeaplicaciones.dtos.StatusMovieDTO;
 import com.example.desarrollodeaplicaciones.services.IMovieService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -32,8 +33,8 @@ public class MovieController {
   }
 
   @PostMapping
-  public ResponseEntity<StatusDTO> add(@RequestBody @Valid MovieCreationDTO movie) {
-    StatusDTO statusDTO = movieService.add(movie);
+  public ResponseEntity<StatusMovieDTO> add(@RequestBody @Valid MovieCreationDTO movie) {
+    StatusMovieDTO statusDTO = movieService.add(movie);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 
