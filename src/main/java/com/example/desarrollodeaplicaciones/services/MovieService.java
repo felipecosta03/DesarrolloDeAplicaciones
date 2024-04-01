@@ -5,10 +5,13 @@ import com.example.desarrollodeaplicaciones.dtos.MovieCreationDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
 import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
+import com.example.desarrollodeaplicaciones.exceptions.ImageNotFoundException;
 import com.example.desarrollodeaplicaciones.exceptions.InvalidOrderParamException;
 import com.example.desarrollodeaplicaciones.exceptions.MovieNotFoundException;
 import com.example.desarrollodeaplicaciones.exceptions.PersonNotFoundException;
+import com.example.desarrollodeaplicaciones.exceptions.RateAlreadyExistsException;
 import com.example.desarrollodeaplicaciones.exceptions.RateNotFoundException;
+import com.example.desarrollodeaplicaciones.exceptions.TrailerNotFoundException;
 import com.example.desarrollodeaplicaciones.exceptions.UserNotFoundException;
 import com.example.desarrollodeaplicaciones.models.Movie;
 import com.example.desarrollodeaplicaciones.models.Person;
@@ -103,7 +106,7 @@ public class MovieService implements IMovieService {
   public StatusDTO addRate(Long movieId, RateDTO rate) {
     Movie movie = getMovieById(movieId);
     if (rateRepository.existsByMovieIdAndUserId(movieId, rate.getUserId())) {
-      return StatusDTO.builder().status(400).build();
+      throw new RateAlreadyExistsException(movieId, rate.getUserId());
     }
     User user = getUserById(rate.getUserId());
     Rate newRate = Rate.builder().score(rate.getScore()).user(user).build();
@@ -116,7 +119,9 @@ public class MovieService implements IMovieService {
   @Override
   public StatusDTO updateRate(Long movieId, RateDTO rate) {
     Rate rateToUpdate =
-        rateRepository.findByMovieIdAndUserId(movieId, rate.getUserId()).orElseThrow(RateNotFoundException::new);
+        rateRepository
+            .findByMovieIdAndUserId(movieId, rate.getUserId())
+            .orElseThrow(RateNotFoundException::new);
     rateToUpdate.setScore(rate.getScore());
     rateRepository.save(rateToUpdate);
     return StatusDTO.builder().status(200).build();
@@ -132,6 +137,92 @@ public class MovieService implements IMovieService {
     movie.setRateAverage(calculateRateAverage(movie.getRates()));
     movieRepository.save(movie);
     return StatusDTO.builder().status(200).build();
+  }
+
+  public MovieDTO findById(Long id) {
+    return Mapper.movieToMovieDTO(getMovieById(id));
+  }
+
+  @Override
+  public StatusDTO addMovieImage(Long id, MultipartFile image) {
+    Movie movie = getMovieById(id);
+    movie.getImages().add(filesStorage.uploadFile(image));
+    movieRepository.save(movie);
+    return StatusDTO.builder().status(200).build();
+  }
+
+  @Override
+  public StatusDTO deleteMovieImage(Long id, String mediaId) {
+    Movie movie = getMovieById(id);
+    boolean isImageRemoved = movie.getImages().removeIf(media -> media.getId().equals(mediaId));
+    if (!isImageRemoved) {
+      throw new ImageNotFoundException(mediaId);
+    }
+    movieRepository.save(movie);
+    filesStorage.deleteFile(mediaId);
+    return StatusDTO.builder().status(200).build();
+  }
+
+  @Override
+  public StatusDTO updateMovieTrailer(Long id, MultipartFile image) {
+    Movie movie = getMovieById(id);
+    if (movie.getTrailer() != null) {
+      deleteTrailerFromMovie(movie);
+    }
+    movie.setTrailer(filesStorage.uploadFile(image));
+    movieRepository.save(movie);
+    return StatusDTO.builder().status(200).build();
+  }
+
+  @Override
+  public StatusDTO deleteMovieTrailer(Long movieId) {
+    Movie movie = getMovieById(movieId);
+    if (movie.getTrailer() == null) {
+      throw new TrailerNotFoundException(movieId);
+    }
+    deleteTrailerFromMovie(movie);
+    return StatusDTO.builder().status(200).build();
+  }
+
+  @Override
+  public StatusDTO update(Long id, MovieCreationDTO movie) {
+    Movie movieAux = getMovieById(id);
+    Movie movieToUpdate = Mapper.movieCreationDtoToMovie(movie);
+    movieToUpdate.setId(id);
+    movieToUpdate.setImages(movieAux.getImages());
+    movieToUpdate.setTrailer(movieAux.getTrailer());
+    movieToUpdate.setDirector(getPersonById(movie.getDirector()));
+    movieToUpdate.setActors(
+        movie.getActors().stream().map(this::getPersonById).collect(Collectors.toList()));
+    movieRepository.save(movieToUpdate);
+    return StatusDTO.builder().status(200).build();
+  }
+
+  @Override
+  public StatusDTO deleteActor(Long id, Long actorId) {
+    Movie movie = getMovieById(id);
+    boolean isActorRemoved = movie.getActors().removeIf(actor -> actor.getId().equals(actorId));
+    if (!isActorRemoved) {
+        throw new PersonNotFoundException(actorId);
+    }
+    movieRepository.save(movie);
+    return StatusDTO.builder().status(200).build();
+  }
+
+  private Person getPersonById(Long personId) {
+    return personRepository
+        .findById(personId)
+        .orElseThrow(() -> new PersonNotFoundException(personId));
+  }
+
+  private User getUserById(Long userId) {
+    return userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+  }
+
+  private void deleteTrailerFromMovie(Movie movie) {
+    filesStorage.deleteFile(movie.getTrailer().getId());
+    movie.setTrailer(null);
+    movieRepository.save(movie);
   }
 
   private Double calculateRateAverage(List<Rate> rates) {
@@ -168,93 +259,7 @@ public class MovieService implements IMovieService {
     return sort;
   }
 
-  public MovieDTO findById(Long id) {
-    return Mapper.movieToMovieDTO(getMovieById(id));
-  }
-
   private Movie getMovieById(Long id) {
     return movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
-  }
-
-  @Override
-  public StatusDTO updateMovieImage(Long id, MultipartFile image) {
-    Movie movie = getMovieById(id);
-    movie.getImages().add(filesStorage.uploadFile(image));
-    movieRepository.save(movie);
-    return StatusDTO.builder().status(200).build();
-  }
-
-  @Override
-  public StatusDTO deleteMovieImage(Long id, String mediaId) {
-    Movie movie = getMovieById(id);
-    boolean isImageRemoved = movie.getImages().removeIf(media -> media.getId().equals(mediaId));
-    if (isImageRemoved) {
-      movieRepository.save(movie);
-      filesStorage.deleteFile(mediaId);
-      return StatusDTO.builder().status(200).build();
-    }
-    return StatusDTO.builder().status(400).build();
-  }
-
-  @Override
-  public StatusDTO updateMovieTrailer(Long id, MultipartFile image) {
-    Movie movie = getMovieById(id);
-    if (movie.getTrailer() != null) {
-      deleteTrailerFromMovie(movie);
-    }
-    movie.setTrailer(filesStorage.uploadFile(image));
-    movieRepository.save(movie);
-    return StatusDTO.builder().status(200).build();
-  }
-
-  @Override
-  public StatusDTO deleteMovieTrailer(Long id) {
-    Movie movie = getMovieById(id);
-    if (movie.getTrailer() == null) {
-      return StatusDTO.builder().status(400).build();
-    }
-    deleteTrailerFromMovie(movie);
-    return StatusDTO.builder().status(200).build();
-  }
-
-  private void deleteTrailerFromMovie(Movie movie) {
-    filesStorage.deleteFile(movie.getTrailer().getId());
-    movie.setTrailer(null);
-    movieRepository.save(movie);
-  }
-
-  @Override
-  public StatusDTO update(Long id, MovieCreationDTO movie) {
-    Movie movieAux = getMovieById(id);
-    Movie movieToUpdate = Mapper.movieCreationDtoToMovie(movie);
-    movieToUpdate.setId(id);
-    movieToUpdate.setImages(movieAux.getImages());
-    movieToUpdate.setTrailer(movieAux.getTrailer());
-    movieToUpdate.setDirector(getPersonById(movie.getDirector()));
-    movieToUpdate.setActors(
-        movie.getActors().stream().map(this::getPersonById).collect(Collectors.toList()));
-    movieRepository.save(movieToUpdate);
-    return StatusDTO.builder().status(200).build();
-  }
-
-  @Override
-  public StatusDTO deleteActor(Long id, Long actorId) {
-    Movie movie = getMovieById(id);
-    boolean isActorRemoved = movie.getActors().removeIf(actor -> actor.getId().equals(actorId));
-    if (isActorRemoved) {
-      movieRepository.save(movie);
-      return StatusDTO.builder().status(200).build();
-    }
-    return StatusDTO.builder().status(400).build();
-  }
-
-  private Person getPersonById(Long personId) {
-    return personRepository
-        .findById(personId)
-        .orElseThrow(() -> new PersonNotFoundException(personId));
-  }
-
-  private User getUserById(Long userId) {
-    return userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
   }
 }

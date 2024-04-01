@@ -121,7 +121,57 @@ public class ExceptionGlobalController {
   }
 
   @ExceptionHandler(RateNotFoundException.class)
-    public ResponseEntity<ErrorMessageDTO> rateNotFoundException(RateNotFoundException exception) {
+  public ResponseEntity<ErrorMessageDTO> rateNotFoundException(RateNotFoundException exception) {
+    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.NOT_FOUND;
+    return ResponseEntity.status(errorCodeDTO.getStatus())
+        .body(
+            ErrorMessageDTO.builder()
+                .message(exception.getMessage())
+                .status(errorCodeDTO.getStatus())
+                .code(errorCodeDTO)
+                .build());
+  }
+
+  @ExceptionHandler(InvalidOrderParamException.class)
+  public ResponseEntity<ErrorMessageDTO> invalidOrderParamException(
+      InvalidOrderParamException exception) {
+    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.BAD_REQUEST;
+    return ResponseEntity.status(errorCodeDTO.getStatus())
+        .body(
+            ErrorMessageDTO.builder()
+                .message(exception.getMessage())
+                .status(errorCodeDTO.getStatus())
+                .code(errorCodeDTO)
+                .build());
+  }
+
+  @ExceptionHandler(RateAlreadyExistsException.class)
+  public ResponseEntity<ErrorMessageDTO> rateAlreadyExistsException(
+      RateAlreadyExistsException exception) {
+    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.BAD_REQUEST;
+    return ResponseEntity.status(errorCodeDTO.getStatus())
+        .body(
+            ErrorMessageDTO.builder()
+                .message(exception.getMessage())
+                .status(errorCodeDTO.getStatus())
+                .code(errorCodeDTO)
+                .build());
+  }
+
+  @ExceptionHandler(ImageNotFoundException.class)
+  public ResponseEntity<ErrorMessageDTO> imageNotFoundException(ImageNotFoundException exception) {
+    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.NOT_FOUND;
+    return ResponseEntity.status(errorCodeDTO.getStatus())
+        .body(
+            ErrorMessageDTO.builder()
+                .message(exception.getMessage())
+                .status(errorCodeDTO.getStatus())
+                .code(errorCodeDTO)
+                .build());
+  }
+
+  @ExceptionHandler(TrailerNotFoundException.class)
+    public ResponseEntity<ErrorMessageDTO> trailerNotFoundException(TrailerNotFoundException exception) {
         ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.NOT_FOUND;
         return ResponseEntity.status(errorCodeDTO.getStatus())
             .body(

@@ -14,7 +14,7 @@ public interface IMovieService {
 
   MovieDTO findById(Long id);
 
-  StatusDTO updateMovieImage(Long id, MultipartFile image);
+  StatusDTO addMovieImage(Long id, MultipartFile image);
 
   StatusDTO deleteMovieImage(Long id, String mediaId);
 

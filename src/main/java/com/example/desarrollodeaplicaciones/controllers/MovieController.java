@@ -5,7 +5,6 @@ import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
 import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.services.IMovieService;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -70,7 +69,7 @@ public class MovieController {
   @PatchMapping("/{movieId}/image")
   public ResponseEntity<StatusDTO> updateImage(
           @PathVariable Long movieId, @RequestParam("image") MultipartFile image) {
-    StatusDTO statusDTO = movieService.updateMovieImage(movieId, image);
+    StatusDTO statusDTO = movieService.addMovieImage(movieId, image);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 
