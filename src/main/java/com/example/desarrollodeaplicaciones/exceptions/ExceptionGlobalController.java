@@ -171,14 +171,41 @@ public class ExceptionGlobalController {
   }
 
   @ExceptionHandler(TrailerNotFoundException.class)
-    public ResponseEntity<ErrorMessageDTO> trailerNotFoundException(TrailerNotFoundException exception) {
-        ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.NOT_FOUND;
-        return ResponseEntity.status(errorCodeDTO.getStatus())
-            .body(
-                ErrorMessageDTO.builder()
-                    .message(exception.getMessage())
-                    .status(errorCodeDTO.getStatus())
-                    .code(errorCodeDTO)
-                    .build());
-    }
+  public ResponseEntity<ErrorMessageDTO> trailerNotFoundException(
+      TrailerNotFoundException exception) {
+    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.NOT_FOUND;
+    return ResponseEntity.status(errorCodeDTO.getStatus())
+        .body(
+            ErrorMessageDTO.builder()
+                .message(exception.getMessage())
+                .status(errorCodeDTO.getStatus())
+                .code(errorCodeDTO)
+                .build());
+  }
+
+  @ExceptionHandler(FavoriteMovieAlreadyExistsException.class)
+  public ResponseEntity<ErrorMessageDTO> favoriteAlreadyExistsException(
+      FavoriteMovieAlreadyExistsException exception) {
+    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.BAD_REQUEST;
+    return ResponseEntity.status(errorCodeDTO.getStatus())
+        .body(
+            ErrorMessageDTO.builder()
+                .message(exception.getMessage())
+                .status(errorCodeDTO.getStatus())
+                .code(errorCodeDTO)
+                .build());
+  }
+
+  @ExceptionHandler(FavoriteMovieNotFoundException.class)
+  public ResponseEntity<ErrorMessageDTO> favoriteMovieNotFoundException(
+      FavoriteMovieNotFoundException exception) {
+    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.NOT_FOUND;
+    return ResponseEntity.status(errorCodeDTO.getStatus())
+        .body(
+            ErrorMessageDTO.builder()
+                .message(exception.getMessage())
+                .status(errorCodeDTO.getStatus())
+                .code(errorCodeDTO)
+                .build());
+  }
 }
