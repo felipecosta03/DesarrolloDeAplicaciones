@@ -15,4 +15,6 @@ public interface IUserService {
   StatusDTO updateUserImage(Long id, MultipartFile image);
 
   StatusDTO deleteImage(Long id);
+
+  StatusDTO update(UserDTO user);
 }

@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
+
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,7 +13,7 @@ import lombok.Data;
 @Valid
 @Builder
 public class UserDTO {
-  @NotEmpty(message = "Es necesario ingresar un id")
+  @NotNull(message = "Es necesario ingresar un id")
   private Long id;
 
   @NotEmpty(message = "Es necesario ingresar un nombre")
