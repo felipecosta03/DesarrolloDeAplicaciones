@@ -54,12 +54,6 @@ public class UserService implements IUserService {
     return StatusDTO.builder().status(200).build();
   }
 
-  private void deleteImageFromUser(User user) {
-    filesStorage.deleteFile(user.getImage().getId());
-    user.setImage(null);
-    userRepository.save(user);
-  }
-
   @Override
   public StatusDTO deleteImage(Long id) {
     User user = getUserById(id);
@@ -79,5 +73,11 @@ public class UserService implements IUserService {
     userToUpdate.setNickName(user.getNickName());
     userRepository.save(userToUpdate);
     return StatusDTO.builder().status(200).build();
+  }
+
+  private void deleteImageFromUser(User user) {
+    filesStorage.deleteFile(user.getImage().getId());
+    user.setImage(null);
+    userRepository.save(user);
   }
 }
