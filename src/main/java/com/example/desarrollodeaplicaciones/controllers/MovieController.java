@@ -6,6 +6,7 @@ import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.services.IMovieService;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @Validated
+@Tag(name = "Movies")
 @RequestMapping("/api/v1/movies")
 public class MovieController {
 

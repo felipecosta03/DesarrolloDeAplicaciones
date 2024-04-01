@@ -1,5 +1,6 @@
 package com.example.desarrollodeaplicaciones.dtos;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -12,6 +13,7 @@ import lombok.Data;
 @Data
 @Valid
 @Builder
+@Schema(name = "User")
 public class UserDTO {
   @NotNull(message = "Es necesario ingresar un id")
   private Long id;
