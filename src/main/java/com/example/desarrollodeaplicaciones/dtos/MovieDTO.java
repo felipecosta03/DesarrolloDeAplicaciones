@@ -28,7 +28,7 @@ public class MovieDTO {
   private String synapsis;
 
   @NotEmpty(message = "Es necesario ingresar un género")
-  private String genre;
+  private List<GenreDTO> genres;
 
   private List<MediaDTO> images;
   private MediaDTO trailer;

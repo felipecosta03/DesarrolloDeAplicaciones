@@ -1,11 +1,13 @@
 package com.example.desarrollodeaplicaciones.utils;
 
+import com.example.desarrollodeaplicaciones.dtos.GenreDTO;
 import com.example.desarrollodeaplicaciones.dtos.MediaDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieCreationDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
 import com.example.desarrollodeaplicaciones.dtos.PersonDTO;
 import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.UserDTO;
+import com.example.desarrollodeaplicaciones.models.Genre;
 import com.example.desarrollodeaplicaciones.models.Media;
 import com.example.desarrollodeaplicaciones.models.Movie;
 import com.example.desarrollodeaplicaciones.models.Person;
@@ -54,7 +56,12 @@ public class Mapper {
         .title(movie.getTitle())
         .subtitle(movie.getSubtitle())
         .synapsis(movie.getSynapsis())
-        .genre(movie.getGenre())
+        .genres(
+            Optional.ofNullable(movie.getGenres())
+                .map(
+                    genres ->
+                        genres.stream().map(Mapper::genreToGenreDto).collect(Collectors.toList()))
+                .orElse(new ArrayList<>()))
         .images(
             Optional.ofNullable(movie.getImages())
                 .map(
@@ -90,13 +97,26 @@ public class Mapper {
     return MediaDTO.builder().url(media.getUrl()).id(media.getId()).build();
   }
 
+  public static Genre genreDtoToGenre(GenreDTO genreDto) {
+    return Genre.builder().id(genreDto.getId()).name(genreDto.getName()).build();
+  }
+
+  public static GenreDTO genreToGenreDto(Genre genre) {
+    return GenreDTO.builder().id(genre.getId()).name(genre.getName()).build();
+  }
+
   public static Movie movieDtoToMovie(MovieDTO movieDto) {
     return Movie.builder()
         .id(movieDto.getId())
         .title(movieDto.getTitle())
         .subtitle(movieDto.getSubtitle())
         .synapsis(movieDto.getSynapsis())
-        .genre(movieDto.getGenre())
+        .genres(
+            Optional.ofNullable(movieDto.getGenres())
+                .map(
+                    genres ->
+                        genres.stream().map(Mapper::genreDtoToGenre).collect(Collectors.toList()))
+                .orElse(new ArrayList<>()))
         .images(
             Optional.ofNullable(movieDto.getImages())
                 .map(
@@ -129,14 +149,5 @@ public class Mapper {
     return PersonDTO.builder().id(person.getId()).fullName(person.getFullName()).build();
   }
 
-  public static Movie movieCreationDtoToMovie(MovieCreationDTO movieCreationDTO) {
-    return Movie.builder()
-        .title(movieCreationDTO.getTitle())
-        .subtitle(movieCreationDTO.getSubtitle())
-        .synapsis(movieCreationDTO.getSynapsis())
-        .genre(movieCreationDTO.getGenre())
-        .releaseDate(movieCreationDTO.getReleaseDate())
-        .duration(movieCreationDTO.getDuration())
-        .build();
-  }
+
 }

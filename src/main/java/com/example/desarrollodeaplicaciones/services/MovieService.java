@@ -1,7 +1,6 @@
 package com.example.desarrollodeaplicaciones.services;
 
 import com.example.desarrollodeaplicaciones.configs.files.IFilesStorage;
-import com.example.desarrollodeaplicaciones.dtos.MovieCreationDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
 import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
@@ -22,10 +21,10 @@ import com.example.desarrollodeaplicaciones.repositories.IMovieRepository;
 import com.example.desarrollodeaplicaciones.repositories.IPersonRepository;
 import com.example.desarrollodeaplicaciones.repositories.IRateRepository;
 import com.example.desarrollodeaplicaciones.repositories.IUserRepository;
+import com.example.desarrollodeaplicaciones.repositories.MoviesApiRepositoryImpl;
 import com.example.desarrollodeaplicaciones.utils.Mapper;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -44,6 +43,8 @@ public class MovieService implements IMovieService {
   private final IUserRepository userRepository;
   private final IMoviePageableRepository moviePageableRepository;
 
+  private final MoviesApiRepositoryImpl moviesApiRepository;
+
   private final IRateRepository rateRepository;
 
   public MovieService(
@@ -52,23 +53,15 @@ public class MovieService implements IMovieService {
       IPersonRepository personRepository,
       IUserRepository userRepository,
       IMoviePageableRepository moviePageableRepository,
+      MoviesApiRepositoryImpl moviesApiRepository,
       IRateRepository rateRepository) {
     this.movieRepository = movieRepository;
     this.filesStorage = filesStorage;
     this.personRepository = personRepository;
     this.userRepository = userRepository;
     this.moviePageableRepository = moviePageableRepository;
+    this.moviesApiRepository = moviesApiRepository;
     this.rateRepository = rateRepository;
-  }
-
-  @Override
-  public StatusDTO add(MovieCreationDTO movie) {
-    Movie newMovie = Mapper.movieCreationDtoToMovie(movie);
-    newMovie.setDirector(getPersonById(movie.getDirector()));
-    newMovie.setActors(
-        movie.getActors().stream().map(this::getPersonById).collect(Collectors.toList()));
-    movieRepository.save(newMovie);
-    return StatusDTO.builder().status(200).build();
   }
 
   public List<MovieDTO> getAll(
@@ -76,7 +69,8 @@ public class MovieService implements IMovieService {
       Optional<String> qualificationOrder,
       Optional<String> genre,
       Optional<Integer> page) {
-    PageRequest pageRequest = getPageRequest(page, dateOrder, qualificationOrder);
+    Sort sort = getSort(dateOrder, qualificationOrder);
+    PageRequest pageRequest = getPageRequest(page, sort);
     return genre
         .map(
             genreName ->
@@ -96,7 +90,8 @@ public class MovieService implements IMovieService {
       Optional<String> qualificationOrder,
       Optional<String> value,
       Optional<Integer> page) {
-    PageRequest pageRequest = getPageRequest(page, dateOrder, qualificationOrder);
+    Sort sort = getSort(dateOrder, qualificationOrder);
+    PageRequest pageRequest = getPageRequest(page, sort);
     return moviePageableRepository.findAllByTitleOrActor(pageRequest, value.orElse("")).stream()
         .map(Mapper::movieToMovieDTO)
         .toList();
@@ -183,27 +178,12 @@ public class MovieService implements IMovieService {
     deleteTrailerFromMovie(movie);
     return StatusDTO.builder().status(200).build();
   }
-
-  @Override
-  public StatusDTO update(Long id, MovieCreationDTO movie) {
-    Movie movieAux = getMovieById(id);
-    Movie movieToUpdate = Mapper.movieCreationDtoToMovie(movie);
-    movieToUpdate.setId(id);
-    movieToUpdate.setImages(movieAux.getImages());
-    movieToUpdate.setTrailer(movieAux.getTrailer());
-    movieToUpdate.setDirector(getPersonById(movie.getDirector()));
-    movieToUpdate.setActors(
-        movie.getActors().stream().map(this::getPersonById).collect(Collectors.toList()));
-    movieRepository.save(movieToUpdate);
-    return StatusDTO.builder().status(200).build();
-  }
-
   @Override
   public StatusDTO deleteActor(Long id, Long actorId) {
     Movie movie = getMovieById(id);
     boolean isActorRemoved = movie.getActors().removeIf(actor -> actor.getId().equals(actorId));
     if (!isActorRemoved) {
-        throw new PersonNotFoundException(actorId);
+      throw new PersonNotFoundException(actorId);
     }
     movieRepository.save(movie);
     return StatusDTO.builder().status(200).build();
@@ -229,9 +209,8 @@ public class MovieService implements IMovieService {
     return rates.stream().mapToDouble(Rate::getScore).average().orElse(0);
   }
 
-  private PageRequest getPageRequest(
-      Optional<Integer> page, Optional<String> dateOrder, Optional<String> qualificationOrder) {
-    return PageRequest.of(page.orElse(0), 10, getSort(dateOrder, qualificationOrder));
+  private PageRequest getPageRequest(Optional<Integer> page, Sort sort) {
+    return PageRequest.of(page.orElse(0), 10, sort);
   }
 
   private Sort getSort(Optional<String> dateOrder, Optional<String> qualificationOrder) {

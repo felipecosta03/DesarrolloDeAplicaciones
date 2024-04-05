@@ -31,7 +31,8 @@ public class Movie {
   private String title;
   private String subtitle;
   private String synapsis;
-  private String genre;
+  @ManyToMany(cascade = CascadeType.ALL)
+  private List<Genre> genres;
 
   @OneToMany(cascade = CascadeType.ALL)
   private List<Media> images;

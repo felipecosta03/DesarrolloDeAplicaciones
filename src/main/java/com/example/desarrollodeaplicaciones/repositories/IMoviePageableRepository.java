@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IMoviePageableRepository extends PagingAndSortingRepository<Movie, Long> {
+  @Query("SELECT m FROM Movie m LEFT JOIN m.genres g WHERE g.name = :genre")
   Page<Movie> findAllByGenre(Pageable pageable, String genre);
 
   @Query(

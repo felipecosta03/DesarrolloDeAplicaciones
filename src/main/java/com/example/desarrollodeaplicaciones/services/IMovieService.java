@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface IMovieService {
 
-  StatusDTO add(MovieCreationDTO movie);
 
   MovieDTO findById(Long id);
 
@@ -22,7 +21,6 @@ public interface IMovieService {
 
   StatusDTO deleteMovieTrailer(Long id);
 
-  StatusDTO update(Long id, MovieCreationDTO movie);
 
   StatusDTO deleteActor(Long id, Long actorId);
 

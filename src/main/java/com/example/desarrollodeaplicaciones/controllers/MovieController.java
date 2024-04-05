@@ -35,12 +35,6 @@ public class MovieController {
     this.movieService = movieController;
   }
 
-  @PostMapping
-  public ResponseEntity<StatusDTO> add(@RequestBody @Valid MovieCreationDTO movie) {
-    StatusDTO statusDTO = movieService.add(movie);
-    return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
-  }
-
   @GetMapping
   public ResponseEntity<List<MovieDTO>> findAll(
       @RequestParam(required = false) Optional<String> dateOrder,
@@ -77,13 +71,6 @@ public class MovieController {
   public ResponseEntity<StatusDTO> deleteImage(
           @PathVariable Long movieId, @PathVariable String imageId) {
     StatusDTO statusDTO = movieService.deleteMovieImage(movieId, imageId);
-    return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
-  }
-
-  @PutMapping("/{movieId}")
-  public ResponseEntity<StatusDTO> update(
-          @PathVariable Long movieId, @RequestBody @Valid MovieCreationDTO movie) {
-    StatusDTO statusDTO = movieService.update(movieId, movie);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 
