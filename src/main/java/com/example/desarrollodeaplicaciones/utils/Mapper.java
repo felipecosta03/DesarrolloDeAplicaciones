@@ -7,6 +7,8 @@ import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.PeopleDTO;
 import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.UserDTO;
+import com.example.desarrollodeaplicaciones.dtos.moviesapi.MovieDetailApiDTO;
+import com.example.desarrollodeaplicaciones.dtos.moviesapi.MovieImageApiDTO;
 import com.example.desarrollodeaplicaciones.dtos.moviesapi.MovieSimpleApiDTO;
 import com.example.desarrollodeaplicaciones.dtos.moviesapi.PeopleCastApiDTO;
 import com.example.desarrollodeaplicaciones.dtos.moviesapi.PeopleCrewApiDTO;
@@ -17,6 +19,7 @@ import com.example.desarrollodeaplicaciones.models.People;
 import com.example.desarrollodeaplicaciones.models.Rate;
 import com.example.desarrollodeaplicaciones.models.User;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -61,12 +64,15 @@ public class Mapper {
         .synapsis(movie.getSynapsis())
         .genres(Optional.ofNullable(movie.getGenres()).orElse(new ArrayList<>()))
         .images(Optional.ofNullable(movie.getImages()).orElse(new ArrayList<>()))
-        .trailer(mediaToMediaDto(movie.getTrailer()))
+        .trailer(movie.getTrailer())
         .releaseDate(movie.getReleaseDate())
         .duration(movie.getDuration())
         .director(peopleToPeopleDto(movie.getDirector()))
         .rateAverage(movie.getRateAverage())
-        .rates(movie.getRates().stream().map(Mapper::rateToRateDto).collect(Collectors.toList()))
+        .rates(
+            Optional.ofNullable(movie.getRates()).orElse(new ArrayList<>()).stream()
+                .map(Mapper::rateToRateDto)
+                .toList())
         .actors(
             Optional.ofNullable(movie.getActors())
                 .map(
@@ -106,7 +112,7 @@ public class Mapper {
         .synapsis(movieDto.getSynapsis())
         .genres(Optional.ofNullable(movieDto.getGenres()).orElse(new ArrayList<>()))
         .images(Optional.ofNullable(movieDto.getImages()).orElse(new ArrayList<>()))
-        .trailer(mediaDtoToMedia(movieDto.getTrailer()))
+        .trailer(movieDto.getTrailer())
         .releaseDate(movieDto.getReleaseDate())
         .duration(movieDto.getDuration())
         .director(peopleDtoToPeople(movieDto.getDirector()))
@@ -171,13 +177,41 @@ public class Mapper {
         .build();
   }
 
-  public static MovieSimpleDTO movieToMovieSimpleDto(Movie movie){
+  public static MovieSimpleDTO movieToMovieSimpleDto(Movie movie) {
     return MovieSimpleDTO.builder()
         .id(movie.getId())
         .title(movie.getTitle())
         .subtitle(movie.getSubtitle())
         .synapsis(movie.getSynapsis())
         .posterPath(movie.getPosterPath())
+        .build();
+  }
+
+  public static Movie movieDetailApiDtoToMovie(MovieDetailApiDTO movieDetailApi) {
+    return Movie.builder()
+        .id(movieDetailApi.getId())
+        .title(movieDetailApi.getTitle())
+        .subtitle(movieDetailApi.getOriginalTitle())
+        .synapsis(movieDetailApi.getOverview())
+        .genres(movieDetailApi.getGenres().stream().map(GenreDTO::getName).toList())
+        .images(
+            movieDetailApi.getImages().stream()
+                .map(MovieImageApiDTO::getFilePath)
+                .collect(Collectors.toList()))
+        .trailer(
+            movieDetailApi.getVideos().isEmpty()
+                ? null
+                : movieDetailApi.getVideos().get(0).getKey())
+        .releaseDate(movieDetailApi.getReleaseDate())
+        .duration(movieDetailApi.getRuntime())
+        .director(
+            peopleCrewApiDtoToPeople(
+                Objects.requireNonNull(
+                    movieDetailApi.getCrew().stream()
+                        .filter(peopleCrewApiDTO -> peopleCrewApiDTO.getJob().equals("Director"))
+                        .findFirst()
+                        .orElse(null))))
+        .actors(movieDetailApi.getCast().stream().map(Mapper::peopleCastApiDtoToPeople).toList())
         .build();
   }
 }

@@ -34,22 +34,22 @@ public class PruebaController {
   }
 
   @GetMapping("/{movieId}/credits")
-  public ResponseEntity<?> getmoviecredits(@PathVariable Integer movieId) {
+  public ResponseEntity<?> getmoviecredits(@PathVariable Long movieId) {
     return ResponseEntity.ok(moviesApiRepository.getMovieCredits(movieId));
   }
 
   @GetMapping("/{movieId}")
-  public ResponseEntity<MovieDetailApiDTO> getmovie(@PathVariable Integer movieId) {
+  public ResponseEntity<MovieDetailApiDTO> getmovie(@PathVariable Long movieId) {
     return ResponseEntity.ok(moviesApiService.getMovieDetailById(movieId));
   }
 
   @GetMapping("/{movieId}/images")
-  public ResponseEntity<ResponseMovieImagesApiDTO> getmovieimages(@PathVariable Integer movieId) {
+  public ResponseEntity<ResponseMovieImagesApiDTO> getmovieimages(@PathVariable Long movieId) {
     return ResponseEntity.ok(moviesApiRepository.getMovieImages(movieId));
   }
 
   @GetMapping("/{movieId}/videos")
-  public ResponseEntity<?> getmovievideos(@PathVariable Integer movieId) {
+  public ResponseEntity<?> getmovievideos(@PathVariable Long movieId) {
     return ResponseEntity.ok(moviesApiRepository.getMovieVideos(movieId));
   }
 }

@@ -31,7 +31,7 @@ public class MovieDTO {
   private List<String> genres;
 
   private List<String> images;
-  private MediaDTO trailer;
+  private String trailer;
 
   @NotNull(message = "Es necesario ingresar una fecha de lanzamiento")
   private LocalDate releaseDate;

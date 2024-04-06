@@ -52,7 +52,7 @@ public class MoviesApiRepositoryImpl {
         .block();
   }
 
-  public MovieDetailApiDTO getMovieById(Integer movieId) {
+  public MovieDetailApiDTO getMovieById(Long movieId) {
     return webClient
         .get()
         .uri(uriBuilder -> uriBuilder.path(String.format("/movie/%s", movieId)).build())
@@ -67,7 +67,7 @@ public class MoviesApiRepositoryImpl {
         .block();
   }
 
-  public ResponseMovieImagesApiDTO getMovieImages(Integer movieId) {
+  public ResponseMovieImagesApiDTO getMovieImages(Long movieId) {
     return webClient
         .get() // TODO Crear excepciones personalizadas
         .uri(uriBuilder -> uriBuilder.path(String.format("/movie/%s/images", movieId)).build())
@@ -76,7 +76,7 @@ public class MoviesApiRepositoryImpl {
         .block();
   }
 
-  public ResponseMovieVideoDTO getMovieVideos(Integer movieId) {
+  public ResponseMovieVideoDTO getMovieVideos(Long movieId) {
     return webClient
         .get() // TODO Crear excepciones personalizadas
         .uri(uriBuilder -> uriBuilder.path(String.format("/movie/%s/videos", movieId)).build())
@@ -85,7 +85,7 @@ public class MoviesApiRepositoryImpl {
         .block();
   }
 
-  public ResponseCreditsApiDTO getMovieCredits(Integer movieId) {
+  public ResponseCreditsApiDTO getMovieCredits(Long movieId) {
     return webClient
             .get() // TODO Crear excepciones personalizadas
             .uri(uriBuilder -> uriBuilder.path(String.format("/movie/%s/credits", movieId)).build())

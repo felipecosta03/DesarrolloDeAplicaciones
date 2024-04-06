@@ -5,6 +5,7 @@ import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
+import com.example.desarrollodeaplicaciones.dtos.moviesapi.MovieDetailApiDTO;
 import com.example.desarrollodeaplicaciones.dtos.moviesapi.MovieSimpleApiDTO;
 import com.example.desarrollodeaplicaciones.exceptions.InvalidOrderParamException;
 import com.example.desarrollodeaplicaciones.exceptions.MovieNotFoundException;
@@ -139,7 +140,16 @@ public class MovieService implements IMovieService {
   }
 
   public MovieDTO findById(Long id) {
-    return Mapper.movieToMovieDTO(getMovieById(id));
+    Movie movie;
+    try {
+      movie = getMovieById(id);
+    } catch (MovieNotFoundException e) {
+      MovieDetailApiDTO movieDetailApi = moviesApiService.getMovieDetailById(id);
+      movie = Mapper.movieDetailApiDtoToMovie(movieDetailApi);
+      movie.setSynapsis(movie.getSynapsis().substring(0,50));
+      movieRepository.save(movie);
+    }
+    return Mapper.movieToMovieDTO(movie);
   }
 
   private User getUserById(Long userId) {

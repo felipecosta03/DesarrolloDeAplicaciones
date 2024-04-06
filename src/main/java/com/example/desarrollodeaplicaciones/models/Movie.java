@@ -23,10 +23,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "movies")
 public class Movie {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private String title;
@@ -37,8 +35,7 @@ public class Movie {
   @ElementCollection
   private List<String> images;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  private Media trailer;
+  private String trailer;
 
   private LocalDate releaseDate;
   private Integer duration;

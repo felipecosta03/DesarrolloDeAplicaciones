@@ -32,7 +32,7 @@ public class MoviesApiService {
     return movies;
   }
 
-  public MovieDetailApiDTO getMovieDetailById(Integer id) {
+  public MovieDetailApiDTO getMovieDetailById(Long id) {
     MovieDetailApiDTO movieDetail = moviesApiRepository.getMovieById(id);
     ResponseCreditsApiDTO responseCredits = moviesApiRepository.getMovieCredits(id);
 

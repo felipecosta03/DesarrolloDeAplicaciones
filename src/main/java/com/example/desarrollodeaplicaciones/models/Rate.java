@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Rate {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private Double score;
   @ManyToOne(cascade = CascadeType.ALL)
