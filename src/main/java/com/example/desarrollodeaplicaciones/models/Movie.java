@@ -1,6 +1,7 @@
 package com.example.desarrollodeaplicaciones.models;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,11 +32,10 @@ public class Movie {
   private String title;
   private String subtitle;
   private String synapsis;
-  @ManyToMany(cascade = CascadeType.ALL)
-  private List<Genre> genres;
-
-  @OneToMany(cascade = CascadeType.ALL)
-  private List<Media> images;
+  @ElementCollection
+  private List<String> genres;
+  @ElementCollection
+  private List<String> images;
 
   @OneToOne(cascade = CascadeType.ALL)
   private Media trailer;
@@ -45,6 +45,7 @@ public class Movie {
 
   @ManyToOne(cascade = CascadeType.ALL)
   private People director;
+  private String posterPath;
 
   @ManyToMany(cascade = CascadeType.ALL)
   private List<People> actors;

@@ -2,18 +2,16 @@ package com.example.desarrollodeaplicaciones.services;
 
 import com.example.desarrollodeaplicaciones.configs.files.IFilesStorage;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
-import com.example.desarrollodeaplicaciones.exceptions.ImageNotFoundException;
+import com.example.desarrollodeaplicaciones.dtos.moviesapi.MovieSimpleApiDTO;
 import com.example.desarrollodeaplicaciones.exceptions.InvalidOrderParamException;
 import com.example.desarrollodeaplicaciones.exceptions.MovieNotFoundException;
-import com.example.desarrollodeaplicaciones.exceptions.PersonNotFoundException;
 import com.example.desarrollodeaplicaciones.exceptions.RateAlreadyExistsException;
 import com.example.desarrollodeaplicaciones.exceptions.RateNotFoundException;
-import com.example.desarrollodeaplicaciones.exceptions.TrailerNotFoundException;
 import com.example.desarrollodeaplicaciones.exceptions.UserNotFoundException;
 import com.example.desarrollodeaplicaciones.models.Movie;
-import com.example.desarrollodeaplicaciones.models.People;
 import com.example.desarrollodeaplicaciones.models.Rate;
 import com.example.desarrollodeaplicaciones.models.User;
 import com.example.desarrollodeaplicaciones.repositories.IMoviePageableRepository;
@@ -28,7 +26,6 @@ import java.util.Optional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class MovieService implements IMovieService {
@@ -36,24 +33,25 @@ public class MovieService implements IMovieService {
   private static final String ORDER_ASC = "asc";
   private static final String ORDER_DESC = "desc";
   private static final String RELEASE_DATE = "releaseDate";
-  private static final String QUALIFICATION = "qualification";
+  private static final String QUALIFICATION = "rateAverage";
   private final IMovieRepository movieRepository;
   private final IFilesStorage filesStorage;
   private final IPersonRepository personRepository;
   private final IUserRepository userRepository;
   private final IMoviePageableRepository moviePageableRepository;
 
-private final MoviesApiService moviesApiService;
+  private final MoviesApiService moviesApiService;
   private final IRateRepository rateRepository;
 
   public MovieService(
-          IMovieRepository movieRepository,
-          IFilesStorage filesStorage,
-          IPersonRepository personRepository,
-          IUserRepository userRepository,
-          IMoviePageableRepository moviePageableRepository,
-          MoviesApiRepositoryImpl moviesApiRepository,
-          MoviesApiService moviesApiService, IRateRepository rateRepository) {
+      IMovieRepository movieRepository,
+      IFilesStorage filesStorage,
+      IPersonRepository personRepository,
+      IUserRepository userRepository,
+      IMoviePageableRepository moviePageableRepository,
+      MoviesApiRepositoryImpl moviesApiRepository,
+      MoviesApiService moviesApiService,
+      IRateRepository rateRepository) {
     this.movieRepository = movieRepository;
     this.filesStorage = filesStorage;
     this.personRepository = personRepository;
@@ -63,24 +61,31 @@ private final MoviesApiService moviesApiService;
     this.rateRepository = rateRepository;
   }
 
-  public List<MovieDTO> getAll(
+  public List<MovieSimpleDTO> getAll(
       Optional<String> dateOrder,
       Optional<String> qualificationOrder,
       Optional<String> genre,
       Optional<Integer> page) {
-    Sort sort = getSort(dateOrder, qualificationOrder);
-    PageRequest pageRequest = getPageRequest(page, sort);
-    return genre
-        .map(
-            genreName ->
-                moviePageableRepository.findAllByGenre(pageRequest, genreName).stream()
-                    .map(Mapper::movieToMovieDTO)
-                    .toList())
-        .orElseGet(
-            () ->
-                moviePageableRepository.findAll(pageRequest).stream()
-                    .map(Mapper::movieToMovieDTO)
-                    .toList());
+
+    try {
+      List<MovieSimpleApiDTO> movies =
+          moviesApiService.getMoviesByPage(page.orElse(1), dateOrder, qualificationOrder);
+      return movies.stream().map(Mapper::movieSimpleApiDTOToMovieDTO).toList();
+    } catch (Exception e) {
+      Sort sort = getSort(dateOrder, qualificationOrder);
+      PageRequest pageRequest = getPageRequest(page, sort);
+      return genre
+          .map(
+              genreName ->
+                  moviePageableRepository.findAllByGenre(pageRequest, genreName).stream()
+                      .map(Mapper::movieToMovieSimpleDto)
+                      .toList())
+          .orElseGet(
+              () ->
+                  moviePageableRepository.findAll(pageRequest).stream()
+                      .map(Mapper::movieToMovieSimpleDto)
+                      .toList());
+    }
   }
 
   @Override
@@ -137,71 +142,8 @@ private final MoviesApiService moviesApiService;
     return Mapper.movieToMovieDTO(getMovieById(id));
   }
 
-  @Override
-  public StatusDTO addMovieImage(Long id, MultipartFile image) {
-    Movie movie = getMovieById(id);
-    movie.getImages().add(filesStorage.uploadFile(image));
-    movieRepository.save(movie);
-    return StatusDTO.builder().status(200).build();
-  }
-
-  @Override
-  public StatusDTO deleteMovieImage(Long id, String mediaId) {
-    Movie movie = getMovieById(id);
-    boolean isImageRemoved = movie.getImages().removeIf(media -> media.getId().equals(mediaId));
-    if (!isImageRemoved) {
-      throw new ImageNotFoundException(mediaId);
-    }
-    movieRepository.save(movie);
-    filesStorage.deleteFile(mediaId);
-    return StatusDTO.builder().status(200).build();
-  }
-
-  @Override
-  public StatusDTO updateMovieTrailer(Long id, MultipartFile image) {
-    Movie movie = getMovieById(id);
-    if (movie.getTrailer() != null) {
-      deleteTrailerFromMovie(movie);
-    }
-    movie.setTrailer(filesStorage.uploadFile(image));
-    movieRepository.save(movie);
-    return StatusDTO.builder().status(200).build();
-  }
-
-  @Override
-  public StatusDTO deleteMovieTrailer(Long movieId) {
-    Movie movie = getMovieById(movieId);
-    if (movie.getTrailer() == null) {
-      throw new TrailerNotFoundException(movieId);
-    }
-    deleteTrailerFromMovie(movie);
-    return StatusDTO.builder().status(200).build();
-  }
-  @Override
-  public StatusDTO deleteActor(Long id, Long actorId) {
-    Movie movie = getMovieById(id);
-    boolean isActorRemoved = movie.getActors().removeIf(actor -> actor.getId().equals(actorId));
-    if (!isActorRemoved) {
-      throw new PersonNotFoundException(actorId);
-    }
-    movieRepository.save(movie);
-    return StatusDTO.builder().status(200).build();
-  }
-
-  private People getPersonById(Long personId) {
-    return personRepository
-        .findById(personId)
-        .orElseThrow(() -> new PersonNotFoundException(personId));
-  }
-
   private User getUserById(Long userId) {
     return userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
-  }
-
-  private void deleteTrailerFromMovie(Movie movie) {
-    filesStorage.deleteFile(movie.getTrailer().getId());
-    movie.setTrailer(null);
-    movieRepository.save(movie);
   }
 
   private Double calculateRateAverage(List<Rate> rates) {

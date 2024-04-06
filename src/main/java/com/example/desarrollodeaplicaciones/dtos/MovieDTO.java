@@ -28,9 +28,9 @@ public class MovieDTO {
   private String synapsis;
 
   @NotEmpty(message = "Es necesario ingresar un género")
-  private List<GenreDTO> genres;
+  private List<String> genres;
 
-  private List<MediaDTO> images;
+  private List<String> images;
   private MediaDTO trailer;
 
   @NotNull(message = "Es necesario ingresar una fecha de lanzamiento")
@@ -49,4 +49,6 @@ public class MovieDTO {
   private Double rateAverage;
   private Integer rateCount;
   private List<RateDTO> rates;
+  private String posterPath;
+
 }

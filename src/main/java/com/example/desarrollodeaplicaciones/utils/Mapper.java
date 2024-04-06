@@ -59,18 +59,8 @@ public class Mapper {
         .title(movie.getTitle())
         .subtitle(movie.getSubtitle())
         .synapsis(movie.getSynapsis())
-        .genres(
-            Optional.ofNullable(movie.getGenres())
-                .map(
-                    genres ->
-                        genres.stream().map(Mapper::genreToGenreDto).collect(Collectors.toList()))
-                .orElse(new ArrayList<>()))
-        .images(
-            Optional.ofNullable(movie.getImages())
-                .map(
-                    images ->
-                        images.stream().map(Mapper::mediaToMediaDto).collect(Collectors.toList()))
-                .orElse(new ArrayList<>()))
+        .genres(Optional.ofNullable(movie.getGenres()).orElse(new ArrayList<>()))
+        .images(Optional.ofNullable(movie.getImages()).orElse(new ArrayList<>()))
         .trailer(mediaToMediaDto(movie.getTrailer()))
         .releaseDate(movie.getReleaseDate())
         .duration(movie.getDuration())
@@ -114,18 +104,8 @@ public class Mapper {
         .title(movieDto.getTitle())
         .subtitle(movieDto.getSubtitle())
         .synapsis(movieDto.getSynapsis())
-        .genres(
-            Optional.ofNullable(movieDto.getGenres())
-                .map(
-                    genres ->
-                        genres.stream().map(Mapper::genreDtoToGenre).collect(Collectors.toList()))
-                .orElse(new ArrayList<>()))
-        .images(
-            Optional.ofNullable(movieDto.getImages())
-                .map(
-                    images ->
-                        images.stream().map(Mapper::mediaDtoToMedia).collect(Collectors.toList()))
-                .orElse(new ArrayList<>()))
+        .genres(Optional.ofNullable(movieDto.getGenres()).orElse(new ArrayList<>()))
+        .images(Optional.ofNullable(movieDto.getImages()).orElse(new ArrayList<>()))
         .trailer(mediaDtoToMedia(movieDto.getTrailer()))
         .releaseDate(movieDto.getReleaseDate())
         .duration(movieDto.getDuration())
@@ -178,6 +158,26 @@ public class Mapper {
         .fullName(peopleDTO.getName())
         .description(peopleDTO.getJob())
         .image(peopleDTO.getProfilePath())
+        .build();
+  }
+
+  public static MovieSimpleDTO movieSimpleApiDTOToMovieDTO(MovieSimpleApiDTO movieSimpleApiDTO) {
+    return MovieSimpleDTO.builder()
+        .id(movieSimpleApiDTO.getId())
+        .title(movieSimpleApiDTO.getTitle())
+        .subtitle(movieSimpleApiDTO.getOriginalTitle())
+        .synapsis(movieSimpleApiDTO.getOverview())
+        .posterPath(movieSimpleApiDTO.getPosterPath())
+        .build();
+  }
+
+  public static MovieSimpleDTO movieToMovieSimpleDto(Movie movie){
+    return MovieSimpleDTO.builder()
+        .id(movie.getId())
+        .title(movie.getTitle())
+        .subtitle(movie.getSubtitle())
+        .synapsis(movie.getSynapsis())
+        .posterPath(movie.getPosterPath())
         .build();
   }
 }
