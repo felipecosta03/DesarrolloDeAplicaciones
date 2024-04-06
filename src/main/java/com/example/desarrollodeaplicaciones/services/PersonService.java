@@ -1,10 +1,10 @@
 package com.example.desarrollodeaplicaciones.services;
 
-import com.example.desarrollodeaplicaciones.dtos.PersonDTO;
+import com.example.desarrollodeaplicaciones.dtos.PeopleDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.exceptions.PersonNotFoundException;
 import com.example.desarrollodeaplicaciones.models.Movie;
-import com.example.desarrollodeaplicaciones.models.Person;
+import com.example.desarrollodeaplicaciones.models.People;
 import com.example.desarrollodeaplicaciones.repositories.IMovieRepository;
 import com.example.desarrollodeaplicaciones.repositories.IPersonRepository;
 import com.example.desarrollodeaplicaciones.utils.Mapper;
@@ -23,30 +23,30 @@ public class PersonService implements IPersonService {
   }
 
   @Override
-  public List<PersonDTO> getAll() {
+  public List<PeopleDTO> getAll() {
     return personRepository.findAll().stream()
-        .map(Mapper::personToPersonDto)
+        .map(Mapper::peopleToPeopleDto)
         .collect(Collectors.toList());
   }
 
   @Override
-  public PersonDTO getById(Long id) {
-    return Mapper.personToPersonDto(getPersonById(id));
+  public PeopleDTO getById(Long id) {
+    return Mapper.peopleToPeopleDto(getPersonById(id));
   }
 
   @Override
-  public StatusDTO add(PersonDTO person) {
-    personRepository.save(Mapper.personDtoToPerson(person));
+  public StatusDTO add(PeopleDTO person) {
+    personRepository.save(Mapper.peopleDtoToPeople(person));
     return StatusDTO.builder().status(200).build();
   }
 
   @Override
   public StatusDTO delete(Long id) {
-    Person person = getPersonById(id);
-    List<Movie> movies = movieRepository.findByPersons(person);
+    People people = getPersonById(id);
+    List<Movie> movies = movieRepository.findByPeople(people);
     for (Movie movie : movies) {
-      movie.getActors().remove(person);
-      if (movie.getDirector().equals(person)) {
+      movie.getActors().remove(people);
+      if (movie.getDirector().equals(people)) {
         movie.setDirector(null);
       }
       movieRepository.save(movie);
@@ -55,7 +55,7 @@ public class PersonService implements IPersonService {
     return StatusDTO.builder().status(200).build();
   }
 
-  private Person getPersonById(Long id) {
+  private People getPersonById(Long id) {
     return personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
   }
 }

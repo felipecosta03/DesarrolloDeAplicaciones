@@ -1,6 +1,6 @@
 package com.example.desarrollodeaplicaciones.controllers;
 
-import com.example.desarrollodeaplicaciones.dtos.PersonDTO;
+import com.example.desarrollodeaplicaciones.dtos.PeopleDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.services.IPersonService;
 import java.util.List;
@@ -27,17 +27,17 @@ public class PersonController {
   }
 
   @GetMapping
-  public ResponseEntity<List<PersonDTO>> findAll() {
+  public ResponseEntity<List<PeopleDTO>> findAll() {
     return ResponseEntity.ok(personService.getAll());
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<PersonDTO> findById(@PathVariable Long id) {
+  public ResponseEntity<PeopleDTO> findById(@PathVariable Long id) {
     return ResponseEntity.ok(personService.getById(id));
   }
 
   @PostMapping()
-  public ResponseEntity<StatusDTO> add(@RequestBody PersonDTO person) {
+  public ResponseEntity<StatusDTO> add(@RequestBody PeopleDTO person) {
     StatusDTO statusDTO = personService.add(person);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }

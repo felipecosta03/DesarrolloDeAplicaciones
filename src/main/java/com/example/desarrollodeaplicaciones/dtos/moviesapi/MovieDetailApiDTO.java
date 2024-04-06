@@ -1,6 +1,7 @@
 package com.example.desarrollodeaplicaciones.dtos.moviesapi;
 
 import com.example.desarrollodeaplicaciones.dtos.GenreDTO;
+import com.example.desarrollodeaplicaciones.dtos.PeopleDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -56,4 +57,7 @@ public class MovieDetailApiDTO {
 
   private List<MovieImageApiDTO> images;
   private List<MovieVideoApiDTO> videos;
+
+  private List<PeopleCrewApiDTO> crew;
+  private List<PeopleCastApiDTO> cast;
 }

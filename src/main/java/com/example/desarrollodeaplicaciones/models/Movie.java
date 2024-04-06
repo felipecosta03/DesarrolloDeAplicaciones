@@ -44,10 +44,10 @@ public class Movie {
   private Integer duration;
 
   @ManyToOne(cascade = CascadeType.ALL)
-  private Person director;
+  private People director;
 
   @ManyToMany(cascade = CascadeType.ALL)
-  private List<Person> actors;
+  private List<People> actors;
 
   private Double rateAverage;
 

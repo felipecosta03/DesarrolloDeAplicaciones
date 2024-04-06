@@ -13,7 +13,7 @@ import com.example.desarrollodeaplicaciones.exceptions.RateNotFoundException;
 import com.example.desarrollodeaplicaciones.exceptions.TrailerNotFoundException;
 import com.example.desarrollodeaplicaciones.exceptions.UserNotFoundException;
 import com.example.desarrollodeaplicaciones.models.Movie;
-import com.example.desarrollodeaplicaciones.models.Person;
+import com.example.desarrollodeaplicaciones.models.People;
 import com.example.desarrollodeaplicaciones.models.Rate;
 import com.example.desarrollodeaplicaciones.models.User;
 import com.example.desarrollodeaplicaciones.repositories.IMoviePageableRepository;
@@ -43,24 +43,23 @@ public class MovieService implements IMovieService {
   private final IUserRepository userRepository;
   private final IMoviePageableRepository moviePageableRepository;
 
-  private final MoviesApiRepositoryImpl moviesApiRepository;
-
+private final MoviesApiService moviesApiService;
   private final IRateRepository rateRepository;
 
   public MovieService(
-      IMovieRepository movieRepository,
-      IFilesStorage filesStorage,
-      IPersonRepository personRepository,
-      IUserRepository userRepository,
-      IMoviePageableRepository moviePageableRepository,
-      MoviesApiRepositoryImpl moviesApiRepository,
-      IRateRepository rateRepository) {
+          IMovieRepository movieRepository,
+          IFilesStorage filesStorage,
+          IPersonRepository personRepository,
+          IUserRepository userRepository,
+          IMoviePageableRepository moviePageableRepository,
+          MoviesApiRepositoryImpl moviesApiRepository,
+          MoviesApiService moviesApiService, IRateRepository rateRepository) {
     this.movieRepository = movieRepository;
     this.filesStorage = filesStorage;
     this.personRepository = personRepository;
     this.userRepository = userRepository;
     this.moviePageableRepository = moviePageableRepository;
-    this.moviesApiRepository = moviesApiRepository;
+    this.moviesApiService = moviesApiService;
     this.rateRepository = rateRepository;
   }
 
@@ -189,7 +188,7 @@ public class MovieService implements IMovieService {
     return StatusDTO.builder().status(200).build();
   }
 
-  private Person getPersonById(Long personId) {
+  private People getPersonById(Long personId) {
     return personRepository
         .findById(personId)
         .orElseThrow(() -> new PersonNotFoundException(personId));

@@ -1,11 +1,13 @@
 package com.example.desarrollodeaplicaciones.repositories;
 
 import com.example.desarrollodeaplicaciones.dtos.moviesapi.MovieDetailApiDTO;
+import com.example.desarrollodeaplicaciones.dtos.moviesapi.response.ResponseCreditsApiDTO;
 import com.example.desarrollodeaplicaciones.dtos.moviesapi.response.ResponseDiscoverMoviesApiDTO;
 import com.example.desarrollodeaplicaciones.dtos.moviesapi.response.ResponseMovieImagesApiDTO;
-import java.time.LocalDate;
-
 import com.example.desarrollodeaplicaciones.dtos.moviesapi.response.ResponseMovieVideoDTO;
+import java.time.LocalDate;
+import java.util.Optional;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -17,7 +19,18 @@ public class MoviesApiRepositoryImpl {
     this.webClient = webClient;
   }
 
-  public ResponseDiscoverMoviesApiDTO getMoviesByPage(Integer page) {
+  public ResponseDiscoverMoviesApiDTO getMoviesByPage(
+      Integer page, Optional<String> dateOrder, Optional<String> qualificationOrder) {
+    String sort;
+
+    if (dateOrder.isPresent()) {
+      sort = String.format("primary_release_date.%s", dateOrder.get());
+    } else if (qualificationOrder.isPresent()) {
+      sort = String.format("vote_average.%s", qualificationOrder.get());
+    } else {
+      sort = "primary_release_date.desc";
+    }
+
     return webClient
         .get()
         .uri(
@@ -26,8 +39,15 @@ public class MoviesApiRepositoryImpl {
                     .path("/discover/movie")
                     .queryParam("page", page)
                     .queryParam("primary_release_date", LocalDate.now())
+                    .queryParam("sort_by", sort)
                     .build())
-        .retrieve()
+        .retrieve() // TODO Crear excepciones personalizadas
+        .onStatus(
+            HttpStatus.INTERNAL_SERVER_ERROR::equals,
+            response -> response.bodyToMono(String.class).map(Exception::new))
+        .onStatus(
+            HttpStatus.BAD_REQUEST::equals,
+            response -> response.bodyToMono(String.class).map(Exception::new))
         .bodyToMono(ResponseDiscoverMoviesApiDTO.class)
         .block();
   }
@@ -36,14 +56,20 @@ public class MoviesApiRepositoryImpl {
     return webClient
         .get()
         .uri(uriBuilder -> uriBuilder.path(String.format("/movie/%s", movieId)).build())
-        .retrieve()
+        .retrieve() // TODO Crear excepciones personalizadas
+        .onStatus(
+            HttpStatus.INTERNAL_SERVER_ERROR::equals,
+            response -> response.bodyToMono(String.class).map(Exception::new))
+        .onStatus(
+            HttpStatus.NOT_FOUND::equals,
+            response -> response.bodyToMono(String.class).map(Exception::new))
         .bodyToMono(MovieDetailApiDTO.class)
         .block();
   }
 
   public ResponseMovieImagesApiDTO getMovieImages(Integer movieId) {
     return webClient
-        .get()
+        .get() // TODO Crear excepciones personalizadas
         .uri(uriBuilder -> uriBuilder.path(String.format("/movie/%s/images", movieId)).build())
         .retrieve()
         .bodyToMono(ResponseMovieImagesApiDTO.class)
@@ -52,10 +78,19 @@ public class MoviesApiRepositoryImpl {
 
   public ResponseMovieVideoDTO getMovieVideos(Integer movieId) {
     return webClient
-            .get()
-            .uri(uriBuilder -> uriBuilder.path(String.format("/movie/%s/videos", movieId)).build())
+        .get() // TODO Crear excepciones personalizadas
+        .uri(uriBuilder -> uriBuilder.path(String.format("/movie/%s/videos", movieId)).build())
+        .retrieve()
+        .bodyToMono(ResponseMovieVideoDTO.class)
+        .block();
+  }
+
+  public ResponseCreditsApiDTO getMovieCredits(Integer movieId) {
+    return webClient
+            .get() // TODO Crear excepciones personalizadas
+            .uri(uriBuilder -> uriBuilder.path(String.format("/movie/%s/credits", movieId)).build())
             .retrieve()
-            .bodyToMono(ResponseMovieVideoDTO.class)
+            .bodyToMono(ResponseCreditsApiDTO.class)
             .block();
   }
 }

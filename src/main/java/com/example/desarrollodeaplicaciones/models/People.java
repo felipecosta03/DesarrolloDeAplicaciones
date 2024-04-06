@@ -15,11 +15,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "persons")
-public class Person {
+public class People {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
   private String fullName;
+  private String image;
+  private String description;
 }

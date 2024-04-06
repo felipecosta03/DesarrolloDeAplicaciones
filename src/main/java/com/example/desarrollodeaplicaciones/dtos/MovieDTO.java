@@ -40,13 +40,13 @@ public class MovieDTO {
   @Positive(message = "La duración debe ser mayor a 0")
   private Integer duration;
 
-  private PersonDTO director;
+  private PeopleDTO director;
 
-  private List<PersonDTO> actors;
+  private List<PeopleDTO> actors;
 
   @NotNull(message = "Es necesario ingresar una calificación")
   @PositiveOrZero(message = "La calificación debe ser mayor o igual a 0")
   private Double rateAverage;
-
+  private Integer rateCount;
   private List<RateDTO> rates;
 }

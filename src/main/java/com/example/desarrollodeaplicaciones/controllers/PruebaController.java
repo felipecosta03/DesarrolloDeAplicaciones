@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class PruebaController {
@@ -27,8 +28,14 @@ public class PruebaController {
 
   @GetMapping("/discover/movies")
   public ResponseEntity<List<MovieSimpleApiDTO>> discoverMovies(
-      @RequestParam(defaultValue = "1") Integer page) {
-    return ResponseEntity.ok(moviesApiService.getMoviesByPage(page));
+      @RequestParam(defaultValue = "1") Integer page,      @RequestParam Optional<String> dateOrder,
+      @RequestParam Optional<String> qualificationOrder) {
+    return ResponseEntity.ok(moviesApiService.getMoviesByPage(page, dateOrder, qualificationOrder));
+  }
+
+  @GetMapping("/{movieId}/credits")
+  public ResponseEntity<?> getmoviecredits(@PathVariable Integer movieId) {
+    return ResponseEntity.ok(moviesApiRepository.getMovieCredits(movieId));
   }
 
   @GetMapping("/{movieId}")
