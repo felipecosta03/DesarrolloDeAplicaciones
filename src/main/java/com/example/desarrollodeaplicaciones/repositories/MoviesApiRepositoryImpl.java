@@ -1,12 +1,13 @@
 package com.example.desarrollodeaplicaciones.repositories;
 
-import com.example.desarrollodeaplicaciones.dtos.moviesapi.MovieDetailApiDTO;
-import com.example.desarrollodeaplicaciones.dtos.moviesapi.response.ResponseCreditsApiDTO;
-import com.example.desarrollodeaplicaciones.dtos.moviesapi.response.ResponseDiscoverMoviesApiDTO;
-import com.example.desarrollodeaplicaciones.dtos.moviesapi.response.ResponseMovieImagesApiDTO;
-import com.example.desarrollodeaplicaciones.dtos.moviesapi.response.ResponseMovieVideoDTO;
 import java.time.LocalDate;
 import java.util.Optional;
+
+import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
+import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseCreditsApiDTO;
+import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseDiscoverMoviesApiDTO;
+import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseMovieImagesApiDTO;
+import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseMovieVideoDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -52,7 +53,7 @@ public class MoviesApiRepositoryImpl {
         .block();
   }
 
-  public MovieDetailApiDTO getMovieById(Long movieId) {
+  public MovieDetail getMovieById(Long movieId) {
     return webClient
         .get()
         .uri(uriBuilder -> uriBuilder.path(String.format("/movie/%s", movieId)).build())
@@ -63,7 +64,7 @@ public class MoviesApiRepositoryImpl {
         .onStatus(
             HttpStatus.NOT_FOUND::equals,
             response -> response.bodyToMono(String.class).map(Exception::new))
-        .bodyToMono(MovieDetailApiDTO.class)
+        .bodyToMono(MovieDetail.class)
         .block();
   }
 

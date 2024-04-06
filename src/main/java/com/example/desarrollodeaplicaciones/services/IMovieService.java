@@ -1,6 +1,7 @@
 package com.example.desarrollodeaplicaciones.services;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
@@ -10,7 +11,7 @@ import java.util.Optional;
 public interface IMovieService {
 
 
-  MovieDTO findById(Long id);
+  MovieDetailDTO findById(Long id);
 
   List<MovieSimpleDTO> getAll(
       Optional<String> dateOrder,

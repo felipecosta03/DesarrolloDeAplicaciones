@@ -2,11 +2,10 @@ package com.example.desarrollodeaplicaciones.services;
 
 import com.example.desarrollodeaplicaciones.configs.files.IFilesStorage;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
-import com.example.desarrollodeaplicaciones.dtos.moviesapi.MovieDetailApiDTO;
-import com.example.desarrollodeaplicaciones.dtos.moviesapi.MovieSimpleApiDTO;
 import com.example.desarrollodeaplicaciones.exceptions.InvalidOrderParamException;
 import com.example.desarrollodeaplicaciones.exceptions.MovieNotFoundException;
 import com.example.desarrollodeaplicaciones.exceptions.RateAlreadyExistsException;
@@ -15,6 +14,9 @@ import com.example.desarrollodeaplicaciones.exceptions.UserNotFoundException;
 import com.example.desarrollodeaplicaciones.models.Movie;
 import com.example.desarrollodeaplicaciones.models.Rate;
 import com.example.desarrollodeaplicaciones.models.User;
+import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
+import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
+import com.example.desarrollodeaplicaciones.repositories.IMovieDetailRepository;
 import com.example.desarrollodeaplicaciones.repositories.IMoviePageableRepository;
 import com.example.desarrollodeaplicaciones.repositories.IMovieRepository;
 import com.example.desarrollodeaplicaciones.repositories.IPersonRepository;
@@ -24,8 +26,12 @@ import com.example.desarrollodeaplicaciones.repositories.MoviesApiRepositoryImpl
 import com.example.desarrollodeaplicaciones.utils.Mapper;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,23 +47,25 @@ public class MovieService implements IMovieService {
   private final IUserRepository userRepository;
   private final IMoviePageableRepository moviePageableRepository;
 
+  private final IMovieDetailRepository movieDetailRepository;
   private final MoviesApiService moviesApiService;
   private final IRateRepository rateRepository;
 
   public MovieService(
-      IMovieRepository movieRepository,
-      IFilesStorage filesStorage,
-      IPersonRepository personRepository,
-      IUserRepository userRepository,
-      IMoviePageableRepository moviePageableRepository,
-      MoviesApiRepositoryImpl moviesApiRepository,
-      MoviesApiService moviesApiService,
-      IRateRepository rateRepository) {
+          IMovieRepository movieRepository,
+          IFilesStorage filesStorage,
+          IPersonRepository personRepository,
+          IUserRepository userRepository,
+          IMoviePageableRepository moviePageableRepository,
+          MoviesApiRepositoryImpl moviesApiRepository,
+          IMovieDetailRepository movieDetailRepository, MoviesApiService moviesApiService,
+          IRateRepository rateRepository) {
     this.movieRepository = movieRepository;
     this.filesStorage = filesStorage;
     this.personRepository = personRepository;
     this.userRepository = userRepository;
     this.moviePageableRepository = moviePageableRepository;
+    this.movieDetailRepository = movieDetailRepository;
     this.moviesApiService = moviesApiService;
     this.rateRepository = rateRepository;
   }
@@ -69,7 +77,7 @@ public class MovieService implements IMovieService {
       Optional<Integer> page) {
 
     try {
-      List<MovieSimpleApiDTO> movies =
+      List<MovieSimple> movies =
           moviesApiService.getMoviesByPage(page.orElse(1), dateOrder, qualificationOrder);
       return movies.stream().map(Mapper::movieSimpleApiDTOToMovieDTO).toList();
     } catch (Exception e) {
@@ -139,17 +147,15 @@ public class MovieService implements IMovieService {
     return StatusDTO.builder().status(200).build();
   }
 
-  public MovieDTO findById(Long id) {
-    Movie movie;
+  public MovieDetailDTO findById(Long id) {
+    MovieDetail movieDetail;
     try {
-      movie = getMovieById(id);
+      movieDetail = getMovieDetailById(id);
     } catch (MovieNotFoundException e) {
-      MovieDetailApiDTO movieDetailApi = moviesApiService.getMovieDetailById(id);
-      movie = Mapper.movieDetailApiDtoToMovie(movieDetailApi);
-      movie.setSynapsis(movie.getSynapsis().substring(0,50));
-      movieRepository.save(movie);
+      movieDetail = moviesApiService.getMovieDetailById(id);
+      moviesApiService.saveMovieDetailAsync(movieDetail);
     }
-    return Mapper.movieToMovieDTO(movie);
+    return Mapper.movieDetailToMovieDetailDto(movieDetail);
   }
 
   private User getUserById(Long userId) {
@@ -192,4 +198,10 @@ public class MovieService implements IMovieService {
   private Movie getMovieById(Long id) {
     return movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
   }
+
+  private MovieDetail getMovieDetailById(Long id) {
+    return movieDetailRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
+  }
+
+
 }

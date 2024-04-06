@@ -2,12 +2,17 @@ package com.example.desarrollodeaplicaciones.services;
 
 import static java.util.Objects.isNull;
 
-import com.example.desarrollodeaplicaciones.dtos.moviesapi.MovieDetailApiDTO;
-import com.example.desarrollodeaplicaciones.dtos.moviesapi.MovieSimpleApiDTO;
-import com.example.desarrollodeaplicaciones.dtos.moviesapi.response.ResponseCreditsApiDTO;
+import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
+import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
+import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseCreditsApiDTO;
+import com.example.desarrollodeaplicaciones.repositories.IMovieDetailRepository;
 import com.example.desarrollodeaplicaciones.repositories.MoviesApiRepositoryImpl;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
+
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,13 +20,16 @@ public class MoviesApiService {
   public static final String IMAGE_URL_BASE = "https://image.tmdb.org/t/p/w500%s";
   private final MoviesApiRepositoryImpl moviesApiRepository;
 
-  public MoviesApiService(MoviesApiRepositoryImpl moviesApiRepository) {
+  private final IMovieDetailRepository movieDetailRepository;
+
+  public MoviesApiService(MoviesApiRepositoryImpl moviesApiRepository, IMovieDetailRepository movieDetailRepository) {
     this.moviesApiRepository = moviesApiRepository;
+      this.movieDetailRepository = movieDetailRepository;
   }
 
-  public List<MovieSimpleApiDTO> getMoviesByPage(
+  public List<MovieSimple> getMoviesByPage(
       Integer page, Optional<String> dateOrder, Optional<String> qualificationOrder) {
-    List<MovieSimpleApiDTO> movies =
+    List<MovieSimple> movies =
         moviesApiRepository.getMoviesByPage(page, dateOrder, qualificationOrder).getResults();
     movies.forEach(
         movie -> {
@@ -32,25 +40,19 @@ public class MoviesApiService {
     return movies;
   }
 
-  public MovieDetailApiDTO getMovieDetailById(Long id) {
-    MovieDetailApiDTO movieDetail = moviesApiRepository.getMovieById(id);
+  public MovieDetail getMovieDetailById(Long id) {
+    MovieDetail movieDetail = moviesApiRepository.getMovieById(id);
     ResponseCreditsApiDTO responseCredits = moviesApiRepository.getMovieCredits(id);
-
     movieDetail.setPosterPath(String.format(IMAGE_URL_BASE, movieDetail.getPosterPath()));
     movieDetail.setImages(moviesApiRepository.getMovieImages(id).getBackdrops());
     movieDetail.setVideos(moviesApiRepository.getMovieVideos(id).getResults());
-    movieDetail.setCrew(responseCredits.getCrew());
-    movieDetail.setCast(responseCredits.getCast());
+    movieDetail.setDirector(
+        responseCredits.getCrew().stream()
+            .filter(people -> people.getJob().equals("Director"))
+            .findFirst()
+            .orElse(null));
+    movieDetail.setCast(responseCredits.getCast().subList(0, 8));
 
-    movieDetail
-        .getCrew()
-        .forEach(
-            peopleCrewApiDTO -> {
-              if (!isNull(peopleCrewApiDTO.getProfilePath())) {
-                peopleCrewApiDTO.setProfilePath(
-                    String.format(IMAGE_URL_BASE, peopleCrewApiDTO.getProfilePath()));
-              }
-            });
     movieDetail
         .getCast()
         .forEach(
@@ -81,4 +83,10 @@ public class MoviesApiService {
             });
     return movieDetail;
   }
+
+    @Async
+    public Future<MovieDetail> saveMovieDetailAsync(MovieDetail movieDetail) {
+        return CompletableFuture.completedFuture(movieDetailRepository.save(movieDetail));
+    }
+
 }

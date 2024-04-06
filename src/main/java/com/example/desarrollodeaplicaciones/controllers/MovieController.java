@@ -1,6 +1,7 @@
 package com.example.desarrollodeaplicaciones.controllers;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
@@ -54,7 +55,7 @@ public class MovieController {
   }
 
   @GetMapping("/{movieId}")
-  public ResponseEntity<MovieDTO> findById(@PathVariable Long movieId) {
+  public ResponseEntity<MovieDetailDTO> findById(@PathVariable Long movieId) {
     return ResponseEntity.status(200).body(movieService.findById(movieId));
   }
 

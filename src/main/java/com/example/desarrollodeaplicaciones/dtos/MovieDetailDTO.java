@@ -1,34 +1,37 @@
-package com.example.desarrollodeaplicaciones.dtos.moviesapi;
+package com.example.desarrollodeaplicaciones.dtos;
 
-import com.example.desarrollodeaplicaciones.dtos.GenreDTO;
-import com.example.desarrollodeaplicaciones.dtos.PeopleDTO;
+import com.example.desarrollodeaplicaciones.models.Genre;
+import com.example.desarrollodeaplicaciones.models.moviesapi.MovieImage;
+import com.example.desarrollodeaplicaciones.models.moviesapi.MovieVideo;
+import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCast;
+import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCrew;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MovieDetailApiDTO {
-  private boolean adult;
-
-  @JsonProperty("backdrop_path")
-  private String backdropPath;
-
-  @JsonProperty("belongs_to_collection")
-  private Object belongsToCollection;
-
-  private int budget;
-  private List<GenreDTO> genres;
-  private String homepage;
+@Builder
+public class MovieDetailDTO {
   private Long id;
 
-  @JsonProperty("imdb_id")
-  private String imdbId;
+  private boolean adult;
+
+  private String backdropPath;
+
+  @ManyToMany(cascade = CascadeType.ALL)
+  private List<GenreDTO> genres;
+
+  private String homepage;
 
   @JsonProperty("original_language")
   private String originalLanguage;
@@ -57,9 +60,11 @@ public class MovieDetailApiDTO {
   @JsonProperty("vote_count")
   private int voteCount;
 
-  private List<MovieImageApiDTO> images;
-  private List<MovieVideoApiDTO> videos;
+  private List<MovieImageDTO> images;
 
-  private List<PeopleCrewApiDTO> crew;
-  private List<PeopleCastApiDTO> cast;
+  private List<MovieVideoDTO> videos;
+
+  private PeopleCrewDTO director;
+
+  private List<PeopleCastDTO> cast;
 }

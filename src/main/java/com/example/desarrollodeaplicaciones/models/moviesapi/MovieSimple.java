@@ -1,4 +1,4 @@
-package com.example.desarrollodeaplicaciones.dtos.moviesapi;
+package com.example.desarrollodeaplicaciones.models.moviesapi;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-public class MovieSimpleApiDTO {
+public class MovieSimple {
   private Long id;
 
   private boolean adult;
