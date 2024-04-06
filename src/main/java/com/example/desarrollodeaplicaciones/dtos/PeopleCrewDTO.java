@@ -13,11 +13,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class PeopleCrewDTO {
-    private Long id;
-    @JsonProperty("known_for_department")
-    private String knownForDepartment;
-    private String name;
-    @JsonProperty("profile_path")
-    private String profilePath;
-    private String job;
+  private Long id;
+
+  @JsonProperty("known_for_department")
+  private String knownForDepartment;
+
+  private String name;
+
+  @JsonProperty("profile_path")
+  private String profilePath;
+
+  private String job;
 }

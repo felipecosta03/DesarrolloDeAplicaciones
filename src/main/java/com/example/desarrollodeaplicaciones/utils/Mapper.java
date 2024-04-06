@@ -169,7 +169,9 @@ public class Mapper {
         .title(movieDetail.getTitle())
         .overview(movieDetail.getOverview())
         .posterPath(movieDetail.getPosterPath())
-        .backdropPath(movieDetail.getBackdropPath())
+        .runtime(movieDetail.getRuntime())
+        .releaseDate(movieDetail.getReleaseDate())
+        .tagline(movieDetail.getTagline())
         .cast(
             Optional.ofNullable(movieDetail.getCast())
                 .map(cast -> cast.stream().map(Mapper::peopleCastToPeopleCastDto).toList())

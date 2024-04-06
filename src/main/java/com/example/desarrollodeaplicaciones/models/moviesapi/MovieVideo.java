@@ -15,8 +15,7 @@ import lombok.NoArgsConstructor;
 public class MovieVideo {
   @Id private String id;
   private String name;
+
   @Column(name = "urlº")
   private String key;
-
-
 }

@@ -21,29 +21,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class MovieDetail {
-  @Id
-  private Long id;
-
-  private boolean adult;
-
-  @JsonProperty("backdrop_path")
-  private String backdropPath;
+  @Id private Long id;
 
   @ManyToMany(cascade = CascadeType.ALL)
   private List<Genre> genres;
-  private String homepage;
-
-  @JsonProperty("imdb_id")
-  private String imdbId;
 
   @JsonProperty("original_language")
   private String originalLanguage;
 
   @JsonProperty("original_title")
   private String originalTitle;
-@Column(length = 1000)
+
+  @Column(length = 1000)
   private String overview;
-  private double popularity;
 
   @JsonProperty("poster_path")
   private String posterPath;
@@ -51,9 +41,7 @@ public class MovieDetail {
   @JsonProperty("release_date")
   private LocalDate releaseDate;
 
-  private int revenue;
   private int runtime;
-  private String status;
   private String tagline;
   private String title;
 
@@ -62,12 +50,16 @@ public class MovieDetail {
 
   @JsonProperty("vote_count")
   private int voteCount;
+
   @OneToMany(cascade = CascadeType.ALL)
   private List<MovieImage> images;
+
   @OneToMany(cascade = CascadeType.ALL)
   private List<MovieVideo> videos;
+
   @ManyToOne(cascade = CascadeType.ALL)
   private PeopleCrew director;
+
   @ManyToMany(cascade = CascadeType.ALL)
   private List<PeopleCast> cast;
 }

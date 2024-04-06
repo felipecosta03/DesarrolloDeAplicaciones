@@ -28,7 +28,7 @@ public class UserFavoriteMovieService implements IUserFavoriteMovieService {
   public StatusDTO addFavoriteMovie(Long userId, Long movieId) {
     User user = getUser(userId);
     Movie favoriteMovie =
-            movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
+        movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
     if (user.getFavoriteMovies().contains(favoriteMovie)) {
       throw new FavoriteMovieAlreadyExistsException(movieId, userId);
     }
@@ -40,13 +40,14 @@ public class UserFavoriteMovieService implements IUserFavoriteMovieService {
   public StatusDTO removeFavoriteMovie(Long userId, Long movieId) {
     User user = getUser(userId);
     boolean isMovieDeleted =
-            user.getFavoriteMovies().removeIf(movie -> movie.getId().equals(movieId));
+        user.getFavoriteMovies().removeIf(movie -> movie.getId().equals(movieId));
     if (!isMovieDeleted) {
       throw new FavoriteMovieNotFoundException(movieId, userId);
     }
     userRepository.save(user);
     return StatusDTO.builder().status(200).build();
   }
+
   public List<MovieDTO> getFavoriteMovies(Long userId) {
     return getUser(userId).getFavoriteMovies().stream().map(Mapper::movieToMovieDTO).toList();
   }

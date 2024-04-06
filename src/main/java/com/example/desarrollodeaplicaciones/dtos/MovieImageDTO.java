@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class MovieImageDTO {
-    private Long id;
-    @JsonProperty("file_path")
-    private String filePath;
+  private Long id;
+
+  @JsonProperty("file_path")
+  private String filePath;
 }

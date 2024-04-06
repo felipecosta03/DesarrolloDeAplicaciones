@@ -16,8 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class People {
-  @Id
-  private Long id;
+  @Id private Long id;
   private String fullName;
   private String image;
   private String description;

@@ -61,21 +61,22 @@ public class MovieController {
 
   @PostMapping("/{movieId}/rate")
   public ResponseEntity<StatusDTO> addRate(
-          @PathVariable Long movieId,@Valid @RequestBody RateDTO rate) {
+      @PathVariable Long movieId, @Valid @RequestBody RateDTO rate) {
     StatusDTO statusDTO = movieService.addRate(movieId, rate);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
+
   @PutMapping("/{movieId}/rate")
   public ResponseEntity<StatusDTO> updateRate(
-          @PathVariable Long movieId,@Valid @RequestBody RateDTO rate) {
+      @PathVariable Long movieId, @Valid @RequestBody RateDTO rate) {
     StatusDTO statusDTO = movieService.updateRate(movieId, rate);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 
   @DeleteMapping("/{movieId}/rate/{userId}")
-    public ResponseEntity<StatusDTO> deleteRate(
-            @PathVariable Long movieId, @PathVariable Long userId) {
-        StatusDTO statusDTO = movieService.deleteRate(movieId, userId);
-        return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
-    }
+  public ResponseEntity<StatusDTO> deleteRate(
+      @PathVariable Long movieId, @PathVariable Long userId) {
+    StatusDTO statusDTO = movieService.deleteRate(movieId, userId);
+    return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
+  }
 }

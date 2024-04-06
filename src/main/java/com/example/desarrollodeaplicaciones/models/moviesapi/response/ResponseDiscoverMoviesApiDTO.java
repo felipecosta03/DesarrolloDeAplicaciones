@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ResponseDiscoverMoviesApiDTO {
-    private List<MovieSimple> results;
+  private List<MovieSimple> results;
 }

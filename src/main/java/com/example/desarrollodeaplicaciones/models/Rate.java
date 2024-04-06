@@ -17,9 +17,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 public class Rate {
-  @Id
-  private Long id;
+  @Id private Long id;
   private Double score;
+
   @ManyToOne(cascade = CascadeType.ALL)
   private User user;
 }

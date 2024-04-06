@@ -47,8 +47,8 @@ public class MovieDTO {
   @NotNull(message = "Es necesario ingresar una calificación")
   @PositiveOrZero(message = "La calificación debe ser mayor o igual a 0")
   private Double rateAverage;
+
   private Integer rateCount;
   private List<RateDTO> rates;
   private String posterPath;
-
 }

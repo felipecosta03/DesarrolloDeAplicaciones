@@ -10,6 +10,4 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IMovieDetailRepository extends JpaRepository<MovieDetail, Long> {
-
-}
+public interface IMovieDetailRepository extends JpaRepository<MovieDetail, Long> {}

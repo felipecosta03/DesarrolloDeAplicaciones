@@ -22,5 +22,4 @@ public class PeopleCastDTO {
   private String profilePath;
 
   private String character;
-
 }

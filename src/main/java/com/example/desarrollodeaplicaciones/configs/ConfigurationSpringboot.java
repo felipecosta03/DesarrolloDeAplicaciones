@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ConfigurationSpringboot {
 
-    @Bean
-    public Dotenv getDotenv(){
-        return Dotenv.load();
-    }
+  @Bean
+  public Dotenv getDotenv() {
+    return Dotenv.load();
+  }
 }

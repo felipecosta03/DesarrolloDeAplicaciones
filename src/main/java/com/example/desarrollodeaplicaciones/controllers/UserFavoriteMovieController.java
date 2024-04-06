@@ -3,10 +3,8 @@ package com.example.desarrollodeaplicaciones.controllers;
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.services.IUserFavoriteMovieService;
-import java.util.List;
-
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jdk.jfr.Name;
+import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

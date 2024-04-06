@@ -1,12 +1,6 @@
 package com.example.desarrollodeaplicaciones.dtos;
 
-import com.example.desarrollodeaplicaciones.models.Genre;
-import com.example.desarrollodeaplicaciones.models.moviesapi.MovieImage;
-import com.example.desarrollodeaplicaciones.models.moviesapi.MovieVideo;
-import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCast;
-import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCrew;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -24,14 +18,8 @@ import lombok.NoArgsConstructor;
 public class MovieDetailDTO {
   private Long id;
 
-  private boolean adult;
-
-  private String backdropPath;
-
-  @ManyToMany(cascade = CascadeType.ALL)
+  @ManyToMany
   private List<GenreDTO> genres;
-
-  private String homepage;
 
   @JsonProperty("original_language")
   private String originalLanguage;
@@ -40,7 +28,6 @@ public class MovieDetailDTO {
   private String originalTitle;
 
   private String overview;
-  private double popularity;
 
   @JsonProperty("poster_path")
   private String posterPath;
@@ -48,9 +35,7 @@ public class MovieDetailDTO {
   @JsonProperty("release_date")
   private LocalDate releaseDate;
 
-  private int revenue;
   private int runtime;
-  private String status;
   private String tagline;
   private String title;
 
@@ -60,11 +45,12 @@ public class MovieDetailDTO {
   @JsonProperty("vote_count")
   private int voteCount;
 
+    @OneToMany
   private List<MovieImageDTO> images;
-
+  @OneToMany
   private List<MovieVideoDTO> videos;
-
+  @ManyToOne
   private PeopleCrewDTO director;
-
+  @ManyToMany
   private List<PeopleCastDTO> cast;
 }

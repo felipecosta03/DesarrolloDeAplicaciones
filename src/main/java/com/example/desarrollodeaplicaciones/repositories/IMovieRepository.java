@@ -11,6 +11,4 @@ import org.springframework.stereotype.Repository;
 public interface IMovieRepository extends JpaRepository<Movie, Long> {
   @Query("SELECT m FROM Movie m LEFT JOIN m.actors a WHERE a=:people OR m.director=:people")
   List<Movie> findByPeople(People people);
-
-
 }

@@ -1,8 +1,5 @@
 package com.example.desarrollodeaplicaciones.dtos;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.ManyToMany;
-import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

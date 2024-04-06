@@ -37,5 +37,4 @@ public class User {
 
   private boolean active;
   @ManyToMany private List<Movie> favoriteMovies;
-
 }

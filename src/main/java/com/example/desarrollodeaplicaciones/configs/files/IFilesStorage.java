@@ -7,4 +7,6 @@ public interface IFilesStorage {
   Media uploadFile(MultipartFile file);
 
   void deleteFile(String id);
+
+  String uploadImage(String imageUrl);
 }

@@ -26,15 +26,13 @@ import com.example.desarrollodeaplicaciones.repositories.MoviesApiRepositoryImpl
 import com.example.desarrollodeaplicaciones.utils.Mapper;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class MovieService implements IMovieService {
 
   private static final String ORDER_ASC = "asc";
@@ -52,14 +50,15 @@ public class MovieService implements IMovieService {
   private final IRateRepository rateRepository;
 
   public MovieService(
-          IMovieRepository movieRepository,
-          IFilesStorage filesStorage,
-          IPersonRepository personRepository,
-          IUserRepository userRepository,
-          IMoviePageableRepository moviePageableRepository,
-          MoviesApiRepositoryImpl moviesApiRepository,
-          IMovieDetailRepository movieDetailRepository, MoviesApiService moviesApiService,
-          IRateRepository rateRepository) {
+      IMovieRepository movieRepository,
+      IFilesStorage filesStorage,
+      IPersonRepository personRepository,
+      IUserRepository userRepository,
+      IMoviePageableRepository moviePageableRepository,
+      MoviesApiRepositoryImpl moviesApiRepository,
+      IMovieDetailRepository movieDetailRepository,
+      MoviesApiService moviesApiService,
+      IRateRepository rateRepository) {
     this.movieRepository = movieRepository;
     this.filesStorage = filesStorage;
     this.personRepository = personRepository;
@@ -152,7 +151,9 @@ public class MovieService implements IMovieService {
     try {
       movieDetail = getMovieDetailById(id);
     } catch (MovieNotFoundException e) {
+      log.warn("Movie not found in database");
       movieDetail = moviesApiService.getMovieDetailById(id);
+      log.info("Retrieving movie from external API");
       moviesApiService.saveMovieDetailAsync(movieDetail);
     }
     return Mapper.movieDetailToMovieDetailDto(movieDetail);
@@ -202,6 +203,4 @@ public class MovieService implements IMovieService {
   private MovieDetail getMovieDetailById(Long id) {
     return movieDetailRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
   }
-
-
 }

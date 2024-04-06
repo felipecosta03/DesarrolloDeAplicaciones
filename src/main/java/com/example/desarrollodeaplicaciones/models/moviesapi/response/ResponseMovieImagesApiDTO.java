@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponseMovieImagesApiDTO {
-    private List<MovieImage> backdrops;
+  private List<MovieImage> backdrops;
 }

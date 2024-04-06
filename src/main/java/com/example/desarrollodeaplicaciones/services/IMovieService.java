@@ -10,7 +10,6 @@ import java.util.Optional;
 
 public interface IMovieService {
 
-
   MovieDetailDTO findById(Long id);
 
   List<MovieSimpleDTO> getAll(

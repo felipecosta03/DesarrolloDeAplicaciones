@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class ResponseCreditsApiDTO {
-    private List<PeopleCast> cast;
-    private List<PeopleCrew> crew;
-
+  private List<PeopleCast> cast;
+  private List<PeopleCrew> crew;
 }
