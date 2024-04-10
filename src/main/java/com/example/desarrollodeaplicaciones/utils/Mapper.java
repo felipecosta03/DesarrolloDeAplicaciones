@@ -40,12 +40,7 @@ public class Mapper {
         .email(user.getEmail())
         .image(mediaToMediaDto(user.getImage()))
         .active(user.isActive())
-        .favoriteMovies(
-            Optional.ofNullable(user.getFavoriteMovies())
-                .map(
-                    movies ->
-                        movies.stream().map(Mapper::movieToMovieDTO).collect(Collectors.toList()))
-                .orElse(new ArrayList<>()))
+        .favoriteMovies(user.getFavoriteMovies())
         .build();
   }
 
@@ -107,27 +102,6 @@ public class Mapper {
 
   public static GenreDTO genreToGenreDto(Genre genre) {
     return GenreDTO.builder().id(genre.getId()).name(genre.getName()).build();
-  }
-
-  public static Movie movieDtoToMovie(MovieDTO movieDto) {
-    return Movie.builder()
-        .id(movieDto.getId())
-        .title(movieDto.getTitle())
-        .subtitle(movieDto.getSubtitle())
-        .synapsis(movieDto.getSynapsis())
-        .genres(Optional.ofNullable(movieDto.getGenres()).orElse(new ArrayList<>()))
-        .images(Optional.ofNullable(movieDto.getImages()).orElse(new ArrayList<>()))
-        .trailer(movieDto.getTrailer())
-        .releaseDate(movieDto.getReleaseDate())
-        .duration(movieDto.getDuration())
-        .director(peopleDtoToPeople(movieDto.getDirector()))
-        .actors(
-            Optional.ofNullable(movieDto.getActors())
-                .map(
-                    actors ->
-                        actors.stream().map(Mapper::peopleDtoToPeople).collect(Collectors.toList()))
-                .orElse(new ArrayList<>()))
-        .build();
   }
 
   public static RateDTO rateToRateDto(Rate rate) {
@@ -219,6 +193,16 @@ public class Mapper {
         .knownForDepartment(peopleCrew.getKnownForDepartment())
         .id(peopleCrew.getId())
         .job(peopleCrew.getJob())
+        .build();
+  }
+
+  public static MovieSimpleDTO movieDetailToMovieSimpleDto(MovieDetail movieDetail){
+    return MovieSimpleDTO.builder()
+        .id(movieDetail.getId())
+        .title(movieDetail.getTitle())
+        .subtitle(movieDetail.getOriginalTitle())
+        .synapsis(movieDetail.getOverview())
+        .posterPath(movieDetail.getPosterPath())
         .build();
   }
 }

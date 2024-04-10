@@ -5,6 +5,8 @@ import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
+import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +20,7 @@ public interface IMovieService {
       Optional<String> genre,
       Optional<Integer> page);
 
-  List<MovieDTO> getAllByTitleOrActor(
+  List<MovieSimpleDTO> getAllByTitleOrActor(
       Optional<String> dateOrder,
       Optional<String> qualificationOrder,
       Optional<String> value,
@@ -29,4 +31,8 @@ public interface IMovieService {
   StatusDTO updateRate(Long movieId, RateDTO rate);
 
   StatusDTO deleteRate(Long movieId, Long userId);
+
+  MovieSimpleDTO getMovieSimpleById(Long movieId);
+
+  boolean existsMovie(Long movieId);
 }

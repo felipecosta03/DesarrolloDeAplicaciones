@@ -44,6 +44,12 @@ public class MoviesApiService {
     return movies;
   }
 
+  public MovieSimple getMovieSimpleById(Long id) {
+    MovieSimple movieSimple = moviesApiRepository.getMovieSimpleById(id);
+    movieSimple.setPosterPath(String.format(IMAGE_URL_BASE, movieSimple.getPosterPath()));
+    return movieSimple;
+  }
+
   public MovieDetail getMovieDetailById(Long id) {
     MovieDetail movieDetail = moviesApiRepository.getMovieById(id);
     ResponseCreditsApiDTO responseCredits = moviesApiRepository.getMovieCredits(id);
@@ -130,4 +136,8 @@ public class MoviesApiService {
     }
     movieDetailRepository.save(movieDetail);
   }
+
+    public boolean existsMovie(Long movieId) {
+      return moviesApiRepository.existsMovie(movieId);
+    }
 }

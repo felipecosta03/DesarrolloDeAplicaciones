@@ -1,15 +1,15 @@
 package com.example.desarrollodeaplicaciones.services;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.exceptions.FavoriteMovieAlreadyExistsException;
 import com.example.desarrollodeaplicaciones.exceptions.FavoriteMovieNotFoundException;
 import com.example.desarrollodeaplicaciones.exceptions.MovieNotFoundException;
 import com.example.desarrollodeaplicaciones.exceptions.UserNotFoundException;
-import com.example.desarrollodeaplicaciones.models.Movie;
 import com.example.desarrollodeaplicaciones.models.User;
-import com.example.desarrollodeaplicaciones.repositories.IMovieRepository;
 import com.example.desarrollodeaplicaciones.repositories.IUserRepository;
+import com.example.desarrollodeaplicaciones.repositories.MoviesApiRepositoryImpl;
 import com.example.desarrollodeaplicaciones.utils.Mapper;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -17,30 +17,29 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserFavoriteMovieService implements IUserFavoriteMovieService {
   private final IUserRepository userRepository;
-  private final IMovieRepository movieRepository;
+  private final IMovieService movieService;
 
-  public UserFavoriteMovieService(
-      IUserRepository userRepository, IMovieRepository movieRepository) {
+  public UserFavoriteMovieService(IUserRepository userRepository, IMovieService movieService) {
     this.userRepository = userRepository;
-    this.movieRepository = movieRepository;
+    this.movieService = movieService;
   }
 
   public StatusDTO addFavoriteMovie(Long userId, Long movieId) {
     User user = getUser(userId);
-    Movie favoriteMovie =
-        movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
-    if (user.getFavoriteMovies().contains(favoriteMovie)) {
+    if (user.getFavoriteMovies().contains(movieId)) {
       throw new FavoriteMovieAlreadyExistsException(movieId, userId);
     }
-    user.getFavoriteMovies().add(favoriteMovie);
-    userRepository.save(user);
-    return StatusDTO.builder().status(200).build();
+    if (movieService.existsMovie(movieId)) {
+      user.getFavoriteMovies().add(movieId);
+      userRepository.save(user);
+      return StatusDTO.builder().status(200).build();
+    }
+    throw new MovieNotFoundException(movieId);
   }
 
   public StatusDTO removeFavoriteMovie(Long userId, Long movieId) {
     User user = getUser(userId);
-    boolean isMovieDeleted =
-        user.getFavoriteMovies().removeIf(movie -> movie.getId().equals(movieId));
+    boolean isMovieDeleted = user.getFavoriteMovies().removeIf(movie -> movie.equals(movieId));
     if (!isMovieDeleted) {
       throw new FavoriteMovieNotFoundException(movieId, userId);
     }
@@ -48,8 +47,10 @@ public class UserFavoriteMovieService implements IUserFavoriteMovieService {
     return StatusDTO.builder().status(200).build();
   }
 
-  public List<MovieDTO> getFavoriteMovies(Long userId) {
-    return getUser(userId).getFavoriteMovies().stream().map(Mapper::movieToMovieDTO).toList();
+  public List<MovieSimpleDTO> getFavoriteMovies(Long userId) {
+    return getUser(userId).getFavoriteMovies().stream()
+        .map(movieService::getMovieSimpleById)
+        .toList();
   }
 
   private User getUser(Long userId) {

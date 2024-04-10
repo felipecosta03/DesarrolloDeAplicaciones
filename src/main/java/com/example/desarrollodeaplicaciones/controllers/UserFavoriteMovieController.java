@@ -1,6 +1,7 @@
 package com.example.desarrollodeaplicaciones.controllers;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.services.IUserFavoriteMovieService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,7 +25,7 @@ public class UserFavoriteMovieController {
   }
 
   @GetMapping("/{userId}")
-  public ResponseEntity<List<MovieDTO>> getFavoriteMovies(@PathVariable Long userId) {
+  public ResponseEntity<List<MovieSimpleDTO>> getFavoriteMovies(@PathVariable Long userId) {
     return ResponseEntity.ok(userFavoriteMovieService.getFavoriteMovies(userId));
   }
 

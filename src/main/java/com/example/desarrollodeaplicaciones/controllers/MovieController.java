@@ -45,7 +45,7 @@ public class MovieController {
   }
 
   @GetMapping("/search")
-  public ResponseEntity<List<MovieDTO>> findAllByTitleOrActor(
+  public ResponseEntity<List<MovieSimpleDTO>> findAllByTitleOrActor(
       @RequestParam(required = false) Optional<String> dateOrder,
       @RequestParam(required = false) Optional<String> qualificationOrder,
       @RequestParam(required = false) Optional<String> value,

@@ -1,6 +1,7 @@
 package com.example.desarrollodeaplicaciones.repositories;
 
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
+import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseCreditsApiDTO;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseDiscoverMoviesApiDTO;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseMovieImagesApiDTO;
@@ -8,8 +9,10 @@ import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseMo
 import java.time.LocalDate;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Repository
 public class MoviesApiRepositoryImpl {
@@ -30,7 +33,6 @@ public class MoviesApiRepositoryImpl {
     } else {
       sort = "primary_release_date.desc";
     }
-
     return webClient
         .get()
         .uri(
@@ -67,6 +69,21 @@ public class MoviesApiRepositoryImpl {
         .block();
   }
 
+  public MovieSimple getMovieSimpleById(Long movieId) {
+    return webClient
+        .get()
+        .uri(uriBuilder -> uriBuilder.path(String.format("/movie/%s", movieId)).build())
+        .retrieve() // TODO Crear excepciones personalizadas
+        .onStatus(
+            HttpStatus.INTERNAL_SERVER_ERROR::equals,
+            response -> response.bodyToMono(String.class).map(Exception::new))
+        .onStatus(
+            HttpStatus.NOT_FOUND::equals,
+            response -> response.bodyToMono(String.class).map(Exception::new))
+        .bodyToMono(MovieSimple.class)
+        .block();
+  }
+
   public ResponseMovieImagesApiDTO getMovieImages(Long movieId) {
     return webClient
         .get() // TODO Crear excepciones personalizadas
@@ -87,10 +104,23 @@ public class MoviesApiRepositoryImpl {
 
   public ResponseCreditsApiDTO getMovieCredits(Long movieId) {
     return webClient
-            .get() // TODO Crear excepciones personalizadas
-            .uri(uriBuilder -> uriBuilder.path(String.format("/movie/%s/credits", movieId)).build())
-            .retrieve()
-            .bodyToMono(ResponseCreditsApiDTO.class)
-            .block();
+        .get() // TODO Crear excepciones personalizadas
+        .uri(uriBuilder -> uriBuilder.path(String.format("/movie/%s/credits", movieId)).build())
+        .retrieve()
+        .bodyToMono(ResponseCreditsApiDTO.class)
+        .block();
+  }
+
+  public boolean existsMovie(Long movieId) {
+    try {
+      HttpStatusCode status = webClient
+              .get()
+              .uri(uriBuilder -> uriBuilder.path(String.format("/movie/%s", movieId)).build())
+              .exchangeToMono(response -> Mono.just(response.statusCode()))
+              .block();
+      return !HttpStatus.NOT_FOUND.equals(status);
+    } catch (Exception e) {
+      return false;
+    }
   }
 }

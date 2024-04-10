@@ -33,5 +33,5 @@ public class UserDTO {
   private MediaDTO image;
 
   private boolean active;
-  private List<MovieDTO> favoriteMovies;
+  private List<Long> favoriteMovies;
 }
