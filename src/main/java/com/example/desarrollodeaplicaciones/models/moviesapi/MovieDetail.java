@@ -52,10 +52,10 @@ public class MovieDetail {
   private int voteCount;
 
   @OneToMany(cascade = CascadeType.ALL)
-  private List<MovieImage> images;
+  private List<Image> images;
 
   @OneToMany(cascade = CascadeType.ALL)
-  private List<MovieVideo> videos;
+  private List<Video> videos;
 
   @ManyToOne(cascade = CascadeType.ALL)
   private PeopleCrew director;

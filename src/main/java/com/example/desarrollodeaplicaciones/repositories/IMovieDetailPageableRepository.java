@@ -1,6 +1,5 @@
 package com.example.desarrollodeaplicaciones.repositories;
 
-import com.example.desarrollodeaplicaciones.models.Movie;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

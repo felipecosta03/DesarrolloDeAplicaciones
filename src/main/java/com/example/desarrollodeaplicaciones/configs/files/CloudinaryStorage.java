@@ -4,7 +4,6 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.desarrollodeaplicaciones.exceptions.ImageDeleteException;
 import com.example.desarrollodeaplicaciones.exceptions.ImageUploadException;
-import com.example.desarrollodeaplicaciones.models.Media;
 import java.io.IOException;
 import java.util.Map;
 
@@ -22,13 +21,10 @@ public class CloudinaryStorage implements IFilesStorage {
   }
 
   @Override
-  public Media uploadFile(MultipartFile file) {
+  public String uploadFile(MultipartFile file) {
     try {
       Map imageInfo = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
-      return Media.builder()
-          .url(imageInfo.get("url").toString())
-          .id(imageInfo.get("public_id").toString())
-          .build();
+      return imageInfo.get("url").toString();
     } catch (IOException e) {
       throw new ImageUploadException();
     }
@@ -45,7 +41,7 @@ public class CloudinaryStorage implements IFilesStorage {
 
   public String uploadImage(String imageUrl) {
     try {
-      Map imageInfo = cloudinary.uploader().upload(imageUrl, ObjectUtils.emptyMap());
+      Map<?,?> imageInfo = cloudinary.uploader().upload(imageUrl, ObjectUtils.emptyMap());
       return imageInfo.get("url").toString();
     } catch (IOException e) {
       log.error(e.getMessage());

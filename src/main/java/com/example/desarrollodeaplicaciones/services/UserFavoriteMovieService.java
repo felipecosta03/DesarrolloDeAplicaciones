@@ -1,6 +1,5 @@
 package com.example.desarrollodeaplicaciones.services;
 
-import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.exceptions.FavoriteMovieAlreadyExistsException;
@@ -9,8 +8,7 @@ import com.example.desarrollodeaplicaciones.exceptions.MovieNotFoundException;
 import com.example.desarrollodeaplicaciones.exceptions.UserNotFoundException;
 import com.example.desarrollodeaplicaciones.models.User;
 import com.example.desarrollodeaplicaciones.repositories.IUserRepository;
-import com.example.desarrollodeaplicaciones.repositories.MoviesApiRepositoryImpl;
-import com.example.desarrollodeaplicaciones.utils.Mapper;
+
 import java.util.List;
 import org.springframework.stereotype.Service;
 

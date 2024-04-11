@@ -1,11 +1,9 @@
 package com.example.desarrollodeaplicaciones.services;
 
-import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
-import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
 
 import java.util.List;
 import java.util.Optional;

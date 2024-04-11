@@ -1,32 +1,26 @@
 package com.example.desarrollodeaplicaciones.utils;
 
 import com.example.desarrollodeaplicaciones.dtos.GenreDTO;
-import com.example.desarrollodeaplicaciones.dtos.MediaDTO;
-import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.ImageDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieImageDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieVideoDTO;
 import com.example.desarrollodeaplicaciones.dtos.PeopleCastDTO;
 import com.example.desarrollodeaplicaciones.dtos.PeopleCrewDTO;
-import com.example.desarrollodeaplicaciones.dtos.PeopleDTO;
 import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.UserDTO;
 import com.example.desarrollodeaplicaciones.models.Genre;
-import com.example.desarrollodeaplicaciones.models.Media;
-import com.example.desarrollodeaplicaciones.models.Movie;
-import com.example.desarrollodeaplicaciones.models.People;
 import com.example.desarrollodeaplicaciones.models.Rate;
 import com.example.desarrollodeaplicaciones.models.User;
+import com.example.desarrollodeaplicaciones.models.moviesapi.Image;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
-import com.example.desarrollodeaplicaciones.models.moviesapi.MovieImage;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
-import com.example.desarrollodeaplicaciones.models.moviesapi.MovieVideo;
 import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCast;
 import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCrew;
+import com.example.desarrollodeaplicaciones.models.moviesapi.Video;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class Mapper {
   private Mapper() {}
@@ -38,7 +32,7 @@ public class Mapper {
         .lastName(user.getLastName())
         .nickName(user.getNickName())
         .email(user.getEmail())
-        .image(mediaToMediaDto(user.getImage()))
+        .image(imageToImage(user.getImage()))
         .active(user.isActive())
         .favoriteMovies(user.getFavoriteMovies())
         .build();
@@ -56,44 +50,18 @@ public class Mapper {
         .build();
   }
 
-  public static MovieDTO movieToMovieDTO(Movie movie) {
-    return MovieDTO.builder()
-        .id(movie.getId())
-        .title(movie.getTitle())
-        .subtitle(movie.getSubtitle())
-        .synapsis(movie.getSynapsis())
-        .genres(Optional.ofNullable(movie.getGenres()).orElse(new ArrayList<>()))
-        .images(Optional.ofNullable(movie.getImages()).orElse(new ArrayList<>()))
-        .trailer(movie.getTrailer())
-        .releaseDate(movie.getReleaseDate())
-        .duration(movie.getDuration())
-        .director(peopleToPeopleDto(movie.getDirector()))
-        .rateAverage(movie.getRateAverage())
-        .rates(
-            Optional.ofNullable(movie.getRates()).orElse(new ArrayList<>()).stream()
-                .map(Mapper::rateToRateDto)
-                .toList())
-        .actors(
-            Optional.ofNullable(movie.getActors())
-                .map(
-                    actors ->
-                        actors.stream().map(Mapper::peopleToPeopleDto).collect(Collectors.toList()))
-                .orElse(new ArrayList<>()))
-        .build();
-  }
-
-  public static Media mediaDtoToMedia(MediaDTO mediaDto) {
-    if (mediaDto == null) {
+  public static Image mediaDtoToMedia(ImageDTO imageDto) {
+    if (imageDto == null) {
       return null;
     }
-    return Media.builder().url(mediaDto.getUrl()).id(mediaDto.getId()).build();
+    return Image.builder().filePath(imageDto.getUrl()).id(imageDto.getId()).build();
   }
 
-  public static MediaDTO mediaToMediaDto(Media media) {
-    if (media == null) {
+  public static ImageDTO imageToImage(Image image) {
+    if (image == null) {
       return null;
     }
-    return MediaDTO.builder().url(media.getUrl()).id(media.getId()).build();
+    return ImageDTO.builder().url(image.getFilePath()).id(image.getId()).build();
   }
 
   public static Genre genreDtoToGenre(GenreDTO genreDto) {
@@ -108,14 +76,7 @@ public class Mapper {
     return RateDTO.builder().userId(rate.getUser().getId()).score(rate.getScore()).build();
   }
 
-  public static People peopleDtoToPeople(PeopleDTO peopleDto) {
-    return People.builder().id(peopleDto.getId()).fullName(peopleDto.getFullName()).build();
-  }
 
-  public static PeopleDTO peopleToPeopleDto(People people) {
-    if (people == null) return null;
-    return PeopleDTO.builder().id(people.getId()).fullName(people.getFullName()).build();
-  }
 
   public static MovieSimpleDTO movieSimpleApiDTOToMovieDTO(MovieSimple movieSimple) {
     return MovieSimpleDTO.builder()
@@ -127,15 +88,7 @@ public class Mapper {
         .build();
   }
 
-  public static MovieSimpleDTO movieToMovieSimpleDto(Movie movie) {
-    return MovieSimpleDTO.builder()
-        .id(movie.getId())
-        .title(movie.getTitle())
-        .subtitle(movie.getSubtitle())
-        .synapsis(movie.getSynapsis())
-        .posterPath(movie.getPosterPath())
-        .build();
-  }
+
 
   public static MovieDetailDTO movieDetailToMovieDetailDto(MovieDetail movieDetail) {
     return MovieDetailDTO.builder()
@@ -175,15 +128,15 @@ public class Mapper {
         .build();
   }
 
-  public static MovieImageDTO movieImageToMovieImageDto(MovieImage movieImage) {
+  public static MovieImageDTO movieImageToMovieImageDto(Image image) {
     return MovieImageDTO.builder()
-        .filePath(movieImage.getFilePath())
-        .id(movieImage.getId())
+        .filePath(image.getFilePath())
+        .id(image.getId())
         .build();
   }
 
-  public static MovieVideoDTO movieImageToMovieImageDto(MovieVideo movieVideo) {
-    return MovieVideoDTO.builder().key(movieVideo.getKey()).id(movieVideo.getId()).build();
+  public static MovieVideoDTO movieImageToMovieImageDto(Video video) {
+    return MovieVideoDTO.builder().key(video.getKey()).id(video.getId()).build();
   }
 
   public static PeopleCrewDTO peopleCrewToPeopleCrewDto(PeopleCrew peopleCrew) {

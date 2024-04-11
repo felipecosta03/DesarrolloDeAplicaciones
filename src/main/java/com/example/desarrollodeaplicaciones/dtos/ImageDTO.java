@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(name = "Media")
-public class MediaDTO {
+public class ImageDTO {
   private String id;
   private String url;
 }

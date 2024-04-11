@@ -30,7 +30,7 @@ public class UserDTO {
   @NotEmpty(message = "Es necesario ingresar un correo electrónico")
   private String email;
 
-  private MediaDTO image;
+  private ImageDTO image;
 
   private boolean active;
   private List<Long> favoriteMovies;

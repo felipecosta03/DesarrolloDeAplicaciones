@@ -14,7 +14,6 @@ import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
 import com.example.desarrollodeaplicaciones.repositories.IMovieDetailPageableRepository;
 import com.example.desarrollodeaplicaciones.repositories.IMovieDetailRepository;
-import com.example.desarrollodeaplicaciones.repositories.IPersonRepository;
 import com.example.desarrollodeaplicaciones.repositories.IRateRepository;
 import com.example.desarrollodeaplicaciones.repositories.IUserRepository;
 import com.example.desarrollodeaplicaciones.repositories.MoviesApiRepositoryImpl;
@@ -43,7 +42,6 @@ public class MovieService implements IMovieService {
 
   public MovieService(
       IFilesStorage filesStorage,
-      IPersonRepository personRepository,
       IUserRepository userRepository,
       IMovieDetailPageableRepository moviePageableRepository,
       IMovieDetailRepository movieDetailRepository,

@@ -1,6 +1,5 @@
 package com.example.desarrollodeaplicaciones.models.moviesapi;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class MovieVideo {
+public class Video {
   @Id private String id;
   private String name;
 
