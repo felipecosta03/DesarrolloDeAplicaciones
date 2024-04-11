@@ -5,7 +5,7 @@ import static java.util.Objects.isNull;
 import com.example.desarrollodeaplicaciones.configs.files.IFilesStorage;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
-import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseCreditsApiDTO;
+import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseCreditsApi;
 import com.example.desarrollodeaplicaciones.repositories.IMovieDetailRepository;
 import com.example.desarrollodeaplicaciones.repositories.MoviesApiRepositoryImpl;
 import java.util.List;
@@ -52,7 +52,7 @@ public class MoviesApiService {
 
   public MovieDetail getMovieDetailById(Long id) {
     MovieDetail movieDetail = moviesApiRepository.getMovieById(id);
-    ResponseCreditsApiDTO responseCredits = moviesApiRepository.getMovieCredits(id);
+    ResponseCreditsApi responseCredits = moviesApiRepository.getMovieCredits(id);
     movieDetail.setPosterPath(String.format(IMAGE_URL_BASE, movieDetail.getPosterPath()));
     movieDetail.setImages(moviesApiRepository.getMovieImages(id).getBackdrops());
     movieDetail.setVideos(moviesApiRepository.getMovieVideos(id).getResults());

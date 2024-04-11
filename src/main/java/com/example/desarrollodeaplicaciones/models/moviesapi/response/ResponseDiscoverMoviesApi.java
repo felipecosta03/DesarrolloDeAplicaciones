@@ -1,18 +1,16 @@
 package com.example.desarrollodeaplicaciones.models.moviesapi.response;
 
-import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCast;
-import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCrew;
+import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Builder
-public class ResponseCreditsApiDTO {
-  private List<PeopleCast> cast;
-  private List<PeopleCrew> crew;
+public class ResponseDiscoverMoviesApi {
+  private List<MovieSimple> results;
 }

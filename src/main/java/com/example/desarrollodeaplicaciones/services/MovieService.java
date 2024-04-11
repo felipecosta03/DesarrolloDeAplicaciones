@@ -67,6 +67,7 @@ public class MovieService implements IMovieService {
           moviesApiService.getMoviesByPage(page.orElse(1), dateOrder, qualificationOrder);
       return movies.stream().map(Mapper::movieSimpleApiDTOToMovieDTO).toList();
     } catch (Exception e) {
+      log.info(e.getMessage());
       Sort sort = getSort(dateOrder, qualificationOrder);
       PageRequest pageRequest = getPageRequest(page, sort);
       return genre
