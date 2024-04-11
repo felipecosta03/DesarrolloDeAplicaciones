@@ -1,18 +1,17 @@
-package com.example.desarrollodeaplicaciones.models;
+package com.example.desarrollodeaplicaciones.dtos;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Media {
+@Builder
+public class MovieVideoDTO {
   @Id private String id;
-  private String url;
+  private String name;
+  private String key;
 }

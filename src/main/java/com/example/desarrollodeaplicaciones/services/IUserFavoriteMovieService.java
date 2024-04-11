@@ -1,6 +1,6 @@
 package com.example.desarrollodeaplicaciones.services;
 
-import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import java.util.List;
 
@@ -9,5 +9,5 @@ public interface IUserFavoriteMovieService {
 
   StatusDTO removeFavoriteMovie(Long userId, Long movieId);
 
-  List<MovieDTO> getFavoriteMovies(Long userId);
+  List<MovieSimpleDTO> getFavoriteMovies(Long userId);
 }

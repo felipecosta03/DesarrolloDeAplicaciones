@@ -6,6 +6,7 @@ import com.example.desarrollodeaplicaciones.dtos.UserDTO;
 import com.example.desarrollodeaplicaciones.exceptions.UserImageNotFound;
 import com.example.desarrollodeaplicaciones.exceptions.UserNotFoundException;
 import com.example.desarrollodeaplicaciones.models.User;
+import com.example.desarrollodeaplicaciones.models.moviesapi.Image;
 import com.example.desarrollodeaplicaciones.repositories.IUserRepository;
 import com.example.desarrollodeaplicaciones.utils.Mapper;
 import java.util.List;
@@ -49,7 +50,7 @@ public class UserService implements IUserService {
     if (user.getImage() != null) {
       deleteImageFromUser(user);
     }
-    user.setImage(filesStorage.uploadFile(image));
+    user.setImage(Image.builder().filePath(filesStorage.uploadFile(image)).build());
     userRepository.save(user);
     return StatusDTO.builder().status(200).build();
   }

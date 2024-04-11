@@ -1,19 +1,26 @@
 package com.example.desarrollodeaplicaciones.utils;
 
-import com.example.desarrollodeaplicaciones.dtos.MediaDTO;
-import com.example.desarrollodeaplicaciones.dtos.MovieCreationDTO;
-import com.example.desarrollodeaplicaciones.dtos.MovieDTO;
-import com.example.desarrollodeaplicaciones.dtos.PersonDTO;
+import com.example.desarrollodeaplicaciones.dtos.GenreDTO;
+import com.example.desarrollodeaplicaciones.dtos.ImageDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieImageDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieVideoDTO;
+import com.example.desarrollodeaplicaciones.dtos.PeopleCastDTO;
+import com.example.desarrollodeaplicaciones.dtos.PeopleCrewDTO;
 import com.example.desarrollodeaplicaciones.dtos.RateDTO;
 import com.example.desarrollodeaplicaciones.dtos.UserDTO;
-import com.example.desarrollodeaplicaciones.models.Media;
-import com.example.desarrollodeaplicaciones.models.Movie;
-import com.example.desarrollodeaplicaciones.models.Person;
+import com.example.desarrollodeaplicaciones.models.Genre;
 import com.example.desarrollodeaplicaciones.models.Rate;
 import com.example.desarrollodeaplicaciones.models.User;
+import com.example.desarrollodeaplicaciones.models.moviesapi.Image;
+import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
+import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
+import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCast;
+import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCrew;
+import com.example.desarrollodeaplicaciones.models.moviesapi.Video;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class Mapper {
   private Mapper() {}
@@ -25,14 +32,9 @@ public class Mapper {
         .lastName(user.getLastName())
         .nickName(user.getNickName())
         .email(user.getEmail())
-        .image(mediaToMediaDto(user.getImage()))
+        .image(imageToImage(user.getImage()))
         .active(user.isActive())
-        .favoriteMovies(
-            Optional.ofNullable(user.getFavoriteMovies())
-                .map(
-                    movies ->
-                        movies.stream().map(Mapper::movieToMovieDTO).collect(Collectors.toList()))
-                .orElse(new ArrayList<>()))
+        .favoriteMovies(user.getFavoriteMovies())
         .build();
   }
 
@@ -48,95 +50,112 @@ public class Mapper {
         .build();
   }
 
-  public static MovieDTO movieToMovieDTO(Movie movie) {
-    return MovieDTO.builder()
-        .id(movie.getId())
-        .title(movie.getTitle())
-        .subtitle(movie.getSubtitle())
-        .synapsis(movie.getSynapsis())
-        .genre(movie.getGenre())
-        .images(
-            Optional.ofNullable(movie.getImages())
-                .map(
-                    images ->
-                        images.stream().map(Mapper::mediaToMediaDto).collect(Collectors.toList()))
-                .orElse(new ArrayList<>()))
-        .trailer(mediaToMediaDto(movie.getTrailer()))
-        .releaseDate(movie.getReleaseDate())
-        .duration(movie.getDuration())
-        .director(personToPersonDto(movie.getDirector()))
-        .rateAverage(movie.getRateAverage())
-        .rates(movie.getRates().stream().map(Mapper::rateToRateDto).collect(Collectors.toList()))
-        .actors(
-            Optional.ofNullable(movie.getActors())
-                .map(
-                    actors ->
-                        actors.stream().map(Mapper::personToPersonDto).collect(Collectors.toList()))
-                .orElse(new ArrayList<>()))
-        .build();
-  }
-
-  public static Media mediaDtoToMedia(MediaDTO mediaDto) {
-    if (mediaDto == null) {
+  public static Image mediaDtoToMedia(ImageDTO imageDto) {
+    if (imageDto == null) {
       return null;
     }
-    return Media.builder().url(mediaDto.getUrl()).id(mediaDto.getId()).build();
+    return Image.builder().filePath(imageDto.getUrl()).id(imageDto.getId()).build();
   }
 
-  public static MediaDTO mediaToMediaDto(Media media) {
-    if (media == null) {
+  public static ImageDTO imageToImage(Image image) {
+    if (image == null) {
       return null;
     }
-    return MediaDTO.builder().url(media.getUrl()).id(media.getId()).build();
+    return ImageDTO.builder().url(image.getFilePath()).id(image.getId()).build();
   }
 
-  public static Movie movieDtoToMovie(MovieDTO movieDto) {
-    return Movie.builder()
-        .id(movieDto.getId())
-        .title(movieDto.getTitle())
-        .subtitle(movieDto.getSubtitle())
-        .synapsis(movieDto.getSynapsis())
-        .genre(movieDto.getGenre())
-        .images(
-            Optional.ofNullable(movieDto.getImages())
-                .map(
-                    images ->
-                        images.stream().map(Mapper::mediaDtoToMedia).collect(Collectors.toList()))
-                .orElse(new ArrayList<>()))
-        .trailer(mediaDtoToMedia(movieDto.getTrailer()))
-        .releaseDate(movieDto.getReleaseDate())
-        .duration(movieDto.getDuration())
-        .director(personDtoToPerson(movieDto.getDirector()))
-        .actors(
-            Optional.ofNullable(movieDto.getActors())
-                .map(
-                    actors ->
-                        actors.stream().map(Mapper::personDtoToPerson).collect(Collectors.toList()))
-                .orElse(new ArrayList<>()))
-        .build();
+  public static Genre genreDtoToGenre(GenreDTO genreDto) {
+    return Genre.builder().id(genreDto.getId()).name(genreDto.getName()).build();
+  }
+
+  public static GenreDTO genreToGenreDto(Genre genre) {
+    return GenreDTO.builder().id(genre.getId()).name(genre.getName()).build();
   }
 
   public static RateDTO rateToRateDto(Rate rate) {
     return RateDTO.builder().userId(rate.getUser().getId()).score(rate.getScore()).build();
   }
 
-  public static Person personDtoToPerson(PersonDTO personDto) {
-    return Person.builder().id(personDto.getId()).fullName(personDto.getFullName()).build();
+
+
+  public static MovieSimpleDTO movieSimpleApiDTOToMovieDTO(MovieSimple movieSimple) {
+    return MovieSimpleDTO.builder()
+        .id(movieSimple.getId())
+        .title(movieSimple.getTitle())
+        .subtitle(movieSimple.getOriginalTitle())
+        .synapsis(movieSimple.getOverview())
+        .posterPath(movieSimple.getPosterPath())
+        .build();
   }
 
-  public static PersonDTO personToPersonDto(Person person) {
-    if (person == null) return null;
-    return PersonDTO.builder().id(person.getId()).fullName(person.getFullName()).build();
+
+
+  public static MovieDetailDTO movieDetailToMovieDetailDto(MovieDetail movieDetail) {
+    return MovieDetailDTO.builder()
+        .id(movieDetail.getId())
+        .title(movieDetail.getTitle())
+        .overview(movieDetail.getOverview())
+        .posterPath(movieDetail.getPosterPath())
+        .runtime(movieDetail.getRuntime())
+        .releaseDate(movieDetail.getReleaseDate())
+        .tagline(movieDetail.getTagline())
+        .cast(
+            Optional.ofNullable(movieDetail.getCast())
+                .map(cast -> cast.stream().map(Mapper::peopleCastToPeopleCastDto).toList())
+                .orElse(new ArrayList<>()))
+        .director(peopleCrewToPeopleCrewDto(movieDetail.getDirector()))
+        .genres(movieDetail.getGenres().stream().map(Mapper::genreToGenreDto).toList())
+        .images(
+            Optional.ofNullable(movieDetail.getImages())
+                .map(images -> images.stream().map(Mapper::movieImageToMovieImageDto).toList())
+                .orElse(new ArrayList<>()))
+        .videos(
+            Optional.ofNullable(movieDetail.getVideos())
+                .map(videos -> videos.stream().map(Mapper::movieImageToMovieImageDto).toList())
+                .orElse(new ArrayList<>()))
+        .voteAverage(movieDetail.getVoteAverage())
+        .voteCount(movieDetail.getVoteCount())
+        .build();
   }
 
-  public static Movie movieCreationDtoToMovie(MovieCreationDTO movieCreationDTO) {
-    return Movie.builder()
-        .title(movieCreationDTO.getTitle())
-        .subtitle(movieCreationDTO.getSubtitle())
-        .synapsis(movieCreationDTO.getSynapsis())
-        .genre(movieCreationDTO.getGenre())
-        .releaseDate(movieCreationDTO.getReleaseDate())
-        .duration(movieCreationDTO.getDuration())
+  public static PeopleCastDTO peopleCastToPeopleCastDto(PeopleCast peopleCast) {
+    return PeopleCastDTO.builder()
+        .profilePath(peopleCast.getProfilePath())
+        .character(peopleCast.getCharacter())
+        .name(peopleCast.getName())
+        .knownForDepartment(peopleCast.getKnownForDepartment())
+        .id(peopleCast.getId())
+        .build();
+  }
+
+  public static MovieImageDTO movieImageToMovieImageDto(Image image) {
+    return MovieImageDTO.builder()
+        .filePath(image.getFilePath())
+        .id(image.getId())
+        .build();
+  }
+
+  public static MovieVideoDTO movieImageToMovieImageDto(Video video) {
+    return MovieVideoDTO.builder().key(video.getKey()).id(video.getId()).build();
+  }
+
+  public static PeopleCrewDTO peopleCrewToPeopleCrewDto(PeopleCrew peopleCrew) {
+    return PeopleCrewDTO.builder()
+        .profilePath(peopleCrew.getProfilePath())
+        .name(peopleCrew.getName())
+        .knownForDepartment(peopleCrew.getKnownForDepartment())
+        .id(peopleCrew.getId())
+        .job(peopleCrew.getJob())
+        .build();
+  }
+
+  public static MovieSimpleDTO movieDetailToMovieSimpleDto(MovieDetail movieDetail){
+    return MovieSimpleDTO.builder()
+        .id(movieDetail.getId())
+        .title(movieDetail.getTitle())
+        .subtitle(movieDetail.getOriginalTitle())
+        .synapsis(movieDetail.getOverview())
+        .posterPath(movieDetail.getPosterPath())
         .build();
   }
 }
