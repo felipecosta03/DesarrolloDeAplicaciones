@@ -76,6 +76,13 @@ public class UserService implements IUserService {
     return StatusDTO.builder().status(200).build();
   }
 
+  @Override
+  public StatusDTO delete(Long id) {
+    User user = getUserById(id);
+    userRepository.delete(user);
+    return new StatusDTO(200);
+  }
+
   private void deleteImageFromUser(User user) {
     filesStorage.deleteFile(user.getImage().getId());
     user.setImage(null);

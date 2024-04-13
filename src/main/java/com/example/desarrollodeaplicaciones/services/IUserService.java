@@ -17,4 +17,6 @@ public interface IUserService {
   StatusDTO deleteImage(Long id);
 
   StatusDTO update(UserDTO user);
+
+  StatusDTO delete(Long id);
 }
