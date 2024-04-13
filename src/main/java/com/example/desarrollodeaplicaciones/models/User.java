@@ -1,10 +1,15 @@
 package com.example.desarrollodeaplicaciones.models;
 
+import com.example.desarrollodeaplicaciones.models.moviesapi.Image;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,6 +33,10 @@ public class User {
 
   private String email;
 
-  private String imageUrl;
+  @OneToOne(cascade = CascadeType.ALL)
+  private Image image;
+
   private boolean active;
+  @ElementCollection
+  private List<Long> favoriteMovies;
 }

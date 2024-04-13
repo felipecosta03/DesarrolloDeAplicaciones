@@ -1,16 +1,20 @@
 package com.example.desarrollodeaplicaciones.dtos;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Valid
 @Builder
+@Schema(name = "User")
 public class UserDTO {
-  @NotEmpty(message = "Es necesario ingresar un id")
+  @NotNull(message = "Es necesario ingresar un id")
   private Long id;
 
   @NotEmpty(message = "Es necesario ingresar un nombre")
@@ -26,8 +30,8 @@ public class UserDTO {
   @NotEmpty(message = "Es necesario ingresar un correo electrónico")
   private String email;
 
-  @NotEmpty(message = "Es necesario ingresar una URL de imagen")
-  private String imageUrl;
+  private ImageDTO image;
 
   private boolean active;
+  private List<Long> favoriteMovies;
 }
