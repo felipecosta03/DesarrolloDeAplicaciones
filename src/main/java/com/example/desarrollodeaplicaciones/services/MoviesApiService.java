@@ -3,6 +3,7 @@ package com.example.desarrollodeaplicaciones.services;
 import static java.util.Objects.isNull;
 
 import com.example.desarrollodeaplicaciones.configs.files.IFilesStorage;
+import com.example.desarrollodeaplicaciones.models.Genre;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseCreditsApi;
@@ -32,16 +33,38 @@ public class MoviesApiService {
   }
 
   public List<MovieSimple> getMoviesByPage(
-      Integer page, Optional<String> dateOrder, Optional<String> qualificationOrder) {
-    List<MovieSimple> movies =
-        moviesApiRepository.getMoviesByPage(page, dateOrder, qualificationOrder).getResults();
-    movies.forEach(
-        movie -> {
-          if (!isNull(movie.getPosterPath())) {
-            movie.setPosterPath(String.format(IMAGE_URL_BASE, movie.getPosterPath()));
-          }
-        });
-    return movies;
+      Integer page,
+      Optional<String> dateOrder,
+      Optional<String> qualificationOrder,
+      Optional<String> genre) {
+    Integer genreId = mapGenresToId(genre); // TODO Unificar codigo optionals
+
+    try {
+      List<MovieSimple> movies =
+          moviesApiRepository
+              .getMoviesByPage(page, dateOrder, qualificationOrder, genreId)
+              .getResults();
+
+      movies.forEach(
+          movie -> {
+            if (!isNull(movie.getPosterPath())) {
+              movie.setPosterPath(String.format(IMAGE_URL_BASE, movie.getPosterPath()));
+            }
+          });
+      return movies;
+    } catch (Exception e) {
+      log.error("Error al obtener las peliculas por pagina", e);
+      throw new RuntimeException(e.getMessage());
+    }
+  }
+
+  private Integer mapGenresToId(Optional<String> genre) {
+    List<Genre> genresApi = moviesApiRepository.getGenresResponse().getGenres();
+    return genre.flatMap(s -> genresApi.stream()
+                    .filter(genreData -> s.equals(genreData.getName()))
+                    .map(Genre::getId)
+                    .findFirst())
+        .orElse(null);
   }
 
   public MovieSimple getMovieSimpleById(Long id) {
@@ -130,14 +153,14 @@ public class MoviesApiService {
       String url = filesStorage.uploadImage(movieDetail.getDirector().getProfilePath());
       movieDetail.getDirector().setProfilePath(url);
     }
-    if(!isNull(movieDetail.getPosterPath())){
-        String url = filesStorage.uploadImage(movieDetail.getPosterPath());
-        movieDetail.setPosterPath(url);
+    if (!isNull(movieDetail.getPosterPath())) {
+      String url = filesStorage.uploadImage(movieDetail.getPosterPath());
+      movieDetail.setPosterPath(url);
     }
     movieDetailRepository.save(movieDetail);
   }
 
-    public boolean existsMovie(Long movieId) {
-      return moviesApiRepository.existsMovie(movieId);
-    }
+  public boolean existsMovie(Long movieId) {
+    return moviesApiRepository.existsMovie(movieId);
+  }
 }
