@@ -8,23 +8,34 @@ import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseGe
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseMovieImagesApi;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseMovieVideo;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriBuilder;
+import org.springframework.web.util.UriBuilderFactory;
 import reactor.core.publisher.Mono;
 
 @Repository
+@Slf4j
 public class MoviesApiRepositoryImpl {
   private final WebClient webClient;
+
 
   public MoviesApiRepositoryImpl(WebClient webClient) {
     this.webClient = webClient;
   }
 
   public ResponseDiscoverMoviesApi getMoviesByPage(
-      Integer page, Optional<String> dateOrder, Optional<String> qualificationOrder) {
+      Integer page,
+      Optional<String> dateOrder,
+      Optional<String> qualificationOrder,
+      Integer genre) {
     String sort;
 
     if (dateOrder.isPresent()) {
@@ -42,8 +53,9 @@ public class MoviesApiRepositoryImpl {
                     .path("/discover/movie")
                     .queryParam("language", "es-es")
                     .queryParam("page", page)
-                    .queryParam("primary_release_date", LocalDate.now())
+                    .queryParam("primary_release_date.lte", LocalDate.now())
                     .queryParam("sort_by", sort)
+                    .queryParam("with_genres", genre)
                     .build())
         .retrieve() // TODO Crear excepciones personalizadas
         .onStatus(
@@ -134,12 +146,13 @@ public class MoviesApiRepositoryImpl {
     }
   }
 
-  public ResponseGenreApi getGenres() {
+  public ResponseGenreApi getGenresResponse() {
     return webClient
         .get() // TODO Crear excepciones personalizadas
-        .uri(uriBuilder -> uriBuilder.path("/genre/movie/list?language=es").build())
+        .uri(uriBuilder -> uriBuilder.path("/genre/movie/list").queryParam("language","es-es").build())
         .retrieve()
         .bodyToMono(ResponseGenreApi.class)
         .block();
   }
+
 }

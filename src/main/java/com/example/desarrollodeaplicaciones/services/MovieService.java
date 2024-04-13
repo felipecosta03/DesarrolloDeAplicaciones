@@ -61,8 +61,8 @@ public class MovieService implements IMovieService {
       Optional<Integer> page) {
 
     try {
-      List<MovieSimple> movies =
-          moviesApiService.getMoviesByPage(page.orElse(1), dateOrder, qualificationOrder);
+       List<MovieSimple> movies =
+          moviesApiService.getMoviesByPage(page.orElse(1), dateOrder, qualificationOrder, genre);
       return movies.stream().map(Mapper::movieSimpleApiDTOToMovieDTO).toList();
     } catch (Exception e) {
       log.info(e.getMessage());
@@ -70,8 +70,8 @@ public class MovieService implements IMovieService {
       PageRequest pageRequest = getPageRequest(page, sort);
       return genre
           .map(
-              genreName ->
-                  moviePageableRepository.findAllByGenre(pageRequest, genreName).stream()
+              genreData ->
+                  moviePageableRepository.findAllByGenre(pageRequest, genreData).stream()
                       .map(Mapper::movieDetailToMovieSimpleDto)
                       .toList())
           .orElseGet(
