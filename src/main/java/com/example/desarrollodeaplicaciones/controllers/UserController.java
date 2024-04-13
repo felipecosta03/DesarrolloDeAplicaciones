@@ -66,4 +66,10 @@ public class UserController {
     StatusDTO statusDTO = userService.deleteImage(id);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<StatusDTO> delete(@PathVariable Long id) {
+    StatusDTO statusDTO = userService.delete(id);
+    return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
+  }
 }
