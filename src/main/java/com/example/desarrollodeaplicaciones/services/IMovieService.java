@@ -24,7 +24,6 @@ public interface IMovieService {
       Optional<String> value,
       Optional<Integer> page);
 
-  StatusDTO addRate(Long movieId, RateDTO rate);
 
   StatusDTO updateRate(Long movieId, RateDTO rate);
 

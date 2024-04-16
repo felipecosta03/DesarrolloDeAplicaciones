@@ -1,5 +1,6 @@
 package com.example.desarrollodeaplicaciones.repositories;
 
+import com.example.desarrollodeaplicaciones.exceptions.MovieNotFoundException;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseCreditsApi;
@@ -83,7 +84,7 @@ public class MoviesApiRepositoryImpl {
             response -> response.bodyToMono(String.class).map(Exception::new))
         .onStatus(
             HttpStatus.NOT_FOUND::equals,
-            response -> response.bodyToMono(String.class).map(Exception::new))
+            response -> response.bodyToMono(String.class).map(MovieNotFoundException::new))
         .bodyToMono(MovieDetail.class)
         .block();
   }
