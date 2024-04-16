@@ -1,6 +1,7 @@
 package com.example.desarrollodeaplicaciones.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Schema(name = "MovieDetail", description = "Movie detail")
 public class MovieDetailDTO {
   private Long id;
 

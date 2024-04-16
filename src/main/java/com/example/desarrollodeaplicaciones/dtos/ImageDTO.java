@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(name = "Media")
+@Schema(name = "Image")
 public class ImageDTO {
   private String id;
   private String url;
