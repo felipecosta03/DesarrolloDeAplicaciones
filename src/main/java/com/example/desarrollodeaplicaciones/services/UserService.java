@@ -3,7 +3,7 @@ package com.example.desarrollodeaplicaciones.services;
 import com.example.desarrollodeaplicaciones.configs.files.IFilesStorage;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.dtos.UserDTO;
-import com.example.desarrollodeaplicaciones.exceptions.UserImageNotFound;
+import com.example.desarrollodeaplicaciones.exceptions.UserImageNotExists;
 import com.example.desarrollodeaplicaciones.exceptions.UserNotFoundException;
 import com.example.desarrollodeaplicaciones.models.User;
 import com.example.desarrollodeaplicaciones.models.moviesapi.Image;
@@ -22,11 +22,6 @@ public class UserService implements IUserService {
   public UserService(IUserRepository userRepository, IFilesStorage filesStorage) {
     this.userRepository = userRepository;
     this.filesStorage = filesStorage;
-  }
-
-  @Override
-  public List<UserDTO> getAll() {
-    return userRepository.findAll().stream().map(Mapper::userToUserDto).toList();
   }
 
   @Override
@@ -59,7 +54,7 @@ public class UserService implements IUserService {
   public StatusDTO deleteImage(Long id) {
     User user = getUserById(id);
     if (user.getImage() == null) {
-      throw new UserImageNotFound();
+      throw new UserImageNotExists();
     }
     deleteImageFromUser(user);
     return StatusDTO.builder().status(200).build();

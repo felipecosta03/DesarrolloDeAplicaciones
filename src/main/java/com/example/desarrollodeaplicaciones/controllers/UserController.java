@@ -1,11 +1,16 @@
 package com.example.desarrollodeaplicaciones.controllers;
 
+import com.example.desarrollodeaplicaciones.dtos.ErrorMessageDTO;
+import com.example.desarrollodeaplicaciones.dtos.ErrorMessageValidationDTO;
 import com.example.desarrollodeaplicaciones.dtos.StatusDTO;
 import com.example.desarrollodeaplicaciones.dtos.UserDTO;
 import com.example.desarrollodeaplicaciones.services.IUserService;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,29 +37,67 @@ public class UserController {
     this.userService = userService;
   }
 
-  @GetMapping
-  public ResponseEntity<List<UserDTO>> findAll() {
-    return ResponseEntity.status(200).body(userService.getAll());
-  }
-
-  @PostMapping
+  @PostMapping()
   public ResponseEntity<StatusDTO> add(@RequestBody UserDTO user) {
     StatusDTO statusDTO = userService.add(user);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 
+
   @PutMapping
+  @ApiResponses(
+      value = {
+        @ApiResponse(responseCode = "200", description = "User updated"),
+        @ApiResponse(
+            responseCode = "404",
+            description = "User not found",
+            content = {@Content(schema = @Schema(implementation = ErrorMessageDTO.class))}),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Database error",
+            content = {@Content(schema = @Schema(implementation = ErrorMessageDTO.class))}),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid user data",
+            content = {
+              @Content(schema = @Schema(implementation = ErrorMessageValidationDTO.class))
+            })
+      })
   public ResponseEntity<StatusDTO> update(@Valid @RequestBody UserDTO user) {
     StatusDTO statusDTO = userService.update(user);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 
   @GetMapping("/{id}")
+  @ApiResponses(
+      value = {
+        @ApiResponse(responseCode = "200", description = "Retrieve user by id"),
+        @ApiResponse(
+            responseCode = "404",
+            description = "User not found",
+            content = {@Content(schema = @Schema(implementation = ErrorMessageDTO.class))})
+      })
   public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
     return ResponseEntity.status(200).body(userService.findById(id));
   }
 
   @PatchMapping("/{id}/image")
+  @ApiResponses(
+      value = {
+        @ApiResponse(responseCode = "200", description = "User image updated"),
+        @ApiResponse(
+            responseCode = "404",
+            description = "User not found",
+            content = {@Content(schema = @Schema(implementation = ErrorMessageDTO.class))}),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Image upload error",
+            content = {@Content(schema = @Schema(implementation = ErrorMessageDTO.class))}),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Database error",
+            content = {@Content(schema = @Schema(implementation = ErrorMessageDTO.class))})
+      })
   public ResponseEntity<StatusDTO> updateImage(
       @PathVariable Long id, @RequestParam("image") MultipartFile image) {
     StatusDTO statusDTO = userService.updateUserImage(id, image);
@@ -62,12 +105,40 @@ public class UserController {
   }
 
   @DeleteMapping("/{id}/image")
+  @ApiResponses(
+      value = {
+        @ApiResponse(responseCode = "200", description = "User image deleted"),
+        @ApiResponse(
+            responseCode = "404",
+            description = "User not found",
+            content = {@Content(schema = @Schema(implementation = ErrorMessageDTO.class))}),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Delete image error",
+            content = {@Content(schema = @Schema(implementation = ErrorMessageDTO.class))}),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Database error",
+            content = {@Content(schema = @Schema(implementation = ErrorMessageDTO.class))})
+      })
   public ResponseEntity<StatusDTO> deleteImage(@PathVariable Long id) {
     StatusDTO statusDTO = userService.deleteImage(id);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);
   }
 
   @DeleteMapping("/{id}")
+  @ApiResponses(
+      value = {
+        @ApiResponse(responseCode = "200", description = "User deleted"),
+        @ApiResponse(
+            responseCode = "404",
+            description = "User not found",
+            content = {@Content(schema = @Schema(implementation = ErrorMessageDTO.class))}),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Database error",
+            content = {@Content(schema = @Schema(implementation = ErrorMessageDTO.class))})
+      })
   public ResponseEntity<StatusDTO> delete(@PathVariable Long id) {
     StatusDTO statusDTO = userService.delete(id);
     return ResponseEntity.status(statusDTO.getStatus()).body(statusDTO);

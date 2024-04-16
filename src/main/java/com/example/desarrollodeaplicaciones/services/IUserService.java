@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface IUserService {
-  List<UserDTO> getAll();
 
   StatusDTO add(UserDTO user);
 

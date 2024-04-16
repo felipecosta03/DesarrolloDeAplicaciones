@@ -60,7 +60,10 @@ public class MoviesApiService {
 
   private Integer mapGenresToId(Optional<String> genre) {
     List<Genre> genresApi = moviesApiRepository.getGenresResponse().getGenres();
-    return genre.flatMap(s -> genresApi.stream()
+    return genre
+        .flatMap(
+            s ->
+                genresApi.stream()
                     .filter(genreData -> s.equals(genreData.getName()))
                     .map(Genre::getId)
                     .findFirst())

@@ -95,10 +95,7 @@ public class MovieService implements IMovieService {
         .toList();
   }
 
-  @Override
-  public StatusDTO addRate(Long movieId, RateDTO rate) {
-    return null; //TODO
-  }
+
 
   @Override
   public StatusDTO updateRate(Long movieId, RateDTO rate) {

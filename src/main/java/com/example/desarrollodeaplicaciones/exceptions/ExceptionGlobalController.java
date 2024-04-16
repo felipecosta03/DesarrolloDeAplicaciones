@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class ExceptionGlobalController {
-  @ExceptionHandler
+  @ExceptionHandler(UserNotFoundException.class)
   public ResponseEntity<ErrorMessageDTO> userNotFoundException(UserNotFoundException exception) {
     ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.NOT_FOUND;
     return ResponseEntity.status(errorCodeDTO.getStatus())
@@ -71,8 +71,8 @@ public class ExceptionGlobalController {
                 .build());
   }
 
-  @ExceptionHandler(UserImageNotFound.class)
-  public ResponseEntity<ErrorMessageDTO> userImageNotFound(UserImageNotFound exception) {
+  @ExceptionHandler(UserImageNotExists.class)
+  public ResponseEntity<ErrorMessageDTO> userImageNotExists(UserImageNotExists exception) {
     ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.NOT_FOUND;
     return ResponseEntity.status(errorCodeDTO.getStatus())
         .body(
@@ -85,7 +85,7 @@ public class ExceptionGlobalController {
 
   @ExceptionHandler(ImageDeleteException.class)
   public ResponseEntity<ErrorMessageDTO> imageDeleteException(ImageDeleteException exception) {
-    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.BAD_REQUEST;
+    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.INTERNAL_SERVER_ERROR;
     return ResponseEntity.status(errorCodeDTO.getStatus())
         .body(
             ErrorMessageDTO.builder()
@@ -98,19 +98,6 @@ public class ExceptionGlobalController {
   @ExceptionHandler(ImageUploadException.class)
   public ResponseEntity<ErrorMessageDTO> imageUploadException(ImageUploadException exception) {
     ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.INTERNAL_SERVER_ERROR;
-    return ResponseEntity.status(errorCodeDTO.getStatus())
-        .body(
-            ErrorMessageDTO.builder()
-                .message(exception.getMessage())
-                .status(errorCodeDTO.getStatus())
-                .code(errorCodeDTO)
-                .build());
-  }
-
-  @ExceptionHandler(PersonNotFoundException.class)
-  public ResponseEntity<ErrorMessageDTO> personNotFoundException(
-      PersonNotFoundException exception) {
-    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.NOT_FOUND;
     return ResponseEntity.status(errorCodeDTO.getStatus())
         .body(
             ErrorMessageDTO.builder()
@@ -135,19 +122,6 @@ public class ExceptionGlobalController {
   @ExceptionHandler(InvalidOrderParamException.class)
   public ResponseEntity<ErrorMessageDTO> invalidOrderParamException(
       InvalidOrderParamException exception) {
-    ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.BAD_REQUEST;
-    return ResponseEntity.status(errorCodeDTO.getStatus())
-        .body(
-            ErrorMessageDTO.builder()
-                .message(exception.getMessage())
-                .status(errorCodeDTO.getStatus())
-                .code(errorCodeDTO)
-                .build());
-  }
-
-  @ExceptionHandler(RateAlreadyExistsException.class)
-  public ResponseEntity<ErrorMessageDTO> rateAlreadyExistsException(
-      RateAlreadyExistsException exception) {
     ErrorCodeDTO errorCodeDTO = ErrorCodeDTO.BAD_REQUEST;
     return ResponseEntity.status(errorCodeDTO.getStatus())
         .body(
