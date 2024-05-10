@@ -7,11 +7,11 @@ import lombok.Builder;
 import lombok.Getter;
 
 public interface RetrieveMovieDetailResponse
-    extends Function<RetrieveMovieDetailResponse.Model, MovieDetailDTO> {
+    extends Function<RetrieveMovieDetailResponse.Model, Optional<MovieDetailDTO>> {
 
   @Getter
   @Builder
   class Model {
-    private final Long idMovie;
+    private final Long movieId;
   }
 }

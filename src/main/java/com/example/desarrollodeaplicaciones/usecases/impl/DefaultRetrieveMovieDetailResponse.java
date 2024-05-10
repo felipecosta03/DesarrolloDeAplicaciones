@@ -3,7 +3,7 @@ package com.example.desarrollodeaplicaciones.usecases.impl;
 import static java.util.Objects.isNull;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
-import com.example.desarrollodeaplicaciones.exceptions.RetrieveMovieDetailResponseUseCaseException;
+import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
 import com.example.desarrollodeaplicaciones.usecases.BuildMovieDetail;
 import com.example.desarrollodeaplicaciones.usecases.BuildMovieDetailDTO;
@@ -37,38 +37,40 @@ public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailRe
   }
 
   @Override
-  public MovieDetailDTO apply(Model model) {
+  public Optional<MovieDetailDTO> apply(Model model) {
     validateModel(model);
 
     Optional<MovieDetail> movieDetail =
         retrieveMovieDetail.apply(
-            RetrieveMovieDetail.Model.builder().movieId(model.getIdMovie()).build());
+            RetrieveMovieDetail.Model.builder().movieId(model.getMovieId()).build());
 
-    if (movieDetail.isPresent()) {
-      return buildMovieDetailDTO.apply(
-          BuildMovieDetailDTO.Model.builder().movieDetail(movieDetail.get()).build());
+    Optional<MovieDetailDTO> movieDetailDTO =
+        movieDetail
+            .map(buildMovieDetailDTO)
+            .or(
+                () ->
+                    retrieveMovieDetailApi.apply(
+                        RetrieveMovieDetailApi.Model.builder()
+                            .movieId(model.getMovieId())
+                            .build()));
+
+    if (movieDetailDTO.isEmpty()) {
+      return Optional.empty();
     }
 
-    MovieDetailDTO movieDetailApi =
-        retrieveMovieDetailApi
-            .apply(RetrieveMovieDetailApi.Model.builder().movieId(model.getIdMovie()).build());
-
-    MovieDetail movieDetailToBeSaved =
-        buildMovieDetail.apply(
-            BuildMovieDetail.Model.builder().movieDetailDTO(movieDetailApi).build());
-
+    MovieDetail movieDetailToBeSaved = buildMovieDetail.apply(movieDetailDTO.get());
     saveMovieDetail.accept(
         SaveMovieDetail.Model.builder().movieDetail(movieDetailToBeSaved).build());
 
-    return movieDetailApi;
+    return movieDetailDTO;
   }
 
   private void validateModel(Model model) {
     if (isNull(model)) {
-      throw new RetrieveMovieDetailResponseUseCaseException("Model is required");
+      throw new BadRequestUseCaseException("Model is required");
     }
-    if (isNull(model.getIdMovie())) {
-      throw new RetrieveMovieDetailResponseUseCaseException("Movie id is required");
+    if (isNull(model.getMovieId())) {
+      throw new BadRequestUseCaseException("Movie id is required");
     }
   }
 }

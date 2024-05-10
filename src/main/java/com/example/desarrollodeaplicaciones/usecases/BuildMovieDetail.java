@@ -6,11 +6,5 @@ import java.util.function.Function;
 import lombok.Builder;
 import lombok.Getter;
 
-public interface BuildMovieDetail extends Function<BuildMovieDetail.Model, MovieDetail> {
-
-  @Getter
-  @Builder
-  class Model {
-    private MovieDetailDTO movieDetailDTO;
-  }
+public interface BuildMovieDetail extends Function<MovieDetailDTO, MovieDetail> {
 }

@@ -1,6 +1,9 @@
 package com.example.desarrollodeaplicaciones.repositories.api.impl;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
+import com.example.desarrollodeaplicaciones.exceptions.repository.BadRequestRepositoryException;
+import com.example.desarrollodeaplicaciones.exceptions.repository.FailedDependencyRepositoryException;
+import com.example.desarrollodeaplicaciones.exceptions.repository.NotFoundRepositoryException;
 import com.example.desarrollodeaplicaciones.repositories.api.RetrieveMovieDetailApiRepository;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
@@ -29,8 +32,20 @@ public class DefaultRetrieveMovieDetailApiRepository implements RetrieveMovieDet
                         .build())
             .retrieve()
             .onStatus(
-                HttpStatus.INTERNAL_SERVER_ERROR::equals,
-                response -> response.bodyToMono(String.class).map(Exception::new))
+                HttpStatus.NOT_FOUND::equals,
+                clientResponse -> {
+                  throw new NotFoundRepositoryException("Movie not found");
+                })
+            .onStatus(
+                HttpStatus.BAD_REQUEST::equals,
+                clientResponse -> {
+                  throw new BadRequestRepositoryException(clientResponse.logPrefix());
+                })
+            .onStatus(
+                HttpStatus.FAILED_DEPENDENCY::equals,
+                clientResponse -> {
+                  throw new FailedDependencyRepositoryException(clientResponse.logPrefix());
+                })
             .bodyToMono(MovieDetailDTO.class)
             .block());
   }

@@ -8,9 +8,11 @@ import com.example.desarrollodeaplicaciones.dtos.MovieImageDTO;
 import com.example.desarrollodeaplicaciones.dtos.MovieVideoDTO;
 import com.example.desarrollodeaplicaciones.dtos.PeopleCastDTO;
 import com.example.desarrollodeaplicaciones.dtos.PeopleCrewDTO;
-import com.example.desarrollodeaplicaciones.exceptions.BuildMovieDetailUseCaseException;
+import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
+import com.example.desarrollodeaplicaciones.exceptions.usecases.FailedDependencyUseCaseException;
 import com.example.desarrollodeaplicaciones.models.Genre;
 import com.example.desarrollodeaplicaciones.models.moviesapi.Image;
+import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
 import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCast;
 import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCrew;
 import com.example.desarrollodeaplicaciones.models.moviesapi.Video;
@@ -22,62 +24,62 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultBuildMovieDetailDTO implements BuildMovieDetailDTO {
   @Override
-  public MovieDetailDTO apply(Model model) {
-    validateModel(model);
+  public MovieDetailDTO apply(MovieDetail movieDetail) {
+    validateModel(movieDetail);
     return MovieDetailDTO.builder()
-        .id(model.getMovieDetail().getId())
-        .title(model.getMovieDetail().getTitle())
-        .overview(model.getMovieDetail().getOverview())
-        .posterPath(model.getMovieDetail().getPosterPath())
-        .runtime(model.getMovieDetail().getRuntime())
-        .releaseDate(model.getMovieDetail().getReleaseDate())
-        .tagline(model.getMovieDetail().getTagline())
-        .voteAverage(model.getMovieDetail().getVoteAverage())
-        .voteCount(model.getMovieDetail().getVoteCount())
-        .director(buildPeopleCast(model.getMovieDetail().getDirector()))
+        .id(movieDetail.getId())
+        .title(movieDetail.getTitle())
+        .overview(movieDetail.getOverview())
+        .posterPath(movieDetail.getPosterPath())
+        .runtime(movieDetail.getRuntime())
+        .releaseDate(movieDetail.getReleaseDate())
+        .tagline(movieDetail.getTagline())
+        .voteAverage(movieDetail.getVoteAverage())
+        .voteCount(movieDetail.getVoteCount())
+        .director(buildPeopleCrew(movieDetail.getDirector()))
         .images(
-            Optional.ofNullable(model.getMovieDetail().getImages())
+            Optional.ofNullable(movieDetail.getImages())
                 .map(images -> images.stream().map(this::buildImage).toList())
                 .orElse(new ArrayList<>()))
         .videos(
-            Optional.ofNullable(model.getMovieDetail().getVideos())
+            Optional.ofNullable(movieDetail.getVideos())
                 .map(videos -> videos.stream().map(this::buildVideo).toList())
                 .orElse(new ArrayList<>()))
         .genres(
-            Optional.ofNullable(model.getMovieDetail().getGenres())
+            Optional.ofNullable(movieDetail.getGenres())
                 .map(genres -> genres.stream().map(this::buildGenre).toList())
                 .orElse(new ArrayList<>()))
         .cast(
-            Optional.ofNullable(model.getMovieDetail().getCast())
-                .map(cast -> cast.stream().map(this::buildPeopleCast).toList())
+            Optional.ofNullable(movieDetail.getCast())
+                .map(cast -> cast.stream().map(this::buildPeopleCrew).toList())
                 .orElse(new ArrayList<>()))
         .build();
   }
 
   private GenreDTO buildGenre(Genre genre) {
     if (isNull(genre)) {
-      throw new BuildMovieDetailUseCaseException("genre cannot be null");
+      throw new FailedDependencyUseCaseException("genre cannot be null");
     }
     return GenreDTO.builder().id(genre.getId()).name(genre.getName()).build();
   }
 
   private MovieImageDTO buildImage(Image image) {
     if (isNull(image)) {
-      throw new BuildMovieDetailUseCaseException("image cannot be null");
+      throw new FailedDependencyUseCaseException("image cannot be null");
     }
     return MovieImageDTO.builder().filePath(image.getFilePath()).id(image.getId()).build();
   }
 
   private MovieVideoDTO buildVideo(Video video) {
     if (isNull(video)) {
-      throw new BuildMovieDetailUseCaseException("video cannot be null");
+      throw new FailedDependencyUseCaseException("video cannot be null");
     }
     return MovieVideoDTO.builder().key(video.getKey()).id(video.getId()).build();
   }
 
-  private PeopleCastDTO buildPeopleCast(PeopleCast peopleCast) {
+  private PeopleCastDTO buildPeopleCrew(PeopleCast peopleCast) {
     if (isNull(peopleCast)) {
-      throw new BuildMovieDetailUseCaseException("peopleCast cannot be null");
+      throw new FailedDependencyUseCaseException("peopleCast cannot be null");
     }
     return PeopleCastDTO.builder()
         .character(peopleCast.getCharacter())
@@ -88,9 +90,9 @@ public class DefaultBuildMovieDetailDTO implements BuildMovieDetailDTO {
         .build();
   }
 
-  private PeopleCrewDTO buildPeopleCast(PeopleCrew peopleCrew) {
+  private PeopleCrewDTO buildPeopleCrew(PeopleCrew peopleCrew) {
     if (isNull(peopleCrew)) {
-      throw new BuildMovieDetailUseCaseException("peopleCrew cannot be null");
+      throw new FailedDependencyUseCaseException("peopleCrew cannot be null");
     }
     return PeopleCrewDTO.builder()
         .name(peopleCrew.getName())
@@ -101,17 +103,13 @@ public class DefaultBuildMovieDetailDTO implements BuildMovieDetailDTO {
         .build();
   }
 
-  private void validateModel(Model model) {
-    if (isNull(model)) {
-      throw new BuildMovieDetailUseCaseException("model is required");
+  private void validateModel(MovieDetail movieDetail) {
+    if (isNull(movieDetail)) {
+      throw new BadRequestUseCaseException("movieDetail is required");
     }
 
-    if (isNull(model.getMovieDetail())) {
-      throw new BuildMovieDetailUseCaseException("movieDetailDTO is required");
-    }
-
-    if (isNull(model.getMovieDetail().getId())) {
-      throw new BuildMovieDetailUseCaseException("movie id is required");
+    if (isNull(movieDetail.getId())) {
+      throw new BadRequestUseCaseException("movie id is required");
     }
   }
 }

@@ -4,8 +4,7 @@ import static java.util.Objects.isNull;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
 import com.example.desarrollodeaplicaciones.dtos.PeopleCrewDTO;
-import com.example.desarrollodeaplicaciones.exceptions.RetrieveMovieDetailResponseUseCaseException;
-import com.example.desarrollodeaplicaciones.exceptions.RetrieveMovieDetailUseCaseException;
+import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseMovieCreditsApi;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseMovieImagesApi;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseMovieVideoApi;
@@ -14,6 +13,7 @@ import com.example.desarrollodeaplicaciones.repositories.api.RetrieveMovieImageR
 import com.example.desarrollodeaplicaciones.repositories.api.RetrieveMoviePeopleRepository;
 import com.example.desarrollodeaplicaciones.repositories.api.RetrieveMovieVideoRepository;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailApi;
+import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -36,65 +36,52 @@ public class DefaultRetrieveMovieDetailApi implements RetrieveMovieDetailApi {
   }
 
   @Override
-  public MovieDetailDTO apply(Model model) {
+  public Optional<MovieDetailDTO> apply(Model model) {
     validateModel(model);
-    MovieDetailDTO movieDetailDTO =
-        retrieveMovieDetailApiRepository
-            .apply(
-                RetrieveMovieDetailApiRepository.Model.builder()
-                    .movieId(model.getMovieId())
-                    .build())
-            .orElseThrow(() -> new RetrieveMovieDetailResponseUseCaseException("Movie not found"));
+    Optional<MovieDetailDTO> movieDetailDTO =
+        retrieveMovieDetailApiRepository.apply(
+            RetrieveMovieDetailApiRepository.Model.builder().movieId(model.getMovieId()).build());
 
-    ResponseMovieImagesApi responseMovieImagesApi =
-        retrieveMovieImageRepository
-            .apply(
-                RetrieveMovieDetailApiRepository.Model.builder()
-                    .movieId(model.getMovieId())
-                    .build())
-            .orElseThrow(() -> new RetrieveMovieDetailResponseUseCaseException("Images not found"));
+    if (movieDetailDTO.isEmpty()) {
+      return Optional.empty();
+    }
 
-    movieDetailDTO.setImages(responseMovieImagesApi.getBackdrops());
+    Optional<ResponseMovieImagesApi> responseMovieImagesApi =
+        retrieveMovieImageRepository.apply(
+            RetrieveMovieDetailApiRepository.Model.builder().movieId(model.getMovieId()).build());
 
-    ResponseMovieVideoApi responseMovieVideoApi =
-        retrieveMovieVideoRepository
-            .apply(
-                RetrieveMovieDetailApiRepository.Model.builder()
-                    .movieId(model.getMovieId())
-                    .build())
-            .orElseThrow(() -> new RetrieveMovieDetailResponseUseCaseException("Video not found"));
+    Optional<ResponseMovieVideoApi> responseMovieVideoApi =
+        retrieveMovieVideoRepository.apply(
+            RetrieveMovieDetailApiRepository.Model.builder().movieId(model.getMovieId()).build());
 
-    movieDetailDTO.setVideos(responseMovieVideoApi.getResults());
+    Optional<ResponseMovieCreditsApi> responseMovieCreditsApi =
+        retrieveMoviePeopleRepository.apply(
+            RetrieveMovieDetailApiRepository.Model.builder().movieId(model.getMovieId()).build());
 
-    ResponseMovieCreditsApi responseMovieCreditsApi =
-        retrieveMoviePeopleRepository
-            .apply(
-                RetrieveMovieDetailApiRepository.Model.builder()
-                    .movieId(model.getMovieId())
-                    .build())
-            .orElseThrow(
-                () -> new RetrieveMovieDetailResponseUseCaseException("Credits not found"));
-
-    movieDetailDTO.setDirector(getDirector(responseMovieCreditsApi));
-    movieDetailDTO.setCast(responseMovieCreditsApi.getCast());
-
+    responseMovieImagesApi.ifPresent(
+        images -> movieDetailDTO.get().setImages(images.getBackdrops()));
+    responseMovieCreditsApi.ifPresent(
+        credits -> {
+          getDirector(credits).ifPresent(director -> movieDetailDTO.get().setDirector(director));
+          movieDetailDTO.get().setCast(credits.getCast());
+        });
+    responseMovieVideoApi.ifPresent(videos -> movieDetailDTO.get().setVideos(videos.getResults()));
     return movieDetailDTO;
   }
 
-  private PeopleCrewDTO getDirector(ResponseMovieCreditsApi responseMovieCreditsApi) {
+  private Optional<PeopleCrewDTO> getDirector(ResponseMovieCreditsApi responseMovieCreditsApi) {
     return responseMovieCreditsApi.getCrew().stream()
         .filter(crew -> "Director".equals(crew.getJob()))
-        .findFirst()
-        .orElseThrow(() -> new RetrieveMovieDetailResponseUseCaseException("Director not found"));
+        .findFirst();
   }
 
   private void validateModel(Model model) {
     if (isNull(model)) {
-      throw new RetrieveMovieDetailUseCaseException("Model is required");
+      throw new BadRequestUseCaseException("Model is required");
     }
 
     if (isNull(model.getMovieId())) {
-      throw new RetrieveMovieDetailUseCaseException("Movie id is required");
+      throw new BadRequestUseCaseException("Movie id is required");
     }
   }
 }

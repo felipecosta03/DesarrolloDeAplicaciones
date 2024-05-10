@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 public interface RetrieveMovieDetailApi
-    extends Function<RetrieveMovieDetailApi.Model, MovieDetailDTO> {
+    extends Function<RetrieveMovieDetailApi.Model, Optional<MovieDetailDTO>> {
 
   @Getter
   @Builder
