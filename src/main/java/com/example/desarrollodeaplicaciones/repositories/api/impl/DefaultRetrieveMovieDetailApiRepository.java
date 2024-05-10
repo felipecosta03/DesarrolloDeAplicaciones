@@ -1,20 +1,18 @@
-package com.example.desarrollodeaplicaciones.repositories.impl;
+package com.example.desarrollodeaplicaciones.repositories.api.impl;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
-import com.example.desarrollodeaplicaciones.repositories.RetrieveMovieDetailRepository;
+import com.example.desarrollodeaplicaciones.repositories.api.RetrieveMovieDetailApiRepository;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
-@Qualifier("themoviedb")
-public class ApiRetrieveMovieDetailRepository implements RetrieveMovieDetailRepository {
+public class DefaultRetrieveMovieDetailApiRepository implements RetrieveMovieDetailApiRepository {
 
   private final WebClient webClient;
 
-  public ApiRetrieveMovieDetailRepository(WebClient webClient) {
+  public DefaultRetrieveMovieDetailApiRepository(WebClient webClient) {
     this.webClient = webClient;
   }
 

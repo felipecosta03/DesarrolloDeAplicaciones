@@ -2,11 +2,8 @@ package com.example.desarrollodeaplicaciones.configs.files;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.example.desarrollodeaplicaciones.exceptions.ImageDeleteException;
-import com.example.desarrollodeaplicaciones.exceptions.ImageUploadException;
 import java.io.IOException;
 import java.util.Map;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,7 +23,7 @@ public class CloudinaryStorage implements IFilesStorage {
       Map imageInfo = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
       return imageInfo.get("url").toString();
     } catch (IOException e) {
-      throw new ImageUploadException();
+      throw new RuntimeException();
     }
   }
 
@@ -35,7 +32,7 @@ public class CloudinaryStorage implements IFilesStorage {
     try {
       cloudinary.uploader().destroy(id, ObjectUtils.emptyMap());
     } catch (IOException e) {
-      throw new ImageDeleteException();
+      throw new RuntimeException();
     }
   }
 
@@ -45,7 +42,7 @@ public class CloudinaryStorage implements IFilesStorage {
       return imageInfo.get("url").toString();
     } catch (IOException e) {
       log.error(e.getMessage());
-      throw new ImageUploadException();
+      throw new RuntimeException();
     }
   }
 }

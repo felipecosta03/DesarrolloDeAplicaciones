@@ -1,6 +1,7 @@
 package com.example.desarrollodeaplicaciones.models.moviesapi;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -24,8 +25,6 @@ public class PeopleCast {
   @JsonProperty("profile_path")
   private String profilePath;
 
+  @Column(name = "`character`")
   private String character;
-
-  @JsonProperty("credit_id")
-  private String creditId;
 }

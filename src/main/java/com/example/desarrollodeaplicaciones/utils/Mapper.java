@@ -54,14 +54,14 @@ public class Mapper {
     if (imageDto == null) {
       return null;
     }
-    return Image.builder().filePath(imageDto.getUrl()).id(imageDto.getId()).build();
+    return Image.builder().filePath(imageDto.getFilePath()).id(imageDto.getId()).build();
   }
 
   public static ImageDTO imageToImage(Image image) {
     if (image == null) {
       return null;
     }
-    return ImageDTO.builder().url(image.getFilePath()).id(image.getId()).build();
+return null;
   }
 
   public static Genre genreDtoToGenre(GenreDTO genreDto) {

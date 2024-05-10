@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 @Schema(name = "Image")
 public class ImageDTO {
   private String id;
-  private String url;
+  private String filePath;
 }
