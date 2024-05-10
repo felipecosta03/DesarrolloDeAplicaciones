@@ -11,5 +11,5 @@ import lombok.Data;
 public class ErrorMessageValidationDTO {
   List<String> messages;
   private int status;
-  private ErrorCodeDTO code;
+  private ErrorCode code;
 }

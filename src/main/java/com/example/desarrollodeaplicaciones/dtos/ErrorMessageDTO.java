@@ -10,5 +10,5 @@ import lombok.Data;
 public class ErrorMessageDTO {
   private String message;
   private int status;
-  private ErrorCodeDTO code;
+  private ErrorCode code;
 }
