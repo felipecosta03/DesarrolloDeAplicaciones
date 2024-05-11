@@ -9,6 +9,7 @@ import com.example.desarrollodeaplicaciones.usecases.BuildMovie;
 import com.example.desarrollodeaplicaciones.usecases.BuildMovies;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,7 +24,7 @@ public class DefaultBuildMovies implements BuildMovies {
   @Override
   public List<MovieSimple> apply(List<MovieSimpleDto> movies) {
     validateModel(movies);
-    return movies.stream().map(buildMovie).toList();
+    return movies.stream().map(buildMovie).collect(Collectors.toList());
   }
 
   private void validateModel(List<MovieSimpleDto> movies) {

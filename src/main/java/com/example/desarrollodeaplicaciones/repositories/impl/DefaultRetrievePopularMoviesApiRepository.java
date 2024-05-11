@@ -5,7 +5,7 @@ import static java.util.Objects.isNull;
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.repository.BadRequestRepositoryException;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseDiscoverMoviesApi;
-import com.example.desarrollodeaplicaciones.repositories.RetrieveMoviesApiRepository;
+import com.example.desarrollodeaplicaciones.repositories.RetrievePopularMoviesApiRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -14,11 +14,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
-public class DefaultRetrieveMoviesApiRepository implements RetrieveMoviesApiRepository {
+public class DefaultRetrievePopularMoviesApiRepository
+    implements RetrievePopularMoviesApiRepository {
 
   private final WebClient webClient;
 
-  public DefaultRetrieveMoviesApiRepository(WebClient webClient) {
+  public DefaultRetrievePopularMoviesApiRepository(WebClient webClient) {
     this.webClient = webClient;
   }
 
@@ -36,7 +37,7 @@ public class DefaultRetrieveMoviesApiRepository implements RetrieveMoviesApiRepo
                               .queryParam("language", "es-es")
                               .queryParam("page", model.getPage())
                               .queryParam("primary_release_date.lte", LocalDate.now())
-                              .queryParam("sort_by", model.getSort())
+                              .queryParam("sort_by", "popularity.desc")
                               .build())
                   .retrieve()
                   .onStatus(
@@ -56,10 +57,6 @@ public class DefaultRetrieveMoviesApiRepository implements RetrieveMoviesApiRepo
   private void validateModel(Model model) {
     if (isNull(model)) {
       throw new BadRequestRepositoryException("Model is required");
-    }
-
-    if (isNull(model.getSort())) {
-      throw new BadRequestRepositoryException("Sort is required");
     }
   }
 }

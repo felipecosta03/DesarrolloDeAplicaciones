@@ -1,6 +1,7 @@
 package com.example.desarrollodeaplicaciones.models.moviesapi;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -33,6 +34,7 @@ public class MovieSimple {
   private String title;
 
   @JsonProperty("overview")
+  @Column(length = 5000)
   private String overview;
 
   private double popularity;

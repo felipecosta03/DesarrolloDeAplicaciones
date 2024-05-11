@@ -22,9 +22,9 @@ public class DefaultSaveMovies implements SaveMovies {
   }
 
   @Override
-  public void accept(List<MovieSimple> movie) {
-    validateMovie(movie);
-    saveMoviesRepository.save(movie);
+  public void accept(List<MovieSimple> movies) {
+    validateMovie(movies);
+    saveMoviesRepository.saveAll(movies);
     log.info("Movies saved successfully");
   }
 
