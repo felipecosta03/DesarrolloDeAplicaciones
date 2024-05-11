@@ -1,4 +1,4 @@
-package com.example.desarrollodeaplicaciones.repositories.api;
+package com.example.desarrollodeaplicaciones.repositories;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
 import java.util.Optional;

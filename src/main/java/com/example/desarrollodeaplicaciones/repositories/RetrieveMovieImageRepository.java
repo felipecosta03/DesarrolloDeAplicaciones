@@ -1,4 +1,4 @@
-package com.example.desarrollodeaplicaciones.repositories.api;
+package com.example.desarrollodeaplicaciones.repositories;
 
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseMovieImagesApi;
 import java.util.Optional;
@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 public interface RetrieveMovieImageRepository
-    extends Function<RetrieveMovieDetailApiRepository.Model, Optional<ResponseMovieImagesApi>> {
+    extends Function<RetrieveMovieImageRepository.Model, Optional<ResponseMovieImagesApi>> {
   @Builder
   @Getter
   class Model {

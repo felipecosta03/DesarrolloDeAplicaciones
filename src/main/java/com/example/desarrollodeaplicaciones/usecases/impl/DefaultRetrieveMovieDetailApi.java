@@ -8,10 +8,10 @@ import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCas
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseMovieCreditsApi;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseMovieImagesApi;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseMovieVideoApi;
-import com.example.desarrollodeaplicaciones.repositories.api.RetrieveMovieDetailApiRepository;
-import com.example.desarrollodeaplicaciones.repositories.api.RetrieveMovieImageRepository;
-import com.example.desarrollodeaplicaciones.repositories.api.RetrieveMoviePeopleRepository;
-import com.example.desarrollodeaplicaciones.repositories.api.RetrieveMovieVideoRepository;
+import com.example.desarrollodeaplicaciones.repositories.RetrieveMovieDetailApiRepository;
+import com.example.desarrollodeaplicaciones.repositories.RetrieveMovieImageRepository;
+import com.example.desarrollodeaplicaciones.repositories.RetrieveMoviePeopleRepository;
+import com.example.desarrollodeaplicaciones.repositories.RetrieveMovieVideoRepository;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailApi;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
@@ -48,15 +48,15 @@ public class DefaultRetrieveMovieDetailApi implements RetrieveMovieDetailApi {
 
     Optional<ResponseMovieImagesApi> responseMovieImagesApi =
         retrieveMovieImageRepository.apply(
-            RetrieveMovieDetailApiRepository.Model.builder().movieId(model.getMovieId()).build());
+            RetrieveMovieImageRepository.Model.builder().movieId(model.getMovieId()).build());
 
     Optional<ResponseMovieVideoApi> responseMovieVideoApi =
         retrieveMovieVideoRepository.apply(
-            RetrieveMovieDetailApiRepository.Model.builder().movieId(model.getMovieId()).build());
+            RetrieveMovieVideoRepository.Model.builder().movieId(model.getMovieId()).build());
 
     Optional<ResponseMovieCreditsApi> responseMovieCreditsApi =
         retrieveMoviePeopleRepository.apply(
-            RetrieveMovieDetailApiRepository.Model.builder().movieId(model.getMovieId()).build());
+            RetrieveMoviePeopleRepository.Model.builder().movieId(model.getMovieId()).build());
 
     responseMovieImagesApi.ifPresent(
         images -> movieDetailDTO.get().setImages(images.getBackdrops()));

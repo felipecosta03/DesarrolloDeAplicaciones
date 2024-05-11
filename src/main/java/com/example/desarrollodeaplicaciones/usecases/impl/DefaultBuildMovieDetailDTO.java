@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 public class DefaultBuildMovieDetailDTO implements BuildMovieDetailDTO {
   @Override
   public MovieDetailDTO apply(MovieDetail movieDetail) {
-    validateModel(movieDetail);
+    validateMovieDetail(movieDetail);
     return MovieDetailDTO.builder()
         .id(movieDetail.getId())
         .title(movieDetail.getTitle())
@@ -60,7 +60,10 @@ public class DefaultBuildMovieDetailDTO implements BuildMovieDetailDTO {
     if (isNull(genre)) {
       throw new FailedDependencyUseCaseException("genre cannot be null");
     }
-    return GenreDTO.builder().id(genre.getId()).name(genre.getName()).build();
+    return com.example.desarrollodeaplicaciones.dtos.GenreDTO.builder()
+        .id(genre.getId())
+        .name(genre.getName())
+        .build();
   }
 
   private MovieImageDTO buildImage(Image image) {
@@ -103,7 +106,7 @@ public class DefaultBuildMovieDetailDTO implements BuildMovieDetailDTO {
         .build();
   }
 
-  private void validateModel(MovieDetail movieDetail) {
+  private void validateMovieDetail(MovieDetail movieDetail) {
     if (isNull(movieDetail)) {
       throw new BadRequestUseCaseException("movieDetail is required");
     }

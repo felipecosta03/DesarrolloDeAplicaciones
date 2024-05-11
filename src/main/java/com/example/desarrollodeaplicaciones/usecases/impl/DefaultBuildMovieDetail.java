@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 public class DefaultBuildMovieDetail implements BuildMovieDetail {
   @Override
   public MovieDetail apply(MovieDetailDTO movieDetailDTO) {
-    validateModel(movieDetailDTO);
+    validateMovieDetailDTO(movieDetailDTO);
     return MovieDetail.builder()
         .id(movieDetailDTO.getId())
         .title(movieDetailDTO.getTitle())
@@ -103,7 +103,7 @@ public class DefaultBuildMovieDetail implements BuildMovieDetail {
         .build();
   }
 
-  private void validateModel(MovieDetailDTO movieDetailDTO) {
+  private void validateMovieDetailDTO(MovieDetailDTO movieDetailDTO) {
     if (isNull(movieDetailDTO)) {
       throw new BadRequestUseCaseException("movieDetailDto is required");
     }

@@ -17,11 +17,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailResponse {
 
+  private final RetrieveMovieDetailApi retrieveMovieDetailApi;
   private final RetrieveMovieDetail retrieveMovieDetail;
   private final SaveMovieDetail saveMovieDetail;
   private final BuildMovieDetail buildMovieDetail;
   private final BuildMovieDetailDTO buildMovieDetailDTO;
-  private final RetrieveMovieDetailApi retrieveMovieDetailApi;
 
   public DefaultRetrieveMovieDetailResponse(
       RetrieveMovieDetail retrieveMovieDetail,
@@ -44,23 +44,21 @@ public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailRe
         retrieveMovieDetail.apply(
             RetrieveMovieDetail.Model.builder().movieId(model.getMovieId()).build());
 
-    Optional<MovieDetailDTO> movieDetailDTO =
-        movieDetail
-            .map(buildMovieDetailDTO)
-            .or(
-                () ->
-                    retrieveMovieDetailApi.apply(
-                        RetrieveMovieDetailApi.Model.builder()
-                            .movieId(model.getMovieId())
-                            .build()));
+    Optional<MovieDetailDTO> movieDetailDTO = movieDetail.map(buildMovieDetailDTO);
+
+    if (movieDetailDTO.isPresent()) {
+      return movieDetailDTO;
+    }
+    movieDetailDTO =
+        retrieveMovieDetailApi.apply(
+            RetrieveMovieDetailApi.Model.builder().movieId(model.getMovieId()).build());
 
     if (movieDetailDTO.isEmpty()) {
       return Optional.empty();
     }
 
     MovieDetail movieDetailToBeSaved = buildMovieDetail.apply(movieDetailDTO.get());
-    saveMovieDetail.accept(
-        SaveMovieDetail.Model.builder().movieDetail(movieDetailToBeSaved).build());
+    saveMovieDetail.accept(movieDetailToBeSaved);
 
     return movieDetailDTO;
   }

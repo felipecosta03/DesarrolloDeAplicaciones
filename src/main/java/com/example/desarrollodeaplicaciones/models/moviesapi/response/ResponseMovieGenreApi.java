@@ -1,6 +1,6 @@
 package com.example.desarrollodeaplicaciones.models.moviesapi.response;
 
-import com.example.desarrollodeaplicaciones.models.Genre;
+import com.example.desarrollodeaplicaciones.dtos.GenreDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ResponseMovieGenreApi {
-  private List<Genre> genres;
+  private List<GenreDTO> genres;
 }

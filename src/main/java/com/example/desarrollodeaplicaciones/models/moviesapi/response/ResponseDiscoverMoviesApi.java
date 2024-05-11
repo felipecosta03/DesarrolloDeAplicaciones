@@ -1,5 +1,6 @@
 package com.example.desarrollodeaplicaciones.models.moviesapi.response;
 
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -12,5 +13,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ResponseDiscoverMoviesApi {
-  private List<MovieSimple> results;
+  private List<MovieSimpleDTO> results;
 }

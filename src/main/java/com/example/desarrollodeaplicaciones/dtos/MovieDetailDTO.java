@@ -41,6 +41,7 @@ public class MovieDetailDTO {
   private String tagline;
   private String title;
 
+
   @JsonProperty("vote_average")
   private double voteAverage;
 

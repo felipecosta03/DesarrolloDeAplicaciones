@@ -6,14 +6,11 @@ import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
 import com.example.desarrollodeaplicaciones.exceptions.router.BadRequestRouterException;
 import com.example.desarrollodeaplicaciones.exceptions.router.NotFoundRouterException;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailResponse;
-import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestAttributes;
 
 /** Router for retrieving movie details. */
 @RestController
@@ -31,9 +28,13 @@ public class RetrieveMovieDetailRouter extends MovieRouter {
     if (isNull(movieId)) {
       throw new BadRequestRouterException("Movie ID is required");
     }
-    return retrieveMovieDetailResponse
-        .apply(RetrieveMovieDetailResponse.Model.builder().movieId(movieId).build())
-        .map(ResponseEntity::ok)
-        .orElseThrow(() -> new NotFoundRouterException("Movie not found"));
+    ResponseEntity<MovieDetailDTO> response =
+        retrieveMovieDetailResponse
+            .apply(RetrieveMovieDetailResponse.Model.builder().movieId(movieId).build())
+            .map(ResponseEntity::ok)
+            .orElseThrow(() -> new NotFoundRouterException("Movie not found"));
+    log.info("Movie detail retrieved with id: {}", movieId);
+
+    return response;
   }
 }
