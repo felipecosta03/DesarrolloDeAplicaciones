@@ -1,9 +1,7 @@
 package com.example.desarrollodeaplicaciones.models.moviesapi.response;
 
-import com.example.desarrollodeaplicaciones.dtos.PeopleCastDTO;
-import com.example.desarrollodeaplicaciones.dtos.PeopleCrewDTO;
-import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCast;
-import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCrew;
+import com.example.desarrollodeaplicaciones.dtos.PeopleCastDto;
+import com.example.desarrollodeaplicaciones.dtos.PeopleCrewDto;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +13,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class ResponseMovieCreditsApi {
-  private List<PeopleCastDTO> cast;
-  private List<PeopleCrewDTO> crew;
+  private List<PeopleCastDto> cast;
+  private List<PeopleCrewDto> crew;
 }

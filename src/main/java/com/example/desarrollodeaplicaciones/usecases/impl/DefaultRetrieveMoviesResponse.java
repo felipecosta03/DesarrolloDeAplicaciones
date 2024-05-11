@@ -2,10 +2,10 @@ package com.example.desarrollodeaplicaciones.usecases.impl;
 
 import static java.util.Objects.isNull;
 
-import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.usecases.BuildMovie;
-import com.example.desarrollodeaplicaciones.usecases.BuildMovieDTO;
+import com.example.desarrollodeaplicaciones.usecases.BuildMovieDto;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovies;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByGenre;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesBySearch;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultRetrieveMoviesResponse implements RetrieveMoviesResponse {
 
-  private BuildMovieDTO buildMovieDTO;
+  private BuildMovieDto buildMovieDTO;
   private BuildMovie buildMovie;
   private RetrieveMovies retrieveMovies;
   private RetrieveMoviesByGenre retrieveMoviesByGenre;
@@ -26,7 +26,7 @@ public class DefaultRetrieveMoviesResponse implements RetrieveMoviesResponse {
   private RetrieveMoviesBySearch retrieveMoviesBySearch;
 
   public DefaultRetrieveMoviesResponse(
-      BuildMovieDTO buildMovieDTO,
+      BuildMovieDto buildMovieDTO,
       BuildMovie buildMovie,
       RetrieveMoviesByGenre retrieveMoviesByGenre,
       RetrievePopularMovies retrievePopularMovies,
@@ -39,7 +39,7 @@ public class DefaultRetrieveMoviesResponse implements RetrieveMoviesResponse {
   }
 
   @Override
-  public Optional<List<MovieSimpleDTO>> apply(Model model) {
+  public Optional<List<MovieSimpleDto>> apply(Model model) {
     validateModel(model);
 
     final Integer page = model.getPage().orElse(1);

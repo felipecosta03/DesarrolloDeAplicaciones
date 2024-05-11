@@ -2,10 +2,10 @@ package com.example.desarrollodeaplicaciones.usecases.impl;
 
 import static java.util.Objects.isNull;
 
-import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.repositories.RetrieveMoviesByGenreDatabaseRepository;
-import com.example.desarrollodeaplicaciones.usecases.BuildMovieDTO;
+import com.example.desarrollodeaplicaciones.usecases.BuildMovieDto;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByGenreDatabase;
 import java.util.List;
 import java.util.Optional;
@@ -18,17 +18,17 @@ import org.springframework.stereotype.Component;
 public class DefaultRetrieveMoviesByGenreDatabase implements RetrieveMoviesByGenreDatabase {
 
   private final RetrieveMoviesByGenreDatabaseRepository retrieveMoviesByGenreDatabaseRepository;
-  private final BuildMovieDTO buildMovieDTO;
+  private final BuildMovieDto buildMovieDTO;
 
   public DefaultRetrieveMoviesByGenreDatabase(
       RetrieveMoviesByGenreDatabaseRepository retrieveMoviesByGenreDatabaseRepository,
-      BuildMovieDTO buildMovieDTO) {
+      BuildMovieDto buildMovieDTO) {
     this.retrieveMoviesByGenreDatabaseRepository = retrieveMoviesByGenreDatabaseRepository;
     this.buildMovieDTO = buildMovieDTO;
   }
 
   @Override
-  public Optional<List<MovieSimpleDTO>> apply(Model model) {
+  public Optional<List<MovieSimpleDto>> apply(Model model) {
     validateModel(model);
     Pageable pageable = PageRequest.of(model.getPage(), model.getSize(), getSort(model));
     return retrieveMoviesByGenreDatabaseRepository

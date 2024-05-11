@@ -2,12 +2,12 @@ package com.example.desarrollodeaplicaciones.usecases.impl;
 
 import static java.util.Objects.isNull;
 
-import com.example.desarrollodeaplicaciones.dtos.GenreDTO;
-import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
-import com.example.desarrollodeaplicaciones.dtos.MovieImageDTO;
-import com.example.desarrollodeaplicaciones.dtos.MovieVideoDTO;
-import com.example.desarrollodeaplicaciones.dtos.PeopleCastDTO;
-import com.example.desarrollodeaplicaciones.dtos.PeopleCrewDTO;
+import com.example.desarrollodeaplicaciones.dtos.GenreDto;
+import com.example.desarrollodeaplicaciones.dtos.MovieDetailDto;
+import com.example.desarrollodeaplicaciones.dtos.MovieImageDto;
+import com.example.desarrollodeaplicaciones.dtos.MovieVideoDto;
+import com.example.desarrollodeaplicaciones.dtos.PeopleCastDto;
+import com.example.desarrollodeaplicaciones.dtos.PeopleCrewDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.FailedDependencyUseCaseException;
 import com.example.desarrollodeaplicaciones.models.Genre;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultBuildMovieDetail implements BuildMovieDetail {
   @Override
-  public MovieDetail apply(MovieDetailDTO movieDetailDTO) {
+  public MovieDetail apply(MovieDetailDto movieDetailDTO) {
     validateMovieDetailDTO(movieDetailDTO);
     return MovieDetail.builder()
         .id(movieDetailDTO.getId())
@@ -56,28 +56,28 @@ public class DefaultBuildMovieDetail implements BuildMovieDetail {
         .build();
   }
 
-  private Genre buildGenre(GenreDTO genreDTO) {
+  private Genre buildGenre(GenreDto genreDTO) {
     if (isNull(genreDTO)) {
       throw new FailedDependencyUseCaseException("genreDTO cannot be null");
     }
     return Genre.builder().id(genreDTO.getId()).name(genreDTO.getName()).build();
   }
 
-  private Image buildImage(MovieImageDTO imageDTO) {
+  private Image buildImage(MovieImageDto imageDTO) {
     if (isNull(imageDTO)) {
       throw new FailedDependencyUseCaseException("imageDTO cannot be null");
     }
     return Image.builder().filePath(imageDTO.getFilePath()).id(imageDTO.getId()).build();
   }
 
-  private Video buildVideo(MovieVideoDTO videoDTO) {
+  private Video buildVideo(MovieVideoDto videoDTO) {
     if (isNull(videoDTO)) {
       throw new FailedDependencyUseCaseException("videoDTO cannot be null");
     }
     return Video.builder().key(videoDTO.getKey()).id(videoDTO.getId()).build();
   }
 
-  private PeopleCast buildPeopleCrew(PeopleCastDTO peopleCastDTO) {
+  private PeopleCast buildPeopleCrew(PeopleCastDto peopleCastDTO) {
     if (isNull(peopleCastDTO)) {
       throw new FailedDependencyUseCaseException("peopleCastDTO cannot be null");
     }
@@ -90,7 +90,7 @@ public class DefaultBuildMovieDetail implements BuildMovieDetail {
         .build();
   }
 
-  private PeopleCrew buildPeopleCrew(PeopleCrewDTO peopleCrewDTO) {
+  private PeopleCrew buildPeopleCrew(PeopleCrewDto peopleCrewDTO) {
     if (isNull(peopleCrewDTO)) {
       throw new FailedDependencyUseCaseException("peopleCrewDTO cannot be null");
     }
@@ -103,7 +103,7 @@ public class DefaultBuildMovieDetail implements BuildMovieDetail {
         .build();
   }
 
-  private void validateMovieDetailDTO(MovieDetailDTO movieDetailDTO) {
+  private void validateMovieDetailDTO(MovieDetailDto movieDetailDTO) {
     if (isNull(movieDetailDTO)) {
       throw new BadRequestUseCaseException("movieDetailDto is required");
     }

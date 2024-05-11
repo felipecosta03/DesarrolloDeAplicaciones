@@ -1,14 +1,13 @@
 package com.example.desarrollodeaplicaciones.usecases;
 
-import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
-import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
+import com.example.desarrollodeaplicaciones.dtos.MovieDetailDto;
 import java.util.Optional;
 import java.util.function.Function;
 import lombok.Builder;
 import lombok.Getter;
 
 public interface RetrieveMovieDetailApi
-    extends Function<RetrieveMovieDetailApi.Model, Optional<MovieDetailDTO>> {
+    extends Function<RetrieveMovieDetailApi.Model, Optional<MovieDetailDto>> {
 
   @Getter
   @Builder

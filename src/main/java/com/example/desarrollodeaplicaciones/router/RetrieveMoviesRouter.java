@@ -1,7 +1,7 @@
 package com.example.desarrollodeaplicaciones.router;
 
 import com.azure.core.annotation.QueryParam;
-import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesResponse;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +19,7 @@ public class RetrieveMoviesRouter extends MovieRouter {
   }
 
   @GetMapping
-  public ResponseEntity<List<MovieSimpleDTO>> get(
+  public ResponseEntity<List<MovieSimpleDto>> get(
       @QueryParam("date_order") Optional<String> dateOrder,
       @QueryParam("genre") Optional<String> genre,
       @QueryParam("qualification_order") Optional<String> qualificationOrder,

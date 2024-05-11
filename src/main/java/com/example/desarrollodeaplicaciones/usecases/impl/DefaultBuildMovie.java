@@ -2,7 +2,7 @@ package com.example.desarrollodeaplicaciones.usecases.impl;
 
 import static java.util.Objects.isNull;
 
-import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
 import com.example.desarrollodeaplicaciones.usecases.BuildMovie;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultBuildMovie implements BuildMovie {
   @Override
-  public MovieSimple apply(MovieSimpleDTO movieDetailDTO) {
+  public MovieSimple apply(MovieSimpleDto movieDetailDTO) {
     validateMovieDTO(movieDetailDTO);
     return MovieSimple.builder()
         .id(movieDetailDTO.getId())
@@ -25,7 +25,7 @@ public class DefaultBuildMovie implements BuildMovie {
         .build();
   }
 
-  private void validateMovieDTO(MovieSimpleDTO movieDetailDTO) {
+  private void validateMovieDTO(MovieSimpleDto movieDetailDTO) {
     if (isNull(movieDetailDTO)) {
       throw new BadRequestUseCaseException("movieDetailDto is required");
     }

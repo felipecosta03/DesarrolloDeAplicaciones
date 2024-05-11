@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(name = "MovieSimple")
-public class MovieSimpleDTO {
+public class MovieSimpleDto {
   private Long id;
   private String title;
   private String overview;

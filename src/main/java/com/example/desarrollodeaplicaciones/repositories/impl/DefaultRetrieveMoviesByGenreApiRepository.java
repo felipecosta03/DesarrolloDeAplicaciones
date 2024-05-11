@@ -2,7 +2,7 @@ package com.example.desarrollodeaplicaciones.repositories.impl;
 
 import static java.util.Objects.isNull;
 
-import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseDiscoverMoviesApi;
 import com.example.desarrollodeaplicaciones.repositories.RetrieveMoviesByGenreApiRepository;
 import java.time.LocalDate;
@@ -23,7 +23,7 @@ public class DefaultRetrieveMoviesByGenreApiRepository
   }
 
   @Override
-  public Optional<List<MovieSimpleDTO>> apply(Model model) {
+  public Optional<List<MovieSimpleDto>> apply(Model model) {
     final String sort = getSort(model.getDateOrder(), model.getQualificationOrder());
     try {
       return Optional.ofNullable(

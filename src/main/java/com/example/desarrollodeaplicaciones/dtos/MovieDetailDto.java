@@ -17,11 +17,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Schema(name = "MovieDetail", description = "Movie detail")
-public class MovieDetailDTO {
+public class MovieDetailDto {
   private Long id;
 
   @ManyToMany
-  private List<GenreDTO> genres;
+  private List<GenreDto> genres;
 
   @JsonProperty("original_language")
   private String originalLanguage;
@@ -49,11 +49,11 @@ public class MovieDetailDTO {
   private int voteCount;
 
     @OneToMany
-  private List<MovieImageDTO> images;
+  private List<MovieImageDto> images;
   @OneToMany
-  private List<MovieVideoDTO> videos;
+  private List<MovieVideoDto> videos;
   @ManyToOne
-  private PeopleCrewDTO director;
+  private PeopleCrewDto director;
   @ManyToMany
-  private List<PeopleCastDTO> cast;
+  private List<PeopleCastDto> cast;
 }

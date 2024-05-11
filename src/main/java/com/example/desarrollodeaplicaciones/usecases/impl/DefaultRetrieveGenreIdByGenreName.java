@@ -1,11 +1,11 @@
 package com.example.desarrollodeaplicaciones.usecases.impl;
 
-import com.example.desarrollodeaplicaciones.dtos.GenreDTO;
+import com.example.desarrollodeaplicaciones.dtos.GenreDto;
 import com.example.desarrollodeaplicaciones.models.Genre;
 import com.example.desarrollodeaplicaciones.repositories.RetrieveGenresApiRepository;
 import com.example.desarrollodeaplicaciones.repositories.RetrieveGenresRepository;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveGenreIdByGenreName;
-import com.example.desarrollodeaplicaciones.usecases.SaveGenresDTO;
+import com.example.desarrollodeaplicaciones.usecases.SaveGenresDto;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -17,12 +17,12 @@ public class DefaultRetrieveGenreIdByGenreName implements RetrieveGenreIdByGenre
 
   private final RetrieveGenresRepository retrieveGenresRepository;
   private final RetrieveGenresApiRepository retrieveGenresApiRepository;
-  private final SaveGenresDTO saveGenresDTO;
+  private final SaveGenresDto saveGenresDTO;
 
   public DefaultRetrieveGenreIdByGenreName(
       RetrieveGenresRepository retrieveGenresRepository,
       RetrieveGenresApiRepository retrieveGenresApiRepository,
-      SaveGenresDTO saveGenresDTO) {
+      SaveGenresDto saveGenresDTO) {
     this.retrieveGenresRepository = retrieveGenresRepository;
     this.retrieveGenresApiRepository = retrieveGenresApiRepository;
     this.saveGenresDTO = saveGenresDTO;
@@ -39,13 +39,13 @@ public class DefaultRetrieveGenreIdByGenreName implements RetrieveGenreIdByGenre
       }
     }
 
-    final Optional<List<GenreDTO>> genresDTO = retrieveGenresApiRepository.get();
+    final Optional<List<GenreDto>> genresDTO = retrieveGenresApiRepository.get();
 
     if (genresDTO.isPresent()) {
       saveGenresDTO.accept(genresDTO.get());
-      Optional<GenreDTO> genreDTO =
+      Optional<GenreDto> genreDTO =
           genresDTO.get().stream().filter(g -> g.getName().equals(genreName)).findFirst();
-      return genreDTO.map(GenreDTO::getId);
+      return genreDTO.map(GenreDto::getId);
     }
     return Optional.empty();
   }

@@ -11,17 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "PeopleCast")
-public class PeopleCrewDTO {
-  private Long id;
+@Schema(name = "MovieImage")
+public class MovieImageDto {
+  private String id;
 
-  @JsonProperty("known_for_department")
-  private String knownForDepartment;
-
-  private String name;
-
-  @JsonProperty("profile_path")
-  private String profilePath;
-
-  private String job;
+  @JsonProperty("file_path")
+  private String filePath;
 }

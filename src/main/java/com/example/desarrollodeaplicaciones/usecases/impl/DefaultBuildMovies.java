@@ -2,7 +2,7 @@ package com.example.desarrollodeaplicaciones.usecases.impl;
 
 import static java.util.Objects.isNull;
 
-import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
 import com.example.desarrollodeaplicaciones.usecases.BuildMovie;
@@ -21,12 +21,12 @@ public class DefaultBuildMovies implements BuildMovies {
   }
 
   @Override
-  public List<MovieSimple> apply(List<MovieSimpleDTO> movies) {
+  public List<MovieSimple> apply(List<MovieSimpleDto> movies) {
     validateModel(movies);
     return movies.stream().map(buildMovie).toList();
   }
 
-  private void validateModel(List<MovieSimpleDTO> movies) {
+  private void validateModel(List<MovieSimpleDto> movies) {
     if (isNull(movies)) {
       throw new BadRequestUseCaseException("Movie list is required");
     }

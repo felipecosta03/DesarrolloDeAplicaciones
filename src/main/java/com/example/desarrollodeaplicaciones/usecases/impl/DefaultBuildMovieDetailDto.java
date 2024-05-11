@@ -2,12 +2,12 @@ package com.example.desarrollodeaplicaciones.usecases.impl;
 
 import static java.util.Objects.isNull;
 
-import com.example.desarrollodeaplicaciones.dtos.GenreDTO;
-import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
-import com.example.desarrollodeaplicaciones.dtos.MovieImageDTO;
-import com.example.desarrollodeaplicaciones.dtos.MovieVideoDTO;
-import com.example.desarrollodeaplicaciones.dtos.PeopleCastDTO;
-import com.example.desarrollodeaplicaciones.dtos.PeopleCrewDTO;
+import com.example.desarrollodeaplicaciones.dtos.GenreDto;
+import com.example.desarrollodeaplicaciones.dtos.MovieDetailDto;
+import com.example.desarrollodeaplicaciones.dtos.MovieImageDto;
+import com.example.desarrollodeaplicaciones.dtos.MovieVideoDto;
+import com.example.desarrollodeaplicaciones.dtos.PeopleCastDto;
+import com.example.desarrollodeaplicaciones.dtos.PeopleCrewDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.FailedDependencyUseCaseException;
 import com.example.desarrollodeaplicaciones.models.Genre;
@@ -16,17 +16,17 @@ import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
 import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCast;
 import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCrew;
 import com.example.desarrollodeaplicaciones.models.moviesapi.Video;
-import com.example.desarrollodeaplicaciones.usecases.BuildMovieDetailDTO;
+import com.example.desarrollodeaplicaciones.usecases.BuildMovieDetailDto;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DefaultBuildMovieDetailDTO implements BuildMovieDetailDTO {
+public class DefaultBuildMovieDetailDto implements BuildMovieDetailDto {
   @Override
-  public MovieDetailDTO apply(MovieDetail movieDetail) {
+  public MovieDetailDto apply(MovieDetail movieDetail) {
     validateMovieDetail(movieDetail);
-    return MovieDetailDTO.builder()
+    return MovieDetailDto.builder()
         .id(movieDetail.getId())
         .title(movieDetail.getTitle())
         .overview(movieDetail.getOverview())
@@ -56,35 +56,32 @@ public class DefaultBuildMovieDetailDTO implements BuildMovieDetailDTO {
         .build();
   }
 
-  private GenreDTO buildGenre(Genre genre) {
+  private GenreDto buildGenre(Genre genre) {
     if (isNull(genre)) {
       throw new FailedDependencyUseCaseException("genre cannot be null");
     }
-    return com.example.desarrollodeaplicaciones.dtos.GenreDTO.builder()
-        .id(genre.getId())
-        .name(genre.getName())
-        .build();
+    return GenreDto.builder().id(genre.getId()).name(genre.getName()).build();
   }
 
-  private MovieImageDTO buildImage(Image image) {
+  private MovieImageDto buildImage(Image image) {
     if (isNull(image)) {
       throw new FailedDependencyUseCaseException("image cannot be null");
     }
-    return MovieImageDTO.builder().filePath(image.getFilePath()).id(image.getId()).build();
+    return MovieImageDto.builder().filePath(image.getFilePath()).id(image.getId()).build();
   }
 
-  private MovieVideoDTO buildVideo(Video video) {
+  private MovieVideoDto buildVideo(Video video) {
     if (isNull(video)) {
       throw new FailedDependencyUseCaseException("video cannot be null");
     }
-    return MovieVideoDTO.builder().key(video.getKey()).id(video.getId()).build();
+    return MovieVideoDto.builder().key(video.getKey()).id(video.getId()).build();
   }
 
-  private PeopleCastDTO buildPeopleCrew(PeopleCast peopleCast) {
+  private PeopleCastDto buildPeopleCrew(PeopleCast peopleCast) {
     if (isNull(peopleCast)) {
       throw new FailedDependencyUseCaseException("peopleCast cannot be null");
     }
-    return PeopleCastDTO.builder()
+    return PeopleCastDto.builder()
         .character(peopleCast.getCharacter())
         .name(peopleCast.getName())
         .profilePath(peopleCast.getProfilePath())
@@ -93,11 +90,11 @@ public class DefaultBuildMovieDetailDTO implements BuildMovieDetailDTO {
         .build();
   }
 
-  private PeopleCrewDTO buildPeopleCrew(PeopleCrew peopleCrew) {
+  private PeopleCrewDto buildPeopleCrew(PeopleCrew peopleCrew) {
     if (isNull(peopleCrew)) {
       throw new FailedDependencyUseCaseException("peopleCrew cannot be null");
     }
-    return PeopleCrewDTO.builder()
+    return PeopleCrewDto.builder()
         .name(peopleCrew.getName())
         .profilePath(peopleCrew.getProfilePath())
         .knownForDepartment(peopleCrew.getKnownForDepartment())

@@ -1,8 +1,6 @@
 package com.example.desarrollodeaplicaciones.models.moviesapi.response;
 
-import com.example.desarrollodeaplicaciones.dtos.ImageDTO;
-import com.example.desarrollodeaplicaciones.dtos.MovieImageDTO;
-import com.example.desarrollodeaplicaciones.models.moviesapi.Image;
+import com.example.desarrollodeaplicaciones.dtos.MovieImageDto;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,5 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponseMovieImagesApi {
-  private List<MovieImageDTO> backdrops;
+  private List<MovieImageDto> backdrops;
 }

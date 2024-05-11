@@ -13,7 +13,7 @@ import lombok.Data;
 @Valid
 @Builder
 @Schema(name = "User")
-public class UserDTO {
+public class UserDto {
   @NotNull(message = "Es necesario ingresar un id")
   private Long id;
 
@@ -30,7 +30,7 @@ public class UserDTO {
   @NotEmpty(message = "Es necesario ingresar un correo electrónico")
   private String email;
 
-  private ImageDTO image;
+  private ImageDto image;
 
   private boolean active;
   private List<Long> favoriteMovies;

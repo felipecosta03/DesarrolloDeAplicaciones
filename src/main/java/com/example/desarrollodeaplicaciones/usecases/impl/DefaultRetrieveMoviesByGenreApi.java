@@ -2,7 +2,7 @@ package com.example.desarrollodeaplicaciones.usecases.impl;
 
 import static java.util.Objects.isNull;
 
-import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.repositories.RetrieveMoviesByGenreApiRepository;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByGenreApi;
@@ -21,7 +21,7 @@ public class DefaultRetrieveMoviesByGenreApi implements RetrieveMoviesByGenreApi
   }
 
   @Override
-  public Optional<List<MovieSimpleDTO>> apply(Model model) {
+  public Optional<List<MovieSimpleDto>> apply(Model model) {
     validateModel(model);
     return retrieveMoviesByGenreApiRepository.apply(
         RetrieveMoviesByGenreApiRepository.Model.builder()

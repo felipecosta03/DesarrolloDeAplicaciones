@@ -2,11 +2,11 @@ package com.example.desarrollodeaplicaciones.usecases.impl;
 
 import static java.util.Objects.isNull;
 
-import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieDetailDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
 import com.example.desarrollodeaplicaciones.usecases.BuildMovieDetail;
-import com.example.desarrollodeaplicaciones.usecases.BuildMovieDetailDTO;
+import com.example.desarrollodeaplicaciones.usecases.BuildMovieDetailDto;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetail;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailApi;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailResponse;
@@ -21,13 +21,13 @@ public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailRe
   private final RetrieveMovieDetail retrieveMovieDetail;
   private final SaveMovieDetail saveMovieDetail;
   private final BuildMovieDetail buildMovieDetail;
-  private final BuildMovieDetailDTO buildMovieDetailDTO;
+  private final BuildMovieDetailDto buildMovieDetailDTO;
 
   public DefaultRetrieveMovieDetailResponse(
       RetrieveMovieDetail retrieveMovieDetail,
       SaveMovieDetail saveMovieDetail,
       BuildMovieDetail buildMovieDetail,
-      BuildMovieDetailDTO buildMovieDetailDTO,
+      BuildMovieDetailDto buildMovieDetailDTO,
       RetrieveMovieDetailApi retrieveMovieDetailApi) {
     this.retrieveMovieDetail = retrieveMovieDetail;
     this.saveMovieDetail = saveMovieDetail;
@@ -37,14 +37,14 @@ public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailRe
   }
 
   @Override
-  public Optional<MovieDetailDTO> apply(Model model) {
+  public Optional<MovieDetailDto> apply(Model model) {
     validateModel(model);
 
     Optional<MovieDetail> movieDetail =
         retrieveMovieDetail.apply(
             RetrieveMovieDetail.Model.builder().movieId(model.getMovieId()).build());
 
-    Optional<MovieDetailDTO> movieDetailDTO = movieDetail.map(buildMovieDetailDTO);
+    Optional<MovieDetailDto> movieDetailDTO = movieDetail.map(buildMovieDetailDTO);
 
     if (movieDetailDTO.isPresent()) {
       return movieDetailDTO;

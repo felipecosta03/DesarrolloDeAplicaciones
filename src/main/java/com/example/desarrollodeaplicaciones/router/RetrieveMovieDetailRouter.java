@@ -2,7 +2,7 @@ package com.example.desarrollodeaplicaciones.router;
 
 import static java.util.Objects.isNull;
 
-import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieDetailDto;
 import com.example.desarrollodeaplicaciones.exceptions.router.BadRequestRouterException;
 import com.example.desarrollodeaplicaciones.exceptions.router.NotFoundRouterException;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailResponse;
@@ -24,11 +24,11 @@ public class RetrieveMovieDetailRouter extends MovieRouter {
   }
 
   @GetMapping("/{movieId}")
-  public ResponseEntity<MovieDetailDTO> get(@PathVariable final Long movieId) {
+  public ResponseEntity<MovieDetailDto> get(@PathVariable final Long movieId) {
     if (isNull(movieId)) {
       throw new BadRequestRouterException("Movie ID is required");
     }
-    ResponseEntity<MovieDetailDTO> response =
+    ResponseEntity<MovieDetailDto> response =
         retrieveMovieDetailResponse
             .apply(RetrieveMovieDetailResponse.Model.builder().movieId(movieId).build())
             .map(ResponseEntity::ok)

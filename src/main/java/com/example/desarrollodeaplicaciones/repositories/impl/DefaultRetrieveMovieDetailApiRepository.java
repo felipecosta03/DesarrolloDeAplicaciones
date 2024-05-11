@@ -1,6 +1,6 @@
 package com.example.desarrollodeaplicaciones.repositories.impl;
 
-import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieDetailDto;
 import com.example.desarrollodeaplicaciones.exceptions.repository.BadRequestRepositoryException;
 import com.example.desarrollodeaplicaciones.exceptions.repository.FailedDependencyRepositoryException;
 import com.example.desarrollodeaplicaciones.exceptions.repository.NotFoundRepositoryException;
@@ -20,7 +20,7 @@ public class DefaultRetrieveMovieDetailApiRepository implements RetrieveMovieDet
   }
 
   @Override
-  public Optional<MovieDetailDTO> apply(Model model) {
+  public Optional<MovieDetailDto> apply(Model model) {
     try {
       return Optional.ofNullable(
           webClient
@@ -47,7 +47,7 @@ public class DefaultRetrieveMovieDetailApiRepository implements RetrieveMovieDet
                   clientResponse -> {
                     throw new FailedDependencyRepositoryException(clientResponse.logPrefix());
                   })
-              .bodyToMono(MovieDetailDTO.class)
+              .bodyToMono(MovieDetailDto.class)
               .block());
     } catch (Exception e) {
       return Optional.empty();

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(name = "PeopleCast")
-public class PeopleCastDTO {
+public class PeopleCastDto {
   private Long id;
 
   @JsonProperty("known_for_department")

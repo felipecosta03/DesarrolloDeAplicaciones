@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Valid
 @Schema(name = "Rate")
-public class RateDTO {
+public class RateDto {
   private Long userId;
 
   @DecimalMin(value = "0.0", message = "El puntaje debe ser mayor o igual que cero")

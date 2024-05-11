@@ -2,14 +2,14 @@ package com.example.desarrollodeaplicaciones.usecases.impl;
 
 import static java.util.Objects.isNull;
 
-import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.NotFoundUseCaseException;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveGenreIdByGenreName;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByGenre;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByGenreApi;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByGenreDatabase;
-import com.example.desarrollodeaplicaciones.usecases.SaveMoviesDTO;
+import com.example.desarrollodeaplicaciones.usecases.SaveMoviesDto;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
@@ -20,13 +20,13 @@ public class DefaultRetrieveMoviesByGenre implements RetrieveMoviesByGenre {
   private final RetrieveGenreIdByGenreName retrieveGenreIdByGenreName;
   private final RetrieveMoviesByGenreDatabase retrieveMoviesByGenreDatabase;
   private final RetrieveMoviesByGenreApi retrieveMoviesByGenreApi;
-  private final SaveMoviesDTO saveMoviesDTO;
+  private final SaveMoviesDto saveMoviesDTO;
 
   public DefaultRetrieveMoviesByGenre(
       RetrieveGenreIdByGenreName retrieveGenreIdByGenreName,
       RetrieveMoviesByGenreDatabase retrieveMoviesByGenreDatabase,
       RetrieveMoviesByGenreApi retrieveMoviesByGenreApi,
-      SaveMoviesDTO saveMoviesDTO) {
+      SaveMoviesDto saveMoviesDTO) {
     this.retrieveGenreIdByGenreName = retrieveGenreIdByGenreName;
     this.retrieveMoviesByGenreDatabase = retrieveMoviesByGenreDatabase;
     this.retrieveMoviesByGenreApi = retrieveMoviesByGenreApi;
@@ -34,14 +34,14 @@ public class DefaultRetrieveMoviesByGenre implements RetrieveMoviesByGenre {
   }
 
   @Override
-  public Optional<List<MovieSimpleDTO>> apply(Model model) {
+  public Optional<List<MovieSimpleDto>> apply(Model model) {
     validateModel(model);
 
     Optional<Integer> genreId = retrieveGenreIdByGenreName.apply(model.getGenre());
 
     if (genreId.isPresent()) {
       // get from api
-      Optional<List<MovieSimpleDTO>> moviesDTO =
+      Optional<List<MovieSimpleDto>> moviesDTO =
           retrieveMoviesByGenreApi.apply(
               RetrieveMoviesByGenreApi.Model.builder()
                   .dateOrder(model.getDateOrder())

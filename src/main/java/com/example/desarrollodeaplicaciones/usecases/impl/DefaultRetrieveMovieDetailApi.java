@@ -2,8 +2,8 @@ package com.example.desarrollodeaplicaciones.usecases.impl;
 
 import static java.util.Objects.isNull;
 
-import com.example.desarrollodeaplicaciones.dtos.MovieDetailDTO;
-import com.example.desarrollodeaplicaciones.dtos.PeopleCrewDTO;
+import com.example.desarrollodeaplicaciones.dtos.MovieDetailDto;
+import com.example.desarrollodeaplicaciones.dtos.PeopleCrewDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseMovieCreditsApi;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseMovieImagesApi;
@@ -36,9 +36,9 @@ public class DefaultRetrieveMovieDetailApi implements RetrieveMovieDetailApi {
   }
 
   @Override
-  public Optional<MovieDetailDTO> apply(Model model) {
+  public Optional<MovieDetailDto> apply(Model model) {
     validateModel(model);
-    Optional<MovieDetailDTO> movieDetailDTO =
+    Optional<MovieDetailDto> movieDetailDTO =
         retrieveMovieDetailApiRepository.apply(
             RetrieveMovieDetailApiRepository.Model.builder().movieId(model.getMovieId()).build());
 
@@ -69,7 +69,7 @@ public class DefaultRetrieveMovieDetailApi implements RetrieveMovieDetailApi {
     return movieDetailDTO;
   }
 
-  private Optional<PeopleCrewDTO> getDirector(ResponseMovieCreditsApi responseMovieCreditsApi) {
+  private Optional<PeopleCrewDto> getDirector(ResponseMovieCreditsApi responseMovieCreditsApi) {
     return responseMovieCreditsApi.getCrew().stream()
         .filter(crew -> "Director".equals(crew.getJob()))
         .findFirst();

@@ -1,6 +1,6 @@
 package com.example.desarrollodeaplicaciones.repositories.impl;
 
-import com.example.desarrollodeaplicaciones.dtos.GenreDTO;
+import com.example.desarrollodeaplicaciones.dtos.GenreDto;
 import com.example.desarrollodeaplicaciones.exceptions.repository.BadRequestRepositoryException;
 import com.example.desarrollodeaplicaciones.exceptions.repository.FailedDependencyRepositoryException;
 import com.example.desarrollodeaplicaciones.exceptions.repository.NotFoundRepositoryException;
@@ -22,7 +22,7 @@ public class DefaultRetrieveGenresApiRepository implements RetrieveGenresApiRepo
   }
 
   @Override
-  public Optional<List<GenreDTO>> get() {
+  public Optional<List<GenreDto>> get() {
     try {
       return Optional.ofNullable(
               webClient
