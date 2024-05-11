@@ -2,6 +2,7 @@ package com.example.desarrollodeaplicaciones.router;
 
 import com.azure.core.annotation.QueryParam;
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
+import com.example.desarrollodeaplicaciones.exceptions.usecases.NotFoundUseCaseException;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesResponse;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +41,6 @@ public class RetrieveMoviesRouter extends MovieRouter {
                 .size(size)
                 .build())
         .map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.notFound().build());
+        .orElseThrow(() -> new NotFoundUseCaseException("Movies not found"));
   }
 }

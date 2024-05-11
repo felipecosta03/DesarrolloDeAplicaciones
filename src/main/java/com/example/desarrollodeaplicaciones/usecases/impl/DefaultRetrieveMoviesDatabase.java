@@ -4,10 +4,10 @@ import static java.util.Objects.isNull;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
-import com.example.desarrollodeaplicaciones.repositories.RetrieveMoviesByGenreDatabaseRepository;
+import com.example.desarrollodeaplicaciones.repositories.RetrieveMoviesDatabaseRepository;
 import com.example.desarrollodeaplicaciones.usecases.BuildMovieDto;
 import com.example.desarrollodeaplicaciones.usecases.BuildRetrieveMoviesDatabaseSort;
-import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByGenreDatabase;
+import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesDatabase;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.PageRequest;
@@ -15,17 +15,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DefaultRetrieveMoviesByGenreDatabase implements RetrieveMoviesByGenreDatabase {
+public class DefaultRetrieveMoviesDatabase implements RetrieveMoviesDatabase {
 
-  private final RetrieveMoviesByGenreDatabaseRepository retrieveMoviesByGenreDatabaseRepository;
+  private final RetrieveMoviesDatabaseRepository retrieveMoviesDatabaseRepository;
   private final BuildMovieDto buildMovieDTO;
   private final BuildRetrieveMoviesDatabaseSort buildRetrieveMoviesDatabaseSort;
 
-  public DefaultRetrieveMoviesByGenreDatabase(
-      RetrieveMoviesByGenreDatabaseRepository retrieveMoviesByGenreDatabaseRepository,
+  public DefaultRetrieveMoviesDatabase(
+      RetrieveMoviesDatabaseRepository retrieveMoviesDatabaseRepository,
       BuildMovieDto buildMovieDTO,
       BuildRetrieveMoviesDatabaseSort buildRetrieveMoviesDatabaseSort) {
-    this.retrieveMoviesByGenreDatabaseRepository = retrieveMoviesByGenreDatabaseRepository;
+    this.retrieveMoviesDatabaseRepository = retrieveMoviesDatabaseRepository;
     this.buildMovieDTO = buildMovieDTO;
     this.buildRetrieveMoviesDatabaseSort = buildRetrieveMoviesDatabaseSort;
   }
@@ -42,17 +42,15 @@ public class DefaultRetrieveMoviesByGenreDatabase implements RetrieveMoviesByGen
                     .qualificationOrder(model.getQualificationOrder())
                     .dateOrder(model.getDateOrder())
                     .build()));
-    return retrieveMoviesByGenreDatabaseRepository
-        .findByGenreIdsContaining(model.getGenreId(), pageable)
-        .map(movieSimples -> movieSimples.stream().map(buildMovieDTO).toList());
+    return Optional.of(
+        retrieveMoviesDatabaseRepository.findAll(pageable).getContent().stream()
+            .map(buildMovieDTO)
+            .toList());
   }
 
   private void validateModel(Model model) {
     if (isNull(model)) {
       throw new BadRequestUseCaseException("Model is required");
-    }
-    if (isNull(model.getGenreId())) {
-      throw new BadRequestUseCaseException("Genre id is required");
     }
   }
 }

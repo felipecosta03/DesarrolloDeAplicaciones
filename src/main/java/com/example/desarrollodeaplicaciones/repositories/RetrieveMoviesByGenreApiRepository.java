@@ -12,8 +12,7 @@ public interface RetrieveMoviesByGenreApiRepository
   @Builder
   @Getter
   class Model {
-    private final String dateOrder;
-    private final String qualificationOrder;
+    private final String sort;
     private final Integer genreId;
     private final Integer page;
     private final Integer size;

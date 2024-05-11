@@ -15,7 +15,6 @@ public interface RetrieveMovies
   class Model {
     private final String dateOrder;
     private final String qualificationOrder;
-    private final String genre;
     private final Integer page;
     private final Integer size;
   }

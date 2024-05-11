@@ -44,23 +44,21 @@ public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailRe
         retrieveMovieDetail.apply(
             RetrieveMovieDetail.Model.builder().movieId(model.getMovieId()).build());
 
-    Optional<MovieDetailDto> movieDetailDTO = movieDetail.map(buildMovieDetailDTO);
+    Optional<MovieDetailDto> movieDetailDto = movieDetail.map(buildMovieDetailDTO);
 
-    if (movieDetailDTO.isPresent()) {
-      return movieDetailDTO;
+    if (movieDetailDto.isPresent()) {
+      return movieDetailDto;
     }
-    movieDetailDTO =
+    movieDetailDto =
         retrieveMovieDetailApi.apply(
             RetrieveMovieDetailApi.Model.builder().movieId(model.getMovieId()).build());
 
-    if (movieDetailDTO.isEmpty()) {
-      return Optional.empty();
-    }
+    movieDetailDto.ifPresent(
+        response -> {
+          saveMovieDetail.accept(buildMovieDetail.apply(response));
+        });
 
-    MovieDetail movieDetailToBeSaved = buildMovieDetail.apply(movieDetailDTO.get());
-    saveMovieDetail.accept(movieDetailToBeSaved);
-
-    return movieDetailDTO;
+    return movieDetailDto;
   }
 
   private void validateModel(Model model) {

@@ -6,7 +6,7 @@ import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.repository.BadRequestRepositoryException;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseDiscoverMoviesApi;
-import com.example.desarrollodeaplicaciones.repositories.RetrieveMoviesByGenreApiRepository;
+import com.example.desarrollodeaplicaciones.repositories.RetrieveMoviesApiRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -15,12 +15,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
-public class DefaultRetrieveMoviesByGenreApiRepository
-    implements RetrieveMoviesByGenreApiRepository {
+public class DefaultRetrieveMoviesApiRepository implements RetrieveMoviesApiRepository {
 
   private final WebClient webClient;
 
-  public DefaultRetrieveMoviesByGenreApiRepository(WebClient webClient) {
+  public DefaultRetrieveMoviesApiRepository(WebClient webClient) {
     this.webClient = webClient;
   }
 
@@ -39,7 +38,6 @@ public class DefaultRetrieveMoviesByGenreApiRepository
                               .queryParam("page", model.getPage())
                               .queryParam("primary_release_date.lte", LocalDate.now())
                               .queryParam("sort_by", model.getSort())
-                              .queryParam("with_genres", model.getGenreId())
                               .build())
                   .retrieve()
                   .onStatus(

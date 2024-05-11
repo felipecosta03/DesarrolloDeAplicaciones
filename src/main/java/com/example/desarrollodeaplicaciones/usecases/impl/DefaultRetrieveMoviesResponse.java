@@ -4,8 +4,6 @@ import static java.util.Objects.isNull;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
-import com.example.desarrollodeaplicaciones.usecases.BuildMovie;
-import com.example.desarrollodeaplicaciones.usecases.BuildMovieDto;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovies;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByGenre;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesBySearch;
@@ -18,21 +16,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultRetrieveMoviesResponse implements RetrieveMoviesResponse {
 
-  private BuildMovieDto buildMovieDTO;
-  private BuildMovie buildMovie;
-  private RetrieveMovies retrieveMovies;
-  private RetrieveMoviesByGenre retrieveMoviesByGenre;
-  private RetrievePopularMovies retrievePopularMovies;
-  private RetrieveMoviesBySearch retrieveMoviesBySearch;
+  private final RetrieveMovies retrieveMovies;
+  private final RetrieveMoviesByGenre retrieveMoviesByGenre;
+  private final RetrievePopularMovies retrievePopularMovies;
+  private final RetrieveMoviesBySearch retrieveMoviesBySearch;
 
   public DefaultRetrieveMoviesResponse(
-      BuildMovieDto buildMovieDTO,
-      BuildMovie buildMovie,
+      RetrieveMovies retrieveMovies,
       RetrieveMoviesByGenre retrieveMoviesByGenre,
       RetrievePopularMovies retrievePopularMovies,
       RetrieveMoviesBySearch retrieveMoviesBySearch) {
-    this.buildMovieDTO = buildMovieDTO;
-    this.buildMovie = buildMovie;
+    this.retrieveMovies = retrieveMovies;
     this.retrieveMoviesByGenre = retrieveMoviesByGenre;
     this.retrievePopularMovies = retrievePopularMovies;
     this.retrieveMoviesBySearch = retrieveMoviesBySearch;
@@ -41,7 +35,6 @@ public class DefaultRetrieveMoviesResponse implements RetrieveMoviesResponse {
   @Override
   public Optional<List<MovieSimpleDto>> apply(Model model) {
     validateModel(model);
-
     final Integer page = model.getPage().orElse(1);
     final Integer size = model.getSize().orElse(20);
     final String dateOrder = model.getDateOrder().orElse(null);
@@ -64,6 +57,8 @@ public class DefaultRetrieveMoviesResponse implements RetrieveMoviesResponse {
               .value(model.getValue().get())
               .page(page)
               .size(size)
+              .dateOrder(dateOrder)
+              .qualificationOrder(qualificationOrder)
               .build());
 
     } else if (model.getPopularMovies().isPresent() && model.getPopularMovies().get()) {

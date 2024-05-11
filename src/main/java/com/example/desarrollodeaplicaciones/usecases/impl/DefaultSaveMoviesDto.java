@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultSaveMoviesDto implements SaveMoviesDto {
 
-  private SaveMovies saveMovies;
-  private BuildMovies buildMovies;
+  private final SaveMovies saveMovies;
+  private final BuildMovies buildMovies;
 
   public DefaultSaveMoviesDto(SaveMovies saveMovies, BuildMovies buildMovies) {
     this.saveMovies = saveMovies;
