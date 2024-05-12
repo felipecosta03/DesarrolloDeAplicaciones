@@ -5,7 +5,7 @@ import static java.util.Objects.isNull;
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.repositories.RetrievePopularMoviesDatabaseRepository;
-import com.example.desarrollodeaplicaciones.usecases.BuildMovieDto;
+import com.example.desarrollodeaplicaciones.usecases.BuildMoviesDto;
 import com.example.desarrollodeaplicaciones.usecases.RetrievePopularMoviesDatabase;
 import java.util.List;
 import java.util.Optional;
@@ -17,13 +17,13 @@ import org.springframework.stereotype.Component;
 public class DefaultRetrievePopularMoviesDatabase implements RetrievePopularMoviesDatabase {
 
   private final RetrievePopularMoviesDatabaseRepository retrievePopularMoviesDatabaseRepository;
-  private final BuildMovieDto buildMovieDTO;
+  private final BuildMoviesDto buildMoviesDto;
 
   public DefaultRetrievePopularMoviesDatabase(
       RetrievePopularMoviesDatabaseRepository retrievePopularMoviesDatabaseRepository,
-      BuildMovieDto buildMovieDTO) {
+      BuildMoviesDto buildMoviesDto) {
     this.retrievePopularMoviesDatabaseRepository = retrievePopularMoviesDatabaseRepository;
-    this.buildMovieDTO = buildMovieDTO;
+    this.buildMoviesDto = buildMoviesDto;
   }
 
   @Override
@@ -32,9 +32,8 @@ public class DefaultRetrievePopularMoviesDatabase implements RetrievePopularMovi
     Pageable pageable = PageRequest.of(model.getPage(), model.getSize());
 
     return Optional.of(
-        retrievePopularMoviesDatabaseRepository.findAll(pageable).getContent().stream()
-            .map(buildMovieDTO)
-            .toList());
+        buildMoviesDto.apply(
+            retrievePopularMoviesDatabaseRepository.findAll(pageable).getContent()));
   }
 
   private void validateModel(Model model) {

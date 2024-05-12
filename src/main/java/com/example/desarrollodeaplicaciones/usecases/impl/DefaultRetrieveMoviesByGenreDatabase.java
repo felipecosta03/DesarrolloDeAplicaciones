@@ -5,7 +5,7 @@ import static java.util.Objects.isNull;
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.repositories.RetrieveMoviesByGenreDatabaseRepository;
-import com.example.desarrollodeaplicaciones.usecases.BuildMovieDto;
+import com.example.desarrollodeaplicaciones.usecases.BuildMoviesDto;
 import com.example.desarrollodeaplicaciones.usecases.BuildRetrieveMoviesDatabaseSort;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByGenreDatabase;
 import java.util.List;
@@ -18,15 +18,15 @@ import org.springframework.stereotype.Component;
 public class DefaultRetrieveMoviesByGenreDatabase implements RetrieveMoviesByGenreDatabase {
 
   private final RetrieveMoviesByGenreDatabaseRepository retrieveMoviesByGenreDatabaseRepository;
-  private final BuildMovieDto buildMovieDTO;
+  private final BuildMoviesDto buildMoviesDTO;
   private final BuildRetrieveMoviesDatabaseSort buildRetrieveMoviesDatabaseSort;
 
   public DefaultRetrieveMoviesByGenreDatabase(
       RetrieveMoviesByGenreDatabaseRepository retrieveMoviesByGenreDatabaseRepository,
-      BuildMovieDto buildMovieDTO,
+      BuildMoviesDto buildMoviesDTO,
       BuildRetrieveMoviesDatabaseSort buildRetrieveMoviesDatabaseSort) {
     this.retrieveMoviesByGenreDatabaseRepository = retrieveMoviesByGenreDatabaseRepository;
-    this.buildMovieDTO = buildMovieDTO;
+    this.buildMoviesDTO = buildMoviesDTO;
     this.buildRetrieveMoviesDatabaseSort = buildRetrieveMoviesDatabaseSort;
   }
 
@@ -44,7 +44,7 @@ public class DefaultRetrieveMoviesByGenreDatabase implements RetrieveMoviesByGen
                     .build()));
     return retrieveMoviesByGenreDatabaseRepository
         .findByGenreIdsContaining(model.getGenreId(), pageable)
-        .map(movieSimples -> movieSimples.stream().map(buildMovieDTO).toList());
+        .map(buildMoviesDTO);
   }
 
   private void validateModel(Model model) {
