@@ -49,6 +49,7 @@ public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailRe
     if (movieDetailDto.isPresent()) {
       return movieDetailDto;
     }
+
     movieDetailDto =
         retrieveMovieDetailApi.apply(
             RetrieveMovieDetailApi.Model.builder().movieId(model.getMovieId()).build());

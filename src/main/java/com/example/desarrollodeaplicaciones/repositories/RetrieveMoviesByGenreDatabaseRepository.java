@@ -10,5 +10,4 @@ public interface RetrieveMoviesByGenreDatabaseRepository
     extends PagingAndSortingRepository<MovieSimple, Pageable> {
 
   Optional<List<MovieSimple>> findByGenreIdsContaining(Integer genreId, Pageable pageable);
-
 }

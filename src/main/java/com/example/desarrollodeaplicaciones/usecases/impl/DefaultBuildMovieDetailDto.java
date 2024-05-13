@@ -11,6 +11,7 @@ import com.example.desarrollodeaplicaciones.dtos.PeopleCrewDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.FailedDependencyUseCaseException;
 import com.example.desarrollodeaplicaciones.models.Genre;
+import com.example.desarrollodeaplicaciones.models.Vote;
 import com.example.desarrollodeaplicaciones.models.moviesapi.Image;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
 import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCast;
@@ -34,8 +35,8 @@ public class DefaultBuildMovieDetailDto implements BuildMovieDetailDto {
         .runtime(movieDetail.getRuntime())
         .releaseDate(movieDetail.getReleaseDate())
         .tagline(movieDetail.getTagline())
-        .voteAverage(movieDetail.getVoteAverage())
-        .voteCount(movieDetail.getVoteCount())
+        .voteAverage(calculateVoteAverage(movieDetail))
+        .voteCount(movieDetail.getVoteCount() + movieDetail.getVotes().size())
         .director(buildPeopleCrew(movieDetail.getDirector()))
         .images(
             Optional.ofNullable(movieDetail.getImages())
@@ -54,6 +55,12 @@ public class DefaultBuildMovieDetailDto implements BuildMovieDetailDto {
                 .map(cast -> cast.stream().map(this::buildPeopleCrew).toList())
                 .orElse(new ArrayList<>()))
         .build();
+  }
+
+  private Double calculateVoteAverage(MovieDetail movieDetail) {
+    return ((movieDetail.getVoteAverage() * movieDetail.getVoteCount())
+            + movieDetail.getVotes().stream().mapToDouble(Vote::getScore).sum())
+        / (movieDetail.getVoteCount() + movieDetail.getVotes().size());
   }
 
   private GenreDto buildGenre(Genre genre) {

@@ -20,8 +20,7 @@ import lombok.NoArgsConstructor;
 public class MovieDetailDto {
   private Long id;
 
-  @ManyToMany
-  private List<GenreDto> genres;
+  @ManyToMany private List<GenreDto> genres;
 
   @JsonProperty("original_language")
   private String originalLanguage;
@@ -41,19 +40,14 @@ public class MovieDetailDto {
   private String tagline;
   private String title;
 
-
   @JsonProperty("vote_average")
   private double voteAverage;
 
   @JsonProperty("vote_count")
   private int voteCount;
 
-    @OneToMany
-  private List<MovieImageDto> images;
-  @OneToMany
-  private List<MovieVideoDto> videos;
-  @ManyToOne
-  private PeopleCrewDto director;
-  @ManyToMany
-  private List<PeopleCastDto> cast;
+  @OneToMany private List<MovieImageDto> images;
+  @OneToMany private List<MovieVideoDto> videos;
+  @ManyToOne private PeopleCrewDto director;
+  @ManyToMany private List<PeopleCastDto> cast;
 }

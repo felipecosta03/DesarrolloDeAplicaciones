@@ -18,6 +18,7 @@ public class MovieSimpleDto {
   private Long id;
   private String title;
   private String overview;
+
   @JsonProperty("poster_path")
   private String posterPath;
 

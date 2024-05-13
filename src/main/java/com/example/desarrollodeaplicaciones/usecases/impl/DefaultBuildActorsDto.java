@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultBuildActorsDto implements BuildActorsDto {
 
-  private BuildActorDto buildActorDto;
+  private final BuildActorDto buildActorDto;
 
   public DefaultBuildActorsDto(BuildActorDto buildActorDto) {
     this.buildActorDto = buildActorDto;

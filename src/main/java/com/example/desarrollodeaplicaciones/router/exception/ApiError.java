@@ -1,7 +1,7 @@
 package com.example.desarrollodeaplicaciones.router.exception;
 
-import lombok.Getter;
 import lombok.Builder;
+import lombok.Getter;
 
 @Getter
 @Builder

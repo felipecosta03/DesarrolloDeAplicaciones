@@ -4,7 +4,6 @@ import static java.util.Objects.isNull;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.repository.BadRequestRepositoryException;
-import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseDiscoverMoviesApi;
 import com.example.desarrollodeaplicaciones.repositories.RetrieveMoviesByGenreApiRepository;
 import java.time.LocalDate;

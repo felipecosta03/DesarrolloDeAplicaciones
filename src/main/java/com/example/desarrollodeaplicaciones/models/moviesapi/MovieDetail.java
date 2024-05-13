@@ -1,6 +1,7 @@
 package com.example.desarrollodeaplicaciones.models.moviesapi;
 
 import com.example.desarrollodeaplicaciones.models.Genre;
+import com.example.desarrollodeaplicaciones.models.Vote;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -63,4 +64,7 @@ public class MovieDetail {
 
   @ManyToMany(cascade = CascadeType.ALL)
   private List<PeopleCast> cast;
+
+  @OneToMany(cascade = CascadeType.ALL)
+  private List<Vote> votes;
 }

@@ -5,4 +5,4 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/movies")
-public abstract class MovieRouter extends BaseRouter{}
+public abstract class MovieRouter extends BaseRouter {}

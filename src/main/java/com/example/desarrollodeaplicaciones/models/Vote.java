@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-public class Rate {
+public class Vote {
   @Id private Long id;
   private Double score;
 

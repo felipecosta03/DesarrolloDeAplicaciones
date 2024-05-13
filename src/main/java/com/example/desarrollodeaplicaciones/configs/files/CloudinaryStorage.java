@@ -38,7 +38,7 @@ public class CloudinaryStorage implements IFilesStorage {
 
   public String uploadImage(String imageUrl) {
     try {
-      Map<?,?> imageInfo = cloudinary.uploader().upload(imageUrl, ObjectUtils.emptyMap());
+      Map<?, ?> imageInfo = cloudinary.uploader().upload(imageUrl, ObjectUtils.emptyMap());
       return imageInfo.get("url").toString();
     } catch (IOException e) {
       log.error(e.getMessage());

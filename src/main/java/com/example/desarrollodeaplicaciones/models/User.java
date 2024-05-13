@@ -37,6 +37,5 @@ public class User {
   private Image image;
 
   private boolean active;
-  @ElementCollection
-  private List<Long> favoriteMovies;
+  @ElementCollection private List<Long> favoriteMovies;
 }

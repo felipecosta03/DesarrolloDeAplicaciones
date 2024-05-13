@@ -2,7 +2,6 @@ package com.example.desarrollodeaplicaciones.usecases.impl;
 
 import com.example.desarrollodeaplicaciones.dtos.ActorDto;
 import com.example.desarrollodeaplicaciones.usecases.BuildActors;
-import com.example.desarrollodeaplicaciones.usecases.BuildActorsDto;
 import com.example.desarrollodeaplicaciones.usecases.SaveActors;
 import com.example.desarrollodeaplicaciones.usecases.SaveActorsDto;
 import java.util.List;
