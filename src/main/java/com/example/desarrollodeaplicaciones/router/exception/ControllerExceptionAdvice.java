@@ -6,6 +6,7 @@ import com.example.desarrollodeaplicaciones.exceptions.router.BadRequestRouterEx
 import com.example.desarrollodeaplicaciones.exceptions.router.NotFoundRouterException;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.FailedDependencyUseCaseException;
+import com.example.desarrollodeaplicaciones.exceptions.usecases.InternalServerErrorUseCaseException;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.NotFoundUseCaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -57,9 +58,18 @@ public class ControllerExceptionAdvice {
             .message(e.getMessage())
             .status(HttpStatus.FAILED_DEPENDENCY.value())
             .build();
-
     e.printStackTrace();
+    return ResponseEntity.status(apiError.getStatus()).body(apiError);
+  }
 
+  @ExceptionHandler({InternalServerErrorUseCaseException.class})
+  public ResponseEntity<ApiError> internalServerErrorException(Exception e) {
+    final ApiError apiError =
+        ApiError.builder()
+            .error(e.getClass().getSimpleName())
+            .message(e.getMessage())
+            .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+            .build();
     return ResponseEntity.status(apiError.getStatus()).body(apiError);
   }
 }

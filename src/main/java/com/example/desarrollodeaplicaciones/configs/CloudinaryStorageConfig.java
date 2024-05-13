@@ -1,4 +1,4 @@
-package com.example.desarrollodeaplicaciones.configs.files;
+package com.example.desarrollodeaplicaciones.configs;
 
 import com.cloudinary.Cloudinary;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,15 +7,15 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class CloudinaryStorageConfig {
-  private final String CLOUDINARY_URL;
+  private final String cloudinaryUrl;
 
   public CloudinaryStorageConfig(@Value("${CLOUDINARY_URL}") String cloudinaryUrl) {
-    this.CLOUDINARY_URL = cloudinaryUrl;
+    this.cloudinaryUrl = cloudinaryUrl;
   }
 
   @Bean
   public Cloudinary cloudinary() {
-    Cloudinary cloudinary = new Cloudinary(CLOUDINARY_URL);
+    Cloudinary cloudinary = new Cloudinary(cloudinaryUrl);
     cloudinary.config.secure = true;
     return cloudinary;
   }
