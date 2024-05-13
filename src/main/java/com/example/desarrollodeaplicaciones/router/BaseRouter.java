@@ -2,6 +2,7 @@ package com.example.desarrollodeaplicaciones.router;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Objects;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -17,7 +18,7 @@ public abstract class BaseRouter {
         .getRequest();
   }
 
-    protected String getAuhorization() {
-      return getRequest().getHeader("Authorization");
-    }
+  protected String getAuhorization() {
+    return getRequest().getHeader(HttpHeaders.AUTHORIZATION);
+  }
 }
