@@ -22,6 +22,7 @@ public class DefaultBuildMovieDto implements BuildMovieDto {
         .popularity(movieSimple.getPopularity())
         .genreIds(movieSimple.getGenreIds())
         .overview(movieSimple.getOverview())
+        .backdropPath(movieSimple.getBackdropPath())
         .build();
   }
 

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,11 +30,11 @@ public class DefaultRetrievePopularMoviesDatabase implements RetrievePopularMovi
   @Override
   public Optional<List<MovieSimpleDto>> apply(Model model) {
     validateModel(model);
-    Pageable pageable = PageRequest.of(model.getPage(), model.getSize());
+    Pageable pageable =
+        PageRequest.of(model.getPage(), model.getSize(), Sort.by(Sort.Order.desc("popularity")));
 
     return Optional.of(
-        buildMoviesDto.apply(
-            retrievePopularMoviesDatabaseRepository.findAll(pageable).getContent()));
+        buildMoviesDto.apply(retrievePopularMoviesDatabaseRepository.findAll(pageable).getContent()));
   }
 
   private void validateModel(Model model) {

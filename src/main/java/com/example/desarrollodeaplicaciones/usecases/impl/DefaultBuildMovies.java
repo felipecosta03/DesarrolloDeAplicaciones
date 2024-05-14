@@ -31,11 +31,5 @@ public class DefaultBuildMovies implements BuildMovies {
     if (isNull(movies)) {
       throw new BadRequestUseCaseException("Movie list is required");
     }
-    if (movies.isEmpty()) {
-      throw new BadRequestUseCaseException("Movie list is empty");
-    }
-    if (movies.stream().anyMatch(Objects::isNull)) {
-      throw new BadRequestUseCaseException("Movie list contains null values");
-    }
   }
 }
