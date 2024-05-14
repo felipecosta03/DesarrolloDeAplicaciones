@@ -40,6 +40,11 @@ public class DefaultAddFavoriteMoveToUser implements AddFavoriteMoveToUser {
         retrieveUserByIdRepository
             .findById(model.getUserId())
             .orElseThrow(() -> new NotFoundUseCaseException("User not found"));
+
+    if (user.getFavoriteMovies().contains(model.getMovieId())) {
+      throw new BadRequestUseCaseException("Movie already added to favorites");
+    }
+
     if (!movieExistsByIdRepository.existsById(model.getMovieId())) {
       Optional<MovieDetailDto> movieDetail =
           retrieveMovieDetailResponse.apply(
