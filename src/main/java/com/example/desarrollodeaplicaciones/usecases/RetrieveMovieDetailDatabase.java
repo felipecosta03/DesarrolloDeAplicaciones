@@ -6,8 +6,8 @@ import java.util.function.Function;
 import lombok.Builder;
 import lombok.Getter;
 
-public interface RetrieveMovieDetail
-    extends Function<RetrieveMovieDetail.Model, Optional<MovieDetail>> {
+public interface RetrieveMovieDetailDatabase
+    extends Function<RetrieveMovieDetailDatabase.Model, Optional<MovieDetail>> {
 
   @Getter
   @Builder

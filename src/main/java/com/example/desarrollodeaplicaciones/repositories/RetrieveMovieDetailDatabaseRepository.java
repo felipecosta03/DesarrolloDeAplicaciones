@@ -4,7 +4,7 @@ import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
 import java.util.Optional;
 import org.springframework.data.repository.Repository;
 
-public interface RetrieveMovieDetailRepository extends Repository<MovieDetail, Long> {
+public interface RetrieveMovieDetailDatabaseRepository extends Repository<MovieDetail, Long> {
 
   Optional<MovieDetail> findById(Long id);
 }

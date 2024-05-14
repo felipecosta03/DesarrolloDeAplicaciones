@@ -1,9 +1,10 @@
 package com.example.desarrollodeaplicaciones.models;
 
-import jakarta.persistence.CascadeType;
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,9 +16,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 public class Vote {
-  @Id private Long id;
-  private Double score;
+  @Id
+  @GeneratedValue(strategy = IDENTITY)
+  private Long id;
 
-  @ManyToOne(cascade = CascadeType.ALL)
-  private User user;
+  private Integer score;
+
+  private Long userId;
 }

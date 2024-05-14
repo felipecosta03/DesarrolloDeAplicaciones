@@ -4,24 +4,25 @@ import static java.util.Objects.isNull;
 
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
-import com.example.desarrollodeaplicaciones.repositories.RetrieveMovieDetailRepository;
-import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetail;
+import com.example.desarrollodeaplicaciones.repositories.RetrieveMovieDetailDatabaseRepository;
+import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailDatabase;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DefaultRetrieveMovieDetail implements RetrieveMovieDetail {
+public class DefaultRetrieveMovieDetailDatabase implements RetrieveMovieDetailDatabase {
 
-  private final RetrieveMovieDetailRepository retrieveMovieDetailRepository;
+  private final RetrieveMovieDetailDatabaseRepository retrieveMovieDetailDatabaseRepository;
 
-  public DefaultRetrieveMovieDetail(RetrieveMovieDetailRepository retrieveMovieDetailRepository) {
-    this.retrieveMovieDetailRepository = retrieveMovieDetailRepository;
+  public DefaultRetrieveMovieDetailDatabase(
+      RetrieveMovieDetailDatabaseRepository retrieveMovieDetailDatabaseRepository) {
+    this.retrieveMovieDetailDatabaseRepository = retrieveMovieDetailDatabaseRepository;
   }
 
   @Override
   public Optional<MovieDetail> apply(Model model) {
     validateModel(model);
-    return retrieveMovieDetailRepository.findById(model.getMovieId());
+    return retrieveMovieDetailDatabaseRepository.findById(model.getMovieId());
   }
 
   private void validateModel(Model model) {

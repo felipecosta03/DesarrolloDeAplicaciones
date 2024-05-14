@@ -37,6 +37,9 @@ public class DefaultBuildUserDto implements BuildUserDto {
   }
 
   private ImageDto buildImageDto(Image image) {
+    if (isNull(image)){
+      return null;
+    }
     return ImageDto.builder().filePath(image.getFilePath()).id(image.getId()).build();
   }
 }

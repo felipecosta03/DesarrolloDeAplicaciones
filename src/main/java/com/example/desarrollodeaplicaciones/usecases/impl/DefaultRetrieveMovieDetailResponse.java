@@ -7,7 +7,7 @@ import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCas
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
 import com.example.desarrollodeaplicaciones.usecases.BuildMovieDetail;
 import com.example.desarrollodeaplicaciones.usecases.BuildMovieDetailDto;
-import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetail;
+import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailDatabase;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailApi;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailResponse;
 import com.example.desarrollodeaplicaciones.usecases.SaveMovieDetail;
@@ -18,18 +18,18 @@ import org.springframework.stereotype.Component;
 public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailResponse {
 
   private final RetrieveMovieDetailApi retrieveMovieDetailApi;
-  private final RetrieveMovieDetail retrieveMovieDetail;
+  private final RetrieveMovieDetailDatabase retrieveMovieDetailDatabase;
   private final SaveMovieDetail saveMovieDetail;
   private final BuildMovieDetail buildMovieDetail;
   private final BuildMovieDetailDto buildMovieDetailDTO;
 
   public DefaultRetrieveMovieDetailResponse(
-      RetrieveMovieDetail retrieveMovieDetail,
+      RetrieveMovieDetailDatabase retrieveMovieDetailDatabase,
       SaveMovieDetail saveMovieDetail,
       BuildMovieDetail buildMovieDetail,
       BuildMovieDetailDto buildMovieDetailDTO,
       RetrieveMovieDetailApi retrieveMovieDetailApi) {
-    this.retrieveMovieDetail = retrieveMovieDetail;
+    this.retrieveMovieDetailDatabase = retrieveMovieDetailDatabase;
     this.saveMovieDetail = saveMovieDetail;
     this.buildMovieDetail = buildMovieDetail;
     this.buildMovieDetailDTO = buildMovieDetailDTO;
@@ -41,8 +41,8 @@ public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailRe
     validateModel(model);
 
     Optional<MovieDetail> movieDetail =
-        retrieveMovieDetail.apply(
-            RetrieveMovieDetail.Model.builder().movieId(model.getMovieId()).build());
+        retrieveMovieDetailDatabase.apply(
+            RetrieveMovieDetailDatabase.Model.builder().movieId(model.getMovieId()).build());
 
     Optional<MovieDetailDto> movieDetailDto = movieDetail.map(buildMovieDetailDTO);
 
