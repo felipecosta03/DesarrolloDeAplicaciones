@@ -64,8 +64,13 @@ public class DefaultBuildMovieDetail implements BuildMovieDetail {
   }
 
   private Image buildImage(MovieImageDto imageDTO) {
+
     if (isNull(imageDTO)) {
       throw new FailedDependencyUseCaseException("imageDTO cannot be null");
+    }
+    if (!imageDTO.getFilePath().isBlank()) {
+      imageDTO.setFilePath(
+          String.format("https://image.tmdb.org/t/p/w500%s", imageDTO.getFilePath()));
     }
     return Image.builder().filePath(imageDTO.getFilePath()).id(imageDTO.getId()).build();
   }

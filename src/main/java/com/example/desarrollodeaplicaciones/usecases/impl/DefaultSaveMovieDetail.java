@@ -6,6 +6,7 @@ import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCas
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
 import com.example.desarrollodeaplicaciones.repositories.SaveMovieDetailRepository;
 import com.example.desarrollodeaplicaciones.usecases.SaveMovieDetail;
+import com.example.desarrollodeaplicaciones.usecases.UploadImage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -15,9 +16,12 @@ import org.springframework.stereotype.Component;
 public class DefaultSaveMovieDetail implements SaveMovieDetail {
 
   private final SaveMovieDetailRepository saveMovieDetailRepository;
+  private final UploadImage uploadImage;
 
-  public DefaultSaveMovieDetail(SaveMovieDetailRepository saveMovieDetailRepository) {
+  public DefaultSaveMovieDetail(
+      SaveMovieDetailRepository saveMovieDetailRepository, UploadImage uploadImage) {
     this.saveMovieDetailRepository = saveMovieDetailRepository;
+    this.uploadImage = uploadImage;
   }
 
   private void validateMovieDetail(MovieDetail movieDetail) {
@@ -35,6 +39,15 @@ public class DefaultSaveMovieDetail implements SaveMovieDetail {
   public void accept(MovieDetail movieDetail) {
     validateMovieDetail(movieDetail);
     log.info("Saving movie detail with id: {}", movieDetail.getId());
+
+    movieDetail
+        .getImages()
+        .forEach(
+            image ->
+                image.setFilePath(
+                    uploadImage.apply(
+                        UploadImage.Model.builder().imageUrl(image.getFilePath()).build())));
+
     saveMovieDetailRepository.save(movieDetail);
     log.info("Movie detail with id: {} saved", movieDetail.getId());
   }

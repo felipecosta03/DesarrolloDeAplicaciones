@@ -8,11 +8,14 @@ import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCas
 import com.example.desarrollodeaplicaciones.exceptions.usecases.InternalServerErrorUseCaseException;
 import com.example.desarrollodeaplicaciones.usecases.UploadImage;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DefaultUploadImage implements UploadImage {
 
+  private static final Logger log = LoggerFactory.getLogger(DefaultUploadImage.class);
   private final Cloudinary cloudinary;
 
   public DefaultUploadImage(Cloudinary cloudinary) {
@@ -25,6 +28,7 @@ public class DefaultUploadImage implements UploadImage {
     try {
       Map<?, ?> imageInfo =
           cloudinary.uploader().upload(model.getImageUrl(), ObjectUtils.emptyMap());
+      log.info("Image uploaded successfully");
       return imageInfo.get("url").toString();
     } catch (Exception e) {
       throw new InternalServerErrorUseCaseException(e.getMessage());
