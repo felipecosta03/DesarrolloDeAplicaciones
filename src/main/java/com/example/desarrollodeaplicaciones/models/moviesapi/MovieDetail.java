@@ -43,6 +43,11 @@ public class MovieDetail {
   @JsonProperty("release_date")
   private LocalDate releaseDate;
 
+  @JsonProperty("backdrop_path")
+  private String backdropPath;
+
+  private double popularity;
+
   private int runtime;
   private String tagline;
   private String title;

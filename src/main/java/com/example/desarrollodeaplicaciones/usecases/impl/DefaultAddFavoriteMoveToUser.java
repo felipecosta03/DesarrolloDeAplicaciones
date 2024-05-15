@@ -7,10 +7,10 @@ import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCas
 import com.example.desarrollodeaplicaciones.exceptions.usecases.NotFoundUseCaseException;
 import com.example.desarrollodeaplicaciones.models.User;
 import com.example.desarrollodeaplicaciones.repositories.MovieExistsByIdRepository;
-import com.example.desarrollodeaplicaciones.repositories.RetrieveUserByIdRepository;
 import com.example.desarrollodeaplicaciones.repositories.SaveUserRepository;
 import com.example.desarrollodeaplicaciones.usecases.AddFavoriteMoveToUser;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailResponse;
+import com.example.desarrollodeaplicaciones.usecases.RetrieveUserById;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
 
@@ -18,17 +18,17 @@ import org.springframework.stereotype.Component;
 public class DefaultAddFavoriteMoveToUser implements AddFavoriteMoveToUser {
 
   private final MovieExistsByIdRepository movieExistsByIdRepository;
-  private final RetrieveUserByIdRepository retrieveUserByIdRepository;
+  private final RetrieveUserById retrieveUserById;
   private final RetrieveMovieDetailResponse retrieveMovieDetailResponse;
   private final SaveUserRepository saveUserRepository;
 
   public DefaultAddFavoriteMoveToUser(
       MovieExistsByIdRepository movieExistsByIdRepository,
-      RetrieveUserByIdRepository retrieveUserByIdRepository,
+      RetrieveUserById retrieveUserById,
       RetrieveMovieDetailResponse retrieveMovieDetailResponse,
       SaveUserRepository saveUserRepository) {
     this.movieExistsByIdRepository = movieExistsByIdRepository;
-    this.retrieveUserByIdRepository = retrieveUserByIdRepository;
+    this.retrieveUserById = retrieveUserById;
     this.retrieveMovieDetailResponse = retrieveMovieDetailResponse;
     this.saveUserRepository = saveUserRepository;
   }
@@ -37,9 +37,7 @@ public class DefaultAddFavoriteMoveToUser implements AddFavoriteMoveToUser {
   public void accept(Model model) {
     validateModel(model);
     User user =
-        retrieveUserByIdRepository
-            .findById(model.getUserId())
-            .orElseThrow(() -> new NotFoundUseCaseException("User not found"));
+        retrieveUserById.apply(RetrieveUserById.Model.builder().userId(model.getUserId()).build());
 
     if (user.getFavoriteMovies().contains(model.getMovieId())) {
       throw new BadRequestUseCaseException("Movie already added to favorites");

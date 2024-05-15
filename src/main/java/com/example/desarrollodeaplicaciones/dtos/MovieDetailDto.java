@@ -46,6 +46,10 @@ public class MovieDetailDto {
   @JsonProperty("vote_count")
   private int voteCount;
 
+  @JsonProperty("backdrop_path")
+  private String backdropPath;
+
+  private double popularity;
   @OneToMany private List<MovieImageDto> images;
   @OneToMany private List<MovieVideoDto> videos;
   @ManyToOne private PeopleCrewDto director;
