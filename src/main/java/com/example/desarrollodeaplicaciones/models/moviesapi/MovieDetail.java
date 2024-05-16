@@ -1,10 +1,8 @@
 package com.example.desarrollodeaplicaciones.models.moviesapi;
 
 import com.example.desarrollodeaplicaciones.models.Genre;
+import com.example.desarrollodeaplicaciones.models.Vote;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.time.LocalDate;
-import java.util.List;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,7 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import java.time.LocalDate;
+import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class MovieDetail {
   @Id private Long id;
 
@@ -40,6 +42,11 @@ public class MovieDetail {
 
   @JsonProperty("release_date")
   private LocalDate releaseDate;
+
+  @JsonProperty("backdrop_path")
+  private String backdropPath;
+
+  private double popularity;
 
   private int runtime;
   private String tagline;
@@ -62,4 +69,7 @@ public class MovieDetail {
 
   @ManyToMany(cascade = CascadeType.ALL)
   private List<PeopleCast> cast;
+
+  @OneToMany(cascade = CascadeType.ALL)
+  private List<Vote> votes;
 }
