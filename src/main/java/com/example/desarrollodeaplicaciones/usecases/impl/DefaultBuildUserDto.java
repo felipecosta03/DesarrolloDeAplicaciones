@@ -2,11 +2,9 @@ package com.example.desarrollodeaplicaciones.usecases.impl;
 
 import static java.util.Objects.isNull;
 
-import com.example.desarrollodeaplicaciones.dtos.ImageDto;
 import com.example.desarrollodeaplicaciones.dtos.UserDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.models.User;
-import com.example.desarrollodeaplicaciones.models.moviesapi.Image;
 import com.example.desarrollodeaplicaciones.usecases.BuildUserDto;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +20,7 @@ public class DefaultBuildUserDto implements BuildUserDto {
         .lastName(user.getLastName())
         .nickName(user.getNickName())
         .active(user.isActive())
-        .image(buildImageDto(user.getImage()))
+        .image(user.getImage())
         .build();
   }
 
@@ -34,12 +32,5 @@ public class DefaultBuildUserDto implements BuildUserDto {
     if (isNull(user.getId())) {
       throw new BadRequestUseCaseException("User id is required");
     }
-  }
-
-  private ImageDto buildImageDto(Image image) {
-    if (isNull(image)){
-      return null;
-    }
-    return ImageDto.builder().filePath(image.getFilePath()).id(image.getId()).build();
   }
 }
