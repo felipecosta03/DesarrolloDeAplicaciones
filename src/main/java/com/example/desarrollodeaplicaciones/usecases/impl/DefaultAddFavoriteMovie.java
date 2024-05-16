@@ -8,21 +8,22 @@ import com.example.desarrollodeaplicaciones.exceptions.usecases.NotFoundUseCaseE
 import com.example.desarrollodeaplicaciones.models.User;
 import com.example.desarrollodeaplicaciones.repositories.MovieExistsByIdRepository;
 import com.example.desarrollodeaplicaciones.repositories.SaveUserRepository;
-import com.example.desarrollodeaplicaciones.usecases.AddFavoriteMoveToUser;
+import com.example.desarrollodeaplicaciones.usecases.AddFavoriteMovie;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailResponse;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveUserById;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DefaultAddFavoriteMoveToUser implements AddFavoriteMoveToUser {
+public class DefaultAddFavoriteMovie implements AddFavoriteMovie {
 
   private final MovieExistsByIdRepository movieExistsByIdRepository;
   private final RetrieveUserById retrieveUserById;
-  private final RetrieveMovieDetailResponse retrieveMovieDetailResponse;
   private final SaveUserRepository saveUserRepository;
+  private final RetrieveMovieDetailResponse retrieveMovieDetailResponse;
 
-  public DefaultAddFavoriteMoveToUser(
+
+  public DefaultAddFavoriteMovie(
       MovieExistsByIdRepository movieExistsByIdRepository,
       RetrieveUserById retrieveUserById,
       RetrieveMovieDetailResponse retrieveMovieDetailResponse,
