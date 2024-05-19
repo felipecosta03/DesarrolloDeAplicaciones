@@ -8,7 +8,6 @@ import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
 import com.example.desarrollodeaplicaciones.usecases.BuildMovie;
 import com.example.desarrollodeaplicaciones.usecases.BuildMovies;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 

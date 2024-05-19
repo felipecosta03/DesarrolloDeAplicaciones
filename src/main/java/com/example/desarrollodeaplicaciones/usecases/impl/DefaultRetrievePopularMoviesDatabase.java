@@ -34,7 +34,8 @@ public class DefaultRetrievePopularMoviesDatabase implements RetrievePopularMovi
         PageRequest.of(model.getPage(), model.getSize(), Sort.by(Sort.Order.desc("popularity")));
 
     return Optional.of(
-        buildMoviesDto.apply(retrievePopularMoviesDatabaseRepository.findAll(pageable).getContent()));
+        buildMoviesDto.apply(
+            retrievePopularMoviesDatabaseRepository.findAll(pageable).getContent()));
   }
 
   private void validateModel(Model model) {

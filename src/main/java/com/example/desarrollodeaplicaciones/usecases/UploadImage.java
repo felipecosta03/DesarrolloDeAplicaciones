@@ -7,7 +7,7 @@ import lombok.Getter;
 public interface UploadImage extends Function<UploadImage.Model, String> {
   @Builder
   @Getter
-  class Model{
+  class Model {
     private String imageUrl;
   }
 }

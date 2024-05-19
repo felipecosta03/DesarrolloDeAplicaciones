@@ -1,8 +1,6 @@
 package com.example.desarrollodeaplicaciones.router;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
-import com.example.desarrollodeaplicaciones.exceptions.router.NotFoundRouterException;
-import com.example.desarrollodeaplicaciones.exceptions.usecases.NotFoundUseCaseException;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveFavoriteMoviesFromUserResponse;
 import java.util.List;
 import java.util.Optional;
