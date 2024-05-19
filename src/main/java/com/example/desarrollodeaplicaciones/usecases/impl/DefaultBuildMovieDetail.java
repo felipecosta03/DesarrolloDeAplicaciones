@@ -16,21 +16,39 @@ import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
 import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCast;
 import com.example.desarrollodeaplicaciones.models.moviesapi.PeopleCrew;
 import com.example.desarrollodeaplicaciones.models.moviesapi.Video;
+import com.example.desarrollodeaplicaciones.usecases.BuildImageUrl;
 import com.example.desarrollodeaplicaciones.usecases.BuildMovieDetail;
+import com.mysql.cj.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DefaultBuildMovieDetail implements BuildMovieDetail {
+
+  private final BuildImageUrl buildImageUrl;
+
+  public DefaultBuildMovieDetail(BuildImageUrl buildImageUrl) {
+    this.buildImageUrl = buildImageUrl;
+  }
+
   @Override
   public MovieDetail apply(MovieDetailDto movieDetailDTO) {
     validateMovieDetailDTO(movieDetailDTO);
+
+    if (!movieDetailDTO.getBackdropPath().isBlank()) {
+      movieDetailDTO.setBackdropPath(buildImageUrl.apply(movieDetailDTO.getBackdropPath()));
+    }
+    if (!movieDetailDTO.getPosterPath().isBlank()) {
+      movieDetailDTO.setPosterPath(buildImageUrl.apply(movieDetailDTO.getPosterPath()));
+    }
+
     return MovieDetail.builder()
         .id(movieDetailDTO.getId())
         .title(movieDetailDTO.getTitle())
         .overview(movieDetailDTO.getOverview())
         .posterPath(movieDetailDTO.getPosterPath())
+        .backdropPath(movieDetailDTO.getBackdropPath())
         .runtime(movieDetailDTO.getRuntime())
         .releaseDate(movieDetailDTO.getReleaseDate())
         .tagline(movieDetailDTO.getTagline())
@@ -69,8 +87,7 @@ public class DefaultBuildMovieDetail implements BuildMovieDetail {
       throw new FailedDependencyUseCaseException("imageDTO cannot be null");
     }
     if (!imageDTO.getFilePath().isBlank()) {
-      imageDTO.setFilePath(
-          String.format("https://image.tmdb.org/t/p/w500%s", imageDTO.getFilePath()));
+      imageDTO.setFilePath(buildImageUrl.apply(imageDTO.getFilePath()));
     }
     return Image.builder().filePath(imageDTO.getFilePath()).id(imageDTO.getId()).build();
   }
@@ -86,6 +103,11 @@ public class DefaultBuildMovieDetail implements BuildMovieDetail {
     if (isNull(peopleCastDTO)) {
       throw new FailedDependencyUseCaseException("peopleCastDTO cannot be null");
     }
+
+    if (!StringUtils.isNullOrEmpty(peopleCastDTO.getProfilePath())) {
+      peopleCastDTO.setProfilePath(buildImageUrl.apply(peopleCastDTO.getProfilePath()));
+    }
+
     return PeopleCast.builder()
         .character(peopleCastDTO.getCharacter())
         .name(peopleCastDTO.getName())
@@ -99,6 +121,11 @@ public class DefaultBuildMovieDetail implements BuildMovieDetail {
     if (isNull(peopleCrewDTO)) {
       throw new FailedDependencyUseCaseException("peopleCrewDTO cannot be null");
     }
+
+    if (!StringUtils.isNullOrEmpty(peopleCrewDTO.getProfilePath())) {
+      peopleCrewDTO.setProfilePath(buildImageUrl.apply(peopleCrewDTO.getProfilePath()));
+    }
+
     return PeopleCrew.builder()
         .name(peopleCrewDTO.getName())
         .profilePath(peopleCrewDTO.getProfilePath())
