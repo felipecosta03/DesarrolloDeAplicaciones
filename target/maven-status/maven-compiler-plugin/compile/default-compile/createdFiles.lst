@@ -246,6 +246,7 @@ com/example/desarrollodeaplicaciones/router/AddVoteToMovieRouter.class
 com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveMovieDetailResponse.class
 com/example/desarrollodeaplicaciones/repositories/RetrieveMoviesByGenreApiRepository.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesFromActors$Model$ModelBuilder.class
+com/example/desarrollodeaplicaciones/configs/DataSourceConfig.class
 com/example/desarrollodeaplicaciones/usecases/SaveActorsDto.class
 com/example/desarrollodeaplicaciones/usecases/impl/DefaultBuildMovieDto.class
 com/example/desarrollodeaplicaciones/models/moviesapi/response/ResponseActorsSearchApi.class

@@ -25,6 +25,7 @@
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/repositories/RetrieveMoviesByTitleApiRepository.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/repositories/impl/DefaultRetrieveMovieVideoRepository.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveMoviesBySearch.java
+/Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/configs/DataSourceConfig.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveMoviesFromActors.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesByTitle.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveUserResponse.java
