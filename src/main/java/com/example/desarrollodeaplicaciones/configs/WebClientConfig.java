@@ -27,7 +27,7 @@ public class WebClientConfig {
     return WebClient.builder()
         .baseUrl("https://api.themoviedb.org/3")
         .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-        .defaultHeader(HttpHeaders.AUTHORIZATION, env.getProperty("MOVIE_AUTH_TOKEN"))
+        .defaultHeader(HttpHeaders.AUTHORIZATION, env.getProperty("MOVIE_DB_AUTH_ENV"))
         .clientConnector(new ReactorClientHttpConnector(httpClient))
         .build();
   }

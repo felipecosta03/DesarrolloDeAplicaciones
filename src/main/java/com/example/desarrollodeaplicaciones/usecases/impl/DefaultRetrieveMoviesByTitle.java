@@ -40,7 +40,13 @@ public class DefaultRetrieveMoviesByTitle implements RetrieveMoviesByTitle {
     // Retrieve movies by title from the database if an API error occurs (Optional is empty)
     if (movies.isEmpty()) {
       return retrieveMoviesByTitleDatabase.apply(
-          RetrieveMoviesByTitleDatabase.Model.builder().title(model.getTitle()).build());
+          RetrieveMoviesByTitleDatabase.Model.builder()
+              .title(model.getTitle())
+              .page(model.getPage())
+              .size(model.getSize())
+              .dateOrder(model.getDateOrder())
+              .qualificationOrder(model.getQualificationOrder())
+              .build());
     }
     // Save movies in the database
     saveMoviesDto.accept(movies.get());
