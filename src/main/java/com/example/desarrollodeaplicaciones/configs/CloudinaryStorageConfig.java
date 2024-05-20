@@ -1,21 +1,22 @@
 package com.example.desarrollodeaplicaciones.configs;
 
 import com.cloudinary.Cloudinary;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 @Configuration
 public class CloudinaryStorageConfig {
-  private final String cloudinaryUrl;
 
-  public CloudinaryStorageConfig(@Value("${CLOUDINARY_URL}") String cloudinaryUrl) {
-    this.cloudinaryUrl = cloudinaryUrl;
+  private final Environment env;
+
+  public CloudinaryStorageConfig(Environment env) {
+    this.env = env;
   }
 
   @Bean
   public Cloudinary cloudinary() {
-    Cloudinary cloudinary = new Cloudinary(cloudinaryUrl);
+    Cloudinary cloudinary = new Cloudinary(env.getProperty("CLOUDINARY_URL"));
     cloudinary.config.secure = true;
     return cloudinary;
   }

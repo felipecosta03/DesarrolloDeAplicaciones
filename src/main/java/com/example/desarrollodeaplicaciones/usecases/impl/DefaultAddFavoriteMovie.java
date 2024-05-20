@@ -22,7 +22,6 @@ public class DefaultAddFavoriteMovie implements AddFavoriteMovie {
   private final SaveUserRepository saveUserRepository;
   private final RetrieveMovieDetailResponse retrieveMovieDetailResponse;
 
-
   public DefaultAddFavoriteMovie(
       MovieExistsByIdRepository movieExistsByIdRepository,
       RetrieveUserById retrieveUserById,

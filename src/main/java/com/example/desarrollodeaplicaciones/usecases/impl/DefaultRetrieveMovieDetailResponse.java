@@ -7,8 +7,8 @@ import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCas
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
 import com.example.desarrollodeaplicaciones.usecases.BuildMovieDetail;
 import com.example.desarrollodeaplicaciones.usecases.BuildMovieDetailDto;
-import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailDatabase;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailApi;
+import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailDatabase;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailResponse;
 import com.example.desarrollodeaplicaciones.usecases.SaveMovieDetail;
 import java.util.Optional;

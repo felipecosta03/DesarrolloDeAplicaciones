@@ -27,17 +27,17 @@ public class DefaultRetrievePopularMovies implements RetrievePopularMovies {
 
   @Override
   public Optional<List<MovieSimpleDto>> apply(Model model) {
-      Optional<List<MovieSimpleDto>> moviesDTO =
-          retrievePopularMoviesApi.apply(
-              RetrievePopularMoviesApi.Model.builder()
-                  .size(model.getSize())
-                  .page(model.getPage())
-                  .build());
+    Optional<List<MovieSimpleDto>> moviesDTO =
+        retrievePopularMoviesApi.apply(
+            RetrievePopularMoviesApi.Model.builder()
+                .size(model.getSize())
+                .page(model.getPage())
+                .build());
 
-      if (moviesDTO.isPresent()) {
-        saveMoviesDTO.accept(moviesDTO.get());
-        return moviesDTO;
-      }
+    if (moviesDTO.isPresent()) {
+      saveMoviesDTO.accept(moviesDTO.get());
+      return moviesDTO;
+    }
     return retrievePopularMoviesDatabase.apply(
         RetrievePopularMoviesDatabase.Model.builder()
             .size(model.getSize())

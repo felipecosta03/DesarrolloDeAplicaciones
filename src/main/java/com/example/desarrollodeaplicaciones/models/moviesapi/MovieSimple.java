@@ -22,8 +22,8 @@ public class MovieSimple {
 
   @JsonProperty("backdrop_path")
   private String backdropPath;
-  private double popularity;
 
+  private double popularity;
 
   @JsonProperty("genre_ids")
   @ElementCollection
@@ -38,7 +38,6 @@ public class MovieSimple {
   @JsonProperty("overview")
   @Column(length = 5000)
   private String overview;
-
 
   @JsonProperty("poster_path")
   private String posterPath;
