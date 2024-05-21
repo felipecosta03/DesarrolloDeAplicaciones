@@ -4,6 +4,7 @@ import com.example.desarrollodeaplicaciones.dtos.UserDto;
 import com.example.desarrollodeaplicaciones.exceptions.repository.NotFoundRepositoryException;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveUserResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,7 @@ public class RetrieveUserRouter extends UserRouter {
     this.retrieveUserResponse = retrieveUserResponse;
   }
 
-  @RequestMapping("/{userId}")
+  @GetMapping("/{userId}")
   public ResponseEntity<UserDto> get(@PathVariable("userId") Long userId) {
     return retrieveUserResponse
         .apply(RetrieveUserResponse.Model.builder().userId(userId).build())

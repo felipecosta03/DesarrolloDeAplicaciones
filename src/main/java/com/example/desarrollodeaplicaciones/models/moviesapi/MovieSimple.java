@@ -47,4 +47,7 @@ public class MovieSimple {
 
   @JsonProperty("vote_average")
   private double voteAverage;
+
+  @JsonProperty("vote_count")
+  private double voteCount;
 }

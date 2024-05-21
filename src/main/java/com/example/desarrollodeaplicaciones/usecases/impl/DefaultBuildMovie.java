@@ -23,6 +23,7 @@ public class DefaultBuildMovie implements BuildMovie {
         .overview(movieDetailDTO.getOverview())
         .genreIds(movieDetailDTO.getGenreIds())
         .backdropPath(movieDetailDTO.getBackdropPath())
+        .voteCount(movieDetailDTO.getVoteCount())
         .build();
   }
 
