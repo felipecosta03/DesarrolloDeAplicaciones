@@ -10,7 +10,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DefaultRetrieveActorsByName implements RetrieveActorsByName {
+public class  DefaultRetrieveActorsByName implements RetrieveActorsByName {
 
   private final RetrieveActorsByNameApi retrieveActorsByNameApi;
   private final RetrieveActorsByNameDatabase retrieveActorsByNameDatabase;
@@ -44,7 +44,6 @@ public class DefaultRetrieveActorsByName implements RetrieveActorsByName {
               .size(model.getSize())
               .build());
     }
-
     saveActorsDto.accept(actors.get());
     return actors;
   }

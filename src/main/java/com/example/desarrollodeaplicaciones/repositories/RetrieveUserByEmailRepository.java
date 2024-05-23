@@ -1,9 +1,10 @@
 package com.example.desarrollodeaplicaciones.repositories;
 
 import com.example.desarrollodeaplicaciones.models.User;
+import java.util.Optional;
 import org.springframework.data.repository.Repository;
 
-public interface ExistsUserByEmailRepository extends Repository<User, Long> {
+public interface RetrieveUserByEmailRepository extends Repository<User, Long> {
 
-    boolean existsByEmail(String email);
+    Optional<User> findUserByEmail(String email);
 }

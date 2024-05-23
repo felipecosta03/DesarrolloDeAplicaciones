@@ -7,6 +7,7 @@ import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveActorsByName;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesFromActors;
+import com.example.desarrollodeaplicaciones.usecases.SaveMoviesDto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +17,12 @@ import org.springframework.stereotype.Component;
 public class DefaultRetrieveMoviesFromActors implements RetrieveMoviesFromActors {
 
   private final RetrieveActorsByName retrieveActorsByName;
+  private final SaveMoviesDto saveMoviesDto;
 
-  public DefaultRetrieveMoviesFromActors(RetrieveActorsByName retrieveActorsByName) {
+
+  public DefaultRetrieveMoviesFromActors(RetrieveActorsByName retrieveActorsByName, SaveMoviesDto saveMoviesDto) {
     this.retrieveActorsByName = retrieveActorsByName;
+    this.saveMoviesDto = saveMoviesDto;
   }
 
   @Override
@@ -37,6 +41,7 @@ public class DefaultRetrieveMoviesFromActors implements RetrieveMoviesFromActors
     if (movies.isEmpty()) {
       return Optional.empty();
     }
+    saveMoviesDto.accept(movies);
     return Optional.of(movies);
   }
 

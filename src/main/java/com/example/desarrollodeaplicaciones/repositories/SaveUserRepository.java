@@ -4,5 +4,5 @@ import com.example.desarrollodeaplicaciones.models.User;
 import org.springframework.data.repository.Repository;
 
 public interface SaveUserRepository extends Repository<User, Long> {
-  void save(User user);
+  User save(User user);
 }

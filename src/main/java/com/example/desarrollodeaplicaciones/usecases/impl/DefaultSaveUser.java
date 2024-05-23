@@ -17,9 +17,9 @@ public class DefaultSaveUser implements SaveUser {
   }
 
   @Override
-  public void accept(User user) {
+  public User apply(User user) {
     validateUser(user);
-    saveUserRepository.save(user);
+    return saveUserRepository.save(user);
   }
 
   private void validateUser(User user) {
