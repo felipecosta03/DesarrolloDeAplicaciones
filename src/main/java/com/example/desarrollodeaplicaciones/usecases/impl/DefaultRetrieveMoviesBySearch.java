@@ -11,9 +11,11 @@ import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesFromActors;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class DefaultRetrieveMoviesBySearch implements RetrieveMoviesBySearch {
 
   private final RetrieveMoviesByTitle retrieveMoviesByTitle;
@@ -32,17 +34,8 @@ public class DefaultRetrieveMoviesBySearch implements RetrieveMoviesBySearch {
   @Override
   public Optional<List<MovieSimpleDto>> apply(Model model) {
     validateModel(model);
-    // Retrieve movies by a search from the API or database if an api error occurs
-    final Optional<List<MovieSimpleDto>> moviesByTitle =
-        retrieveMoviesByTitle.apply(
-            RetrieveMoviesByTitle.Model.builder()
-                .title(model.getValue())
-                .size(model.getSize())
-                .page(model.getPage())
-                .dateOrder(model.getDateOrder())
-                .qualificationOrder(model.getQualificationOrder())
-                .build());
     // Retrieve movies by actors from the API or database if an api error occurs
+    log.info("Retrieving movies by actors name: {}", model.getValue());
     final Optional<List<MovieSimpleDto>> moviesFromActors =
         retrieveMoviesFromActors.apply(
             RetrieveMoviesFromActors.Model.builder()
@@ -52,8 +45,20 @@ public class DefaultRetrieveMoviesBySearch implements RetrieveMoviesBySearch {
                 .dateOrder(model.getDateOrder())
                 .qualificationOrder(model.getQualificationOrder())
                 .build());
-    // Merge movies of actors with the movies retrieved by the search
 
+    // Retrieve movies by a search from the API or database if an api error occurs
+    log.info("Retrieving movies by title value: {}", model.getValue());
+    final Optional<List<MovieSimpleDto>> moviesByTitle =
+        retrieveMoviesByTitle.apply(
+            RetrieveMoviesByTitle.Model.builder()
+                .title(model.getValue())
+                .size(model.getSize())
+                .page(model.getPage())
+                .dateOrder(model.getDateOrder())
+                .qualificationOrder(model.getQualificationOrder())
+                .build());
+
+    // Merge movies of actors with the movies retrieved by the search
     return mergeMovies.apply(
         moviesByTitle.orElse(Collections.emptyList()),
         moviesFromActors.orElse(Collections.emptyList()));

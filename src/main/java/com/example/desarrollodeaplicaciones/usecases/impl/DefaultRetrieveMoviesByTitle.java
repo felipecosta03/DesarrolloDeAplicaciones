@@ -4,6 +4,7 @@ import static java.util.Objects.isNull;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
+import com.example.desarrollodeaplicaciones.usecases.FixImage;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByTitle;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByTitleApi;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByTitleDatabase;
@@ -18,14 +19,17 @@ public class DefaultRetrieveMoviesByTitle implements RetrieveMoviesByTitle {
   private final RetrieveMoviesByTitleApi retrieveMoviesByTitleApi;
   private final RetrieveMoviesByTitleDatabase retrieveMoviesByTitleDatabase;
   private final SaveMoviesDto saveMoviesDto;
+  private final FixImage<MovieSimpleDto> fixImage;
 
   public DefaultRetrieveMoviesByTitle(
       RetrieveMoviesByTitleApi retrieveMoviesByTitleApi,
       RetrieveMoviesByTitleDatabase retrieveMoviesByTitleDatabase,
-      SaveMoviesDto saveMoviesDto) {
+      SaveMoviesDto saveMoviesDto,
+      FixImage<MovieSimpleDto> fixImage) {
     this.retrieveMoviesByTitleApi = retrieveMoviesByTitleApi;
     this.retrieveMoviesByTitleDatabase = retrieveMoviesByTitleDatabase;
     this.saveMoviesDto = saveMoviesDto;
+    this.fixImage = fixImage;
   }
 
   @Override
@@ -35,7 +39,10 @@ public class DefaultRetrieveMoviesByTitle implements RetrieveMoviesByTitle {
     // Retrieve movies by title from the API
     final Optional<List<MovieSimpleDto>> movies =
         retrieveMoviesByTitleApi.apply(
-            RetrieveMoviesByTitleApi.Model.builder().title(model.getTitle()).build());
+            RetrieveMoviesByTitleApi.Model.builder()
+                .title(model.getTitle())
+                .page(model.getPage())
+                .build());
 
     // Retrieve movies by title from the database if an API error occurs (Optional is empty)
     if (movies.isEmpty()) {
@@ -49,6 +56,7 @@ public class DefaultRetrieveMoviesByTitle implements RetrieveMoviesByTitle {
               .build());
     }
     // Save movies in the database
+    movies.get().forEach(fixImage);
     saveMoviesDto.accept(movies.get());
     return movies;
   }

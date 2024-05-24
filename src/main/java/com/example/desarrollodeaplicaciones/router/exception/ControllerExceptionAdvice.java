@@ -1,5 +1,6 @@
 package com.example.desarrollodeaplicaciones.router.exception;
 
+import com.example.desarrollodeaplicaciones.exceptions.ForbiddenUseCaseException;
 import com.example.desarrollodeaplicaciones.exceptions.repository.FailedDependencyRepositoryException;
 import com.example.desarrollodeaplicaciones.exceptions.repository.NotFoundRepositoryException;
 import com.example.desarrollodeaplicaciones.exceptions.router.BadRequestRouterException;
@@ -72,4 +73,17 @@ public class ControllerExceptionAdvice {
             .build();
     return ResponseEntity.status(apiError.getStatus()).body(apiError);
   }
+
+  @ExceptionHandler({ForbiddenUseCaseException.class})
+  public ResponseEntity<ApiError> forbiddenException(Exception e) {
+    final ApiError apiError =
+        ApiError.builder()
+            .error(e.getClass().getSimpleName())
+            .message(e.getMessage())
+            .status(HttpStatus.FORBIDDEN.value())
+            .build();
+    return ResponseEntity.status(apiError.getStatus()).body(apiError);
+  }
+
+
 }

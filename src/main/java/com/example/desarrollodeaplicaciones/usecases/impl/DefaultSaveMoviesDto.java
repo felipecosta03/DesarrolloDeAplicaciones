@@ -1,6 +1,5 @@
 package com.example.desarrollodeaplicaciones.usecases.impl;
 
-import static java.util.Objects.isNull;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
@@ -35,17 +34,11 @@ public class DefaultSaveMoviesDto implements SaveMoviesDto {
   @Override
   @Async
   public void accept(List<MovieSimpleDto> moviesDto) {
-    moviesDto.forEach(
-        movie -> {
-          movie.setPosterPath(
-              isNull(movie.getPosterPath()) ? null : buildImageUrl.apply(movie.getPosterPath()));
-          movie.setBackdropPath(
-              isNull(movie.getBackdropPath())
-                  ? null
-                  : buildImageUrl.apply(movie.getBackdropPath()));
-        });
-
-    List<MovieSimple> movies = buildMovies.apply(filterUnsavedMovies.apply(moviesDto));
+    List<MovieSimpleDto> moviesFiltered = filterUnsavedMovies.apply(moviesDto);
+    if (moviesFiltered.isEmpty()) {
+      return;
+    }
+    List<MovieSimple> movies = buildMovies.apply(moviesFiltered);
     saveMovies.accept(movies);
   }
 }

@@ -35,4 +35,7 @@ public class MovieSimpleDto {
   private double voteAverage;
 
   private double popularity;
+
+  @JsonProperty("vote_count")
+  private double voteCount;
 }
