@@ -40,21 +40,6 @@ public class DefaultSaveMovieDetail implements SaveMovieDetail {
     validateMovieDetail(movieDetail);
     log.info("Saving movie detail with id: {}", movieDetail.getId());
     saveMovieDetailRepository.save(movieDetail); // First save for the movie detail
-
-    movieDetail
-        .getImages()
-        .forEach(
-            image ->
-                image.setFilePath(
-                    uploadImage.apply(
-                        UploadImage.Model.builder().imageUrl(image.getFilePath()).build())));
-
-    movieDetail.setPosterPath(
-        uploadImage.apply(
-            UploadImage.Model.builder().imageUrl(movieDetail.getPosterPath()).build()));
-    movieDetail.setBackdropPath(
-        uploadImage.apply(
-            UploadImage.Model.builder().imageUrl(movieDetail.getBackdropPath()).build()));
     saveMovieDetailRepository.save(movieDetail); // Second save with all the images uploaded
     log.info("Movie detail with id: {} saved", movieDetail.getId());
   }

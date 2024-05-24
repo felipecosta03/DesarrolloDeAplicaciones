@@ -1,6 +1,7 @@
 package com.example.desarrollodeaplicaciones.usecases.impl;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
+import com.example.desarrollodeaplicaciones.usecases.FixImage;
 import com.example.desarrollodeaplicaciones.usecases.RetrievePopularMovies;
 import com.example.desarrollodeaplicaciones.usecases.RetrievePopularMoviesApi;
 import com.example.desarrollodeaplicaciones.usecases.RetrievePopularMoviesDatabase;
@@ -15,14 +16,17 @@ public class DefaultRetrievePopularMovies implements RetrievePopularMovies {
   private final RetrievePopularMoviesApi retrievePopularMoviesApi;
   private final RetrievePopularMoviesDatabase retrievePopularMoviesDatabase;
   private final SaveMoviesDto saveMoviesDTO;
+  private final FixImage<MovieSimpleDto> fixImage;
 
   public DefaultRetrievePopularMovies(
       RetrievePopularMoviesApi retrievePopularMoviesApi,
       RetrievePopularMoviesDatabase retrievePopularMoviesDatabase,
-      SaveMoviesDto saveMoviesDTO) {
+      SaveMoviesDto saveMoviesDTO,
+      FixImage<MovieSimpleDto> fixImage) {
     this.retrievePopularMoviesApi = retrievePopularMoviesApi;
     this.retrievePopularMoviesDatabase = retrievePopularMoviesDatabase;
     this.saveMoviesDTO = saveMoviesDTO;
+    this.fixImage = fixImage;
   }
 
   @Override
@@ -35,6 +39,7 @@ public class DefaultRetrievePopularMovies implements RetrievePopularMovies {
                 .build());
 
     if (moviesDTO.isPresent()) {
+      moviesDTO.get().forEach(fixImage);
       saveMoviesDTO.accept(moviesDTO.get());
       return moviesDTO;
     }

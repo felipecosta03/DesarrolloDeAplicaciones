@@ -4,6 +4,7 @@ import static java.util.Objects.isNull;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
+import com.example.desarrollodeaplicaciones.usecases.FixImage;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovies;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesApi;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesDatabase;
@@ -17,14 +18,17 @@ public class DefaultRetrieveMovies implements RetrieveMovies {
   private final RetrieveMoviesDatabase retrieveMoviesDatabase;
   private final RetrieveMoviesApi retrieveMoviesApi;
   private final SaveMoviesDto saveMoviesDTO;
+  private final FixImage<MovieSimpleDto> fixImage;
 
   public DefaultRetrieveMovies(
       RetrieveMoviesDatabase retrieveMoviesDatabase,
       RetrieveMoviesApi retrieveMoviesApi,
-      SaveMoviesDto saveMoviesDTO) {
+      SaveMoviesDto saveMoviesDTO,
+      DefaultFixMovieImage fixImage) {
     this.retrieveMoviesDatabase = retrieveMoviesDatabase;
     this.retrieveMoviesApi = retrieveMoviesApi;
     this.saveMoviesDTO = saveMoviesDTO;
+    this.fixImage = fixImage;
   }
 
   @Override
@@ -48,6 +52,7 @@ public class DefaultRetrieveMovies implements RetrieveMovies {
               .qualificationOrder(model.getQualificationOrder())
               .build());
     }
+    moviesDto.get().forEach(fixImage);
     saveMoviesDTO.accept(moviesDto.get());
     return moviesDto;
   }

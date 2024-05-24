@@ -11,9 +11,11 @@ import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesResponse;
 import com.example.desarrollodeaplicaciones.usecases.RetrievePopularMovies;
 import java.util.List;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class DefaultRetrieveMoviesResponse implements RetrieveMoviesResponse {
 
   private final RetrieveMovies retrieveMovies;
@@ -41,7 +43,7 @@ public class DefaultRetrieveMoviesResponse implements RetrieveMoviesResponse {
     final String qualificationOrder = model.getQualificationOrder().orElse(null);
 
     if (model.getGenre().isPresent() && !model.getGenre().get().isBlank()) {
-
+      log.info("Retrieving movies by genre: {}", model.getGenre().get());
       return retrieveMoviesByGenre.apply(
           RetrieveMoviesByGenre.Model.builder()
               .genre(model.getGenre().get())
@@ -51,7 +53,7 @@ public class DefaultRetrieveMoviesResponse implements RetrieveMoviesResponse {
               .size(size)
               .build());
     } else if (model.getValue().isPresent() && !model.getValue().get().isBlank()) {
-
+      log.info("Retrieving movies by search: {}", model.getValue().get());
       return retrieveMoviesBySearch.apply(
           RetrieveMoviesBySearch.Model.builder()
               .value(model.getValue().get())
@@ -62,12 +64,12 @@ public class DefaultRetrieveMoviesResponse implements RetrieveMoviesResponse {
               .build());
 
     } else if (model.getPopularMovies().isPresent() && model.getPopularMovies().get()) {
-
+      log.info("Retrieving popular movies");
       return retrievePopularMovies.apply(
           RetrievePopularMovies.Model.builder().page(page).size(size).build());
 
     } else {
-
+      log.info("Retrieving movies");
       return retrieveMovies.apply(
           RetrieveMovies.Model.builder()
               .page(page)

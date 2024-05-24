@@ -17,12 +17,9 @@ import org.springframework.stereotype.Component;
 public class DefaultRetrieveMoviesFromActors implements RetrieveMoviesFromActors {
 
   private final RetrieveActorsByName retrieveActorsByName;
-  private final SaveMoviesDto saveMoviesDto;
 
-
-  public DefaultRetrieveMoviesFromActors(RetrieveActorsByName retrieveActorsByName, SaveMoviesDto saveMoviesDto) {
+  public DefaultRetrieveMoviesFromActors(RetrieveActorsByName retrieveActorsByName) {
     this.retrieveActorsByName = retrieveActorsByName;
-    this.saveMoviesDto = saveMoviesDto;
   }
 
   @Override
@@ -37,11 +34,9 @@ public class DefaultRetrieveMoviesFromActors implements RetrieveMoviesFromActors
 
     actors.ifPresent(
         actorsDto -> actorsDto.forEach(actorDto -> movies.addAll(actorDto.getKnownFor())));
-
     if (movies.isEmpty()) {
       return Optional.empty();
     }
-    saveMoviesDto.accept(movies);
     return Optional.of(movies);
   }
 

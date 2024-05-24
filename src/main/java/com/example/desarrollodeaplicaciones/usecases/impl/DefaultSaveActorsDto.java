@@ -21,7 +21,7 @@ public class DefaultSaveActorsDto implements SaveActorsDto {
 
   @Override
   @Async
-  public void accept(List<ActorDto> actorDtos) {
-    saveActors.accept(buildActors.apply(actorDtos));
+  public void accept(List<ActorDto> actorsDto) {
+    saveActors.accept(buildActors.apply(actorsDto));
   }
 }

@@ -7,6 +7,8 @@ import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCas
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
 import com.example.desarrollodeaplicaciones.usecases.BuildMovieDetail;
 import com.example.desarrollodeaplicaciones.usecases.BuildMovieDetailDto;
+import com.example.desarrollodeaplicaciones.usecases.BuildVideoUrl;
+import com.example.desarrollodeaplicaciones.usecases.FixImage;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailApi;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailDatabase;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailResponse;
@@ -22,18 +24,24 @@ public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailRe
   private final SaveMovieDetail saveMovieDetail;
   private final BuildMovieDetail buildMovieDetail;
   private final BuildMovieDetailDto buildMovieDetailDTO;
+  private final FixImage<MovieDetailDto> fixImage;
+  private final BuildVideoUrl buildVideoUrl;
 
   public DefaultRetrieveMovieDetailResponse(
       RetrieveMovieDetailDatabase retrieveMovieDetailDatabase,
       SaveMovieDetail saveMovieDetail,
       BuildMovieDetail buildMovieDetail,
       BuildMovieDetailDto buildMovieDetailDTO,
-      RetrieveMovieDetailApi retrieveMovieDetailApi) {
+      RetrieveMovieDetailApi retrieveMovieDetailApi,
+      FixImage<MovieDetailDto> fixImage,
+      BuildVideoUrl buildVideoUrl) {
     this.retrieveMovieDetailDatabase = retrieveMovieDetailDatabase;
     this.saveMovieDetail = saveMovieDetail;
     this.buildMovieDetail = buildMovieDetail;
     this.buildMovieDetailDTO = buildMovieDetailDTO;
     this.retrieveMovieDetailApi = retrieveMovieDetailApi;
+    this.fixImage = fixImage;
+    this.buildVideoUrl = buildVideoUrl;
   }
 
   @Override
@@ -56,6 +64,8 @@ public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailRe
 
     movieDetailDto.ifPresent(
         response -> {
+          fixImage.accept(response);
+          response.getVideos().forEach(video -> video.setKey(buildVideoUrl.apply(video.getKey())));
           saveMovieDetail.accept(buildMovieDetail.apply(response));
         });
 

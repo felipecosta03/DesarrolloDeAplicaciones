@@ -5,6 +5,7 @@ import static java.util.Objects.isNull;
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.NotFoundUseCaseException;
+import com.example.desarrollodeaplicaciones.usecases.FixImage;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveGenreIdByGenreName;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByGenre;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByGenreApi;
@@ -21,16 +22,19 @@ public class DefaultRetrieveMoviesByGenre implements RetrieveMoviesByGenre {
   private final RetrieveMoviesByGenreDatabase retrieveMoviesByGenreDatabase;
   private final RetrieveMoviesByGenreApi retrieveMoviesByGenreApi;
   private final SaveMoviesDto saveMoviesDTO;
+  private final FixImage<MovieSimpleDto> fixImage;
 
   public DefaultRetrieveMoviesByGenre(
       RetrieveGenreIdByGenreName retrieveGenreIdByGenreName,
       RetrieveMoviesByGenreDatabase retrieveMoviesByGenreDatabase,
       RetrieveMoviesByGenreApi retrieveMoviesByGenreApi,
-      SaveMoviesDto saveMoviesDTO) {
+      SaveMoviesDto saveMoviesDTO,
+      FixImage<MovieSimpleDto> fixImage) {
     this.retrieveGenreIdByGenreName = retrieveGenreIdByGenreName;
     this.retrieveMoviesByGenreDatabase = retrieveMoviesByGenreDatabase;
     this.retrieveMoviesByGenreApi = retrieveMoviesByGenreApi;
     this.saveMoviesDTO = saveMoviesDTO;
+    this.fixImage = fixImage;
   }
 
   @Override
@@ -52,6 +56,7 @@ public class DefaultRetrieveMoviesByGenre implements RetrieveMoviesByGenre {
                   .build());
 
       if (moviesDTO.isPresent()) {
+        moviesDTO.get().forEach(fixImage);
         saveMoviesDTO.accept(moviesDTO.get());
         return moviesDTO;
       }
