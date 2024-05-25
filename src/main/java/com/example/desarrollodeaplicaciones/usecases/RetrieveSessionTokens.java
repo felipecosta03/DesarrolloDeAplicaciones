@@ -1,8 +1,7 @@
 package com.example.desarrollodeaplicaciones.usecases;
 
-import java.util.function.Function;
-
 import com.example.desarrollodeaplicaciones.models.Session;
+import java.util.function.Function;
 import lombok.Builder;
 import lombok.Getter;
 

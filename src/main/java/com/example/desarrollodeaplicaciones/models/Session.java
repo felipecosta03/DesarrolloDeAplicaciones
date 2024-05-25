@@ -16,10 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "session")
 public class Session {
-	@Id
-	private String id; //Este es un hash que representa al token original.
-	private String lastRefreshToken;
-	private Date createdAt;
-
-
+  @Id private String id; // Este es un hash que representa al token original.
+  private String lastRefreshToken;
+  private Date createdAt;
 }

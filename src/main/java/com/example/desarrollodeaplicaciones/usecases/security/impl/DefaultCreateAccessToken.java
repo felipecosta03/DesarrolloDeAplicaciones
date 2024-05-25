@@ -1,7 +1,6 @@
 package com.example.desarrollodeaplicaciones.usecases.security.impl;
 
 import com.example.desarrollodeaplicaciones.usecases.security.CreateAccessToken;
-import com.example.desarrollodeaplicaciones.usecases.security.CreateRefreshToken;
 import io.jsonwebtoken.Jwts;
 import java.security.Key;
 import java.util.Date;

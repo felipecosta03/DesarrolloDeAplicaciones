@@ -2,7 +2,6 @@ package com.example.desarrollodeaplicaciones.usecases.security.impl;
 
 import com.example.desarrollodeaplicaciones.usecases.security.BuildJwtParser;
 import com.example.desarrollodeaplicaciones.usecases.security.RetrieveUsernameFromToken;
-import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Component;
 
 @Component
