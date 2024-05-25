@@ -20,7 +20,6 @@ public class DefaultBuildMovieSimpleDtoByMovieDetailDto
         .id(movieDetailDto.getId())
         .title(movieDetailDto.getTitle())
         .genreIds(buildGenresId(movieDetailDto.getGenres()))
-        .overview(movieDetailDto.getOverview())
         .posterPath(movieDetailDto.getPosterPath())
         .voteAverage(movieDetailDto.getVoteAverage())
         .releaseDate(movieDetailDto.getReleaseDate())
