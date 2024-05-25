@@ -4,7 +4,6 @@ import com.example.desarrollodeaplicaciones.models.User;
 import com.example.desarrollodeaplicaciones.usecases.security.CreateTokenJwt;
 import com.example.desarrollodeaplicaciones.usecases.security.RetrieveJwtKey;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 import org.springframework.stereotype.Component;
 
@@ -23,10 +22,10 @@ public class DefaultCreateTokenJwt implements CreateTokenJwt {
     Date now = new Date();
     Date validity = new Date(now.getTime() + VALIDITY);
     return Jwts.builder()
-        .setSubject(user.getEmail())
-        .setIssuedAt(now)
-        .setExpiration(validity)
-        .signWith(SignatureAlgorithm.HS256, retrieveJwtKey.get())
+        .subject(user.getEmail())
+        .issuedAt(now)
+        .expiration(validity)
+        .signWith(retrieveJwtKey.get())
         .compact();
   }
 }

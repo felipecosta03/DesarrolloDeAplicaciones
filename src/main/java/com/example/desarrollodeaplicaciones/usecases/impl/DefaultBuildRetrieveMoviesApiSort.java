@@ -11,15 +11,19 @@ public class DefaultBuildRetrieveMoviesApiSort implements BuildRetrieveMoviesApi
   public String apply(Model model) {
     final String qualificationOrder = model.getQualificationOrder();
     final String dateOrder = model.getDateOrder();
+    if (!isNull(dateOrder)) {
+      if (dateOrder.equals("asc")) {
+        return "release_date.asc";
+      } else {
+        return "release_date.desc";
+      }
+    }
     if (!isNull(qualificationOrder)) {
       if (qualificationOrder.equals("asc")) {
         return "vote_average.asc";
-      } else {
+      } else if (qualificationOrder.equals("desc")) {
         return "vote_average.desc";
       }
-    }
-    if (!isNull(dateOrder) && dateOrder.equals("asc")) {
-      return "release_date.asc";
     }
     return "release_date.desc";
   }
