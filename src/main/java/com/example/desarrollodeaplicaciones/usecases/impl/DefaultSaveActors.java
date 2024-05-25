@@ -6,7 +6,6 @@ import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCas
 import com.example.desarrollodeaplicaciones.models.moviesapi.Actor;
 import com.example.desarrollodeaplicaciones.repositories.SaveActorsRepository;
 import com.example.desarrollodeaplicaciones.usecases.SaveActors;
-import com.example.desarrollodeaplicaciones.usecases.SaveMovies;
 import java.util.List;
 import org.springframework.stereotype.Component;
 

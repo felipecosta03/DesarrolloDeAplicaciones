@@ -30,7 +30,11 @@ public class RetrieveMovieDetailRouter extends MovieRouter {
     }
     ResponseEntity<MovieDetailDto> response =
         retrieveMovieDetailResponse
-            .apply(RetrieveMovieDetailResponse.Model.builder().movieId(movieId).build())
+            .apply(
+                RetrieveMovieDetailResponse.Model.builder()
+                    .movieId(movieId)
+                    .userEmail(getUserEmail())
+                    .build())
             .map(ResponseEntity::ok)
             .orElseThrow(() -> new NotFoundRouterException("Movie not found"));
     log.info("Movie detail retrieved with id: {}", movieId);

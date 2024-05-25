@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultCreateTokenJwt implements CreateTokenJwt {
 
-  public static final int VALIDITY = 3600000 * 3; // 3 hours
+  public static final int VALIDITY = 3600 * 1000 * 3; // 3 hours
   private final RetrieveJwtKey retrieveJwtKey;
 
   public DefaultCreateTokenJwt(RetrieveJwtKey retrieveJwtKey) {

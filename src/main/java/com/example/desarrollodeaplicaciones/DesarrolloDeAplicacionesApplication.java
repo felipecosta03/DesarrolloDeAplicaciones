@@ -8,10 +8,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @SpringBootApplication
 @EnableAsync
 @EnableConfigurationProperties
-public class DesarrolloDeAplicacionesApplication{
+public class DesarrolloDeAplicacionesApplication {
 
   public static void main(String[] args) {
     SpringApplication.run(DesarrolloDeAplicacionesApplication.class, args);
   }
-
 }

@@ -13,5 +13,4 @@ public interface RetrieveSessionTokens extends Function<RetrieveSessionTokens.Mo
   class Model {
     private String token;
   }
-
 }

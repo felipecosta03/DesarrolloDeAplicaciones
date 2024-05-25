@@ -1,6 +1,5 @@
 package com.example.desarrollodeaplicaciones.usecases.impl;
 
-
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
 import com.example.desarrollodeaplicaciones.usecases.BuildImageUrl;

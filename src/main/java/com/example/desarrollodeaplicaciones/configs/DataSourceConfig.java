@@ -27,6 +27,7 @@ public class DataSourceConfig {
         .username(env.getProperty("DATABASE_USER"))
         .build();
   }
+
   @Bean
   @Profile("!prod")
   public DataSource getDataSourceLocal() {

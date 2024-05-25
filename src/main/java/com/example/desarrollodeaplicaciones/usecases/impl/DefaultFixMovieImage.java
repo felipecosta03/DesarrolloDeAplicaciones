@@ -22,10 +22,12 @@ public class DefaultFixMovieImage implements FixImage<MovieSimpleDto> {
   public void accept(MovieSimpleDto movieSimpleDto) {
     validateMovieSimpleDto(movieSimpleDto);
     if (!isNull(movieSimpleDto.getPosterPath())) {
-    movieSimpleDto.setPosterPath(buildImageUrl.apply(movieSimpleDto.getPosterPath()));}
+      movieSimpleDto.setPosterPath(buildImageUrl.apply(movieSimpleDto.getPosterPath()));
+    }
     if (!isNull(movieSimpleDto.getBackdropPath())) {
 
-    movieSimpleDto.setBackdropPath(buildImageUrl.apply(movieSimpleDto.getBackdropPath()));}
+      movieSimpleDto.setBackdropPath(buildImageUrl.apply(movieSimpleDto.getBackdropPath()));
+    }
   }
 
   private void validateMovieSimpleDto(MovieSimpleDto movieSimpleDto) {

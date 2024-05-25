@@ -5,8 +5,6 @@ import static java.util.Objects.isNull;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.usecases.security.BuildJwtParser;
 import com.example.desarrollodeaplicaciones.usecases.security.IsTokenValid;
-import com.example.desarrollodeaplicaciones.usecases.security.RetrieveJwtKey;
-import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Component;
 
 @Component

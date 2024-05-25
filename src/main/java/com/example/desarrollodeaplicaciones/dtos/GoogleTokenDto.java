@@ -11,6 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GoogleTokenDto {
 
- private String googleToken;
-
+  private String googleToken;
 }

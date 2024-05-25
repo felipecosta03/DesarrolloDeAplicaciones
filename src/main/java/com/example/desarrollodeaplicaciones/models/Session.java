@@ -1,10 +1,9 @@
 package com.example.desarrollodeaplicaciones.models;
 
-import jakarta.persistence.Id;
-import java.util.Date;
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

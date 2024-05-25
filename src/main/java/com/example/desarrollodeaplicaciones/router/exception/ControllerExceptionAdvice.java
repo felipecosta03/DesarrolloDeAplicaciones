@@ -84,6 +84,4 @@ public class ControllerExceptionAdvice {
             .build();
     return ResponseEntity.status(apiError.getStatus()).body(apiError);
   }
-
-
 }

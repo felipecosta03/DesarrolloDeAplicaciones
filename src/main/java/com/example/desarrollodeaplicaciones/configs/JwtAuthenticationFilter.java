@@ -3,8 +3,6 @@ package com.example.desarrollodeaplicaciones.configs;
 import com.example.desarrollodeaplicaciones.usecases.security.IsTokenValid;
 import com.example.desarrollodeaplicaciones.usecases.security.RetrieveTokenFromRequest;
 import com.example.desarrollodeaplicaciones.usecases.security.RetrieveUsernameFromToken;
-import com.google.common.net.HttpHeaders;
-import com.mysql.cj.util.StringUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

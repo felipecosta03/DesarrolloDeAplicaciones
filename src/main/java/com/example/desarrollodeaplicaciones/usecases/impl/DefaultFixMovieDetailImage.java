@@ -36,7 +36,6 @@ public class DefaultFixMovieDetailImage implements FixImage<MovieDetailDto> {
     movieDetailDto
         .getCast()
         .forEach(actor -> actor.setProfilePath(buildImageUrl.apply(actor.getProfilePath())));
-
   }
 
   private void validateMovieDetailDto(MovieDetailDto movieDetailDto) {

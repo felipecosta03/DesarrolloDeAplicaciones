@@ -6,5 +6,5 @@ import org.springframework.data.repository.Repository;
 
 public interface RetrieveUserByEmailRepository extends Repository<User, Long> {
 
-    Optional<User> findUserByEmail(String email);
+  Optional<User> findUserByEmail(String email);
 }

@@ -7,7 +7,6 @@ import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveActorsByName;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesFromActors;
-import com.example.desarrollodeaplicaciones.usecases.SaveMoviesDto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

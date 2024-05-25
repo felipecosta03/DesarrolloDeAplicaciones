@@ -1,5 +1,3 @@
 package com.example.desarrollodeaplicaciones.usecases.impl;
 
-public class DefaultRetrieveSessionTokens {
-
-}
+public class DefaultRetrieveSessionTokens {}

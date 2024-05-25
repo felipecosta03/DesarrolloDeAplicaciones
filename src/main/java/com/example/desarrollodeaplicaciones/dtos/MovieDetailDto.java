@@ -54,4 +54,7 @@ public class MovieDetailDto {
   @OneToMany private List<MovieVideoDto> videos;
   @ManyToOne private PeopleCrewDto director;
   @ManyToMany private List<PeopleCastDto> cast;
+
+  @JsonProperty("is_favorite")
+  private boolean isFavorite;
 }
