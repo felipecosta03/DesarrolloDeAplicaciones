@@ -9,7 +9,7 @@ import com.example.desarrollodeaplicaciones.models.User;
 import com.example.desarrollodeaplicaciones.repositories.MovieExistsByIdRepository;
 import com.example.desarrollodeaplicaciones.repositories.SaveUserRepository;
 import com.example.desarrollodeaplicaciones.usecases.AddFavoriteMovie;
-import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailResponse;
+import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetail;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveUserById;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
@@ -20,17 +20,17 @@ public class DefaultAddFavoriteMovie implements AddFavoriteMovie {
   private final MovieExistsByIdRepository movieExistsByIdRepository;
   private final RetrieveUserById retrieveUserById;
   private final SaveUserRepository saveUserRepository;
-  private final RetrieveMovieDetailResponse retrieveMovieDetailResponse;
+  private final RetrieveMovieDetail retrieveMovieDetail;
 
   public DefaultAddFavoriteMovie(
       MovieExistsByIdRepository movieExistsByIdRepository,
       RetrieveUserById retrieveUserById,
-      RetrieveMovieDetailResponse retrieveMovieDetailResponse,
-      SaveUserRepository saveUserRepository) {
+      SaveUserRepository saveUserRepository,
+      RetrieveMovieDetail retrieveMovieDetail) {
     this.movieExistsByIdRepository = movieExistsByIdRepository;
     this.retrieveUserById = retrieveUserById;
-    this.retrieveMovieDetailResponse = retrieveMovieDetailResponse;
     this.saveUserRepository = saveUserRepository;
+    this.retrieveMovieDetail = retrieveMovieDetail;
   }
 
   @Override
@@ -45,8 +45,8 @@ public class DefaultAddFavoriteMovie implements AddFavoriteMovie {
 
     if (!movieExistsByIdRepository.existsById(model.getMovieId())) {
       Optional<MovieDetailDto> movieDetail =
-          retrieveMovieDetailResponse.apply(
-              RetrieveMovieDetailResponse.Model.builder().movieId(model.getMovieId()).build());
+          retrieveMovieDetail.apply(
+              RetrieveMovieDetail.Model.builder().movieId(model.getMovieId()).build());
       if (movieDetail.isEmpty()) {
         throw new NotFoundUseCaseException("Movie not found");
       }

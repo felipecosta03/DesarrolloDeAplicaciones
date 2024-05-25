@@ -28,6 +28,7 @@ public class RetrieveMovieDetailRouter extends MovieRouter {
     if (isNull(movieId)) {
       throw new BadRequestRouterException("Movie ID is required");
     }
+    log.info(getUserEmail());
     ResponseEntity<MovieDetailDto> response =
         retrieveMovieDetailResponse
             .apply(

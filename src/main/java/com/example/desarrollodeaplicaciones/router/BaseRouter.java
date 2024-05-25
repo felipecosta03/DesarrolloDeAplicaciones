@@ -32,6 +32,7 @@ public abstract class BaseRouter {
     if (isNull(token)) {
       throw new BadRequestRouterException("Token not found");
     }
+
     return retrieveUsernameFromToken.apply(token);
   }
 

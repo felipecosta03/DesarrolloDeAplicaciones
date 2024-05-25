@@ -44,6 +44,7 @@ public class ControllerExceptionAdvice {
             .status(HttpStatus.BAD_REQUEST.value())
             .build();
 
+    e.printStackTrace();
     return ResponseEntity.status(apiError.getStatus()).body(apiError);
   }
 

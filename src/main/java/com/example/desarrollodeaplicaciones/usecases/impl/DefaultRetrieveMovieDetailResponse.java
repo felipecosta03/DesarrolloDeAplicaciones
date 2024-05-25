@@ -5,47 +5,23 @@ import static java.util.Objects.isNull;
 import com.example.desarrollodeaplicaciones.dtos.MovieDetailDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.models.User;
-import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
-import com.example.desarrollodeaplicaciones.usecases.BuildMovieDetail;
-import com.example.desarrollodeaplicaciones.usecases.BuildMovieDetailDto;
-import com.example.desarrollodeaplicaciones.usecases.BuildVideoUrl;
-import com.example.desarrollodeaplicaciones.usecases.FixImage;
-import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailApi;
-import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailDatabase;
+import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetail;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailResponse;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveUserByEmail;
-import com.example.desarrollodeaplicaciones.usecases.SaveMovieDetail;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailResponse {
 
-  private final RetrieveMovieDetailApi retrieveMovieDetailApi;
-  private final RetrieveMovieDetailDatabase retrieveMovieDetailDatabase;
-  private final SaveMovieDetail saveMovieDetail;
-  private final BuildMovieDetail buildMovieDetail;
-  private final BuildMovieDetailDto buildMovieDetailDTO;
-  private final FixImage<MovieDetailDto> fixImage;
-  private final BuildVideoUrl buildVideoUrl;
+  private final RetrieveMovieDetail retrieveMovieDetail;
   private final RetrieveUserByEmail retrieveUserByEmail;
 
   public DefaultRetrieveMovieDetailResponse(
-      RetrieveMovieDetailDatabase retrieveMovieDetailDatabase,
-      SaveMovieDetail saveMovieDetail,
-      BuildMovieDetail buildMovieDetail,
-      BuildMovieDetailDto buildMovieDetailDTO,
-      RetrieveMovieDetailApi retrieveMovieDetailApi,
-      FixImage<MovieDetailDto> fixImage,
-      BuildVideoUrl buildVideoUrl,
-      RetrieveUserByEmail retrieveUserByEmail) {
-    this.retrieveMovieDetailDatabase = retrieveMovieDetailDatabase;
-    this.saveMovieDetail = saveMovieDetail;
-    this.buildMovieDetail = buildMovieDetail;
-    this.buildMovieDetailDTO = buildMovieDetailDTO;
-    this.retrieveMovieDetailApi = retrieveMovieDetailApi;
-    this.fixImage = fixImage;
-    this.buildVideoUrl = buildVideoUrl;
+      RetrieveMovieDetail retrieveMovieDetail, RetrieveUserByEmail retrieveUserByEmail) {
+    this.retrieveMovieDetail = retrieveMovieDetail;
     this.retrieveUserByEmail = retrieveUserByEmail;
   }
 
@@ -53,9 +29,9 @@ public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailRe
   public Optional<MovieDetailDto> apply(Model model) {
     validateModel(model);
 
-    Optional<MovieDetail> movieDetail =
-        retrieveMovieDetailDatabase.apply(
-            RetrieveMovieDetailDatabase.Model.builder().movieId(model.getMovieId()).build());
+    Optional<MovieDetailDto> movieDetailDto =
+        retrieveMovieDetail.apply(
+            RetrieveMovieDetail.Model.builder().movieId(model.getMovieId()).build());
     Optional<User> user =
         retrieveUserByEmail.apply(
             RetrieveUserByEmail.Model.builder().email(model.getUserEmail()).build());
@@ -64,23 +40,8 @@ public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailRe
       throw new BadRequestUseCaseException("User not found");
     }
 
-    Optional<MovieDetailDto> movieDetailDto = movieDetail.map(buildMovieDetailDTO);
-
-    if (movieDetailDto.isPresent()) {
-      return movieDetailDto;
-    }
-
-    movieDetailDto =
-        retrieveMovieDetailApi.apply(
-            RetrieveMovieDetailApi.Model.builder().movieId(model.getMovieId()).build());
-
     movieDetailDto.ifPresent(
-        response -> {
-          fixImage.accept(response);
-          response.getVideos().forEach(video -> video.setKey(buildVideoUrl.apply(video.getKey())));
-          response.setFavorite(user.get().getFavoriteMovies().contains(model.getMovieId()));
-          saveMovieDetail.accept(buildMovieDetail.apply(response));
-        });
+        movie -> movie.setFavorite(user.get().getFavoriteMovies().contains(movie.getId())));
 
     return movieDetailDto;
   }
@@ -92,7 +53,6 @@ public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailRe
     if (isNull(model.getMovieId())) {
       throw new BadRequestUseCaseException("Movie id is required");
     }
-
     if (isNull(model.getUserEmail())) {
       throw new BadRequestUseCaseException("User email is required");
     }
