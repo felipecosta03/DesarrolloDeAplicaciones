@@ -35,10 +35,6 @@ public class MovieSimple {
   @JsonProperty("title")
   private String title;
 
-  @JsonProperty("overview")
-  @Column(length = 5000)
-  private String overview;
-
   @JsonProperty("poster_path")
   private String posterPath;
 

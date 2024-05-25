@@ -20,7 +20,6 @@ public class DefaultBuildMovie implements BuildMovie {
         .releaseDate(movieDetailDTO.getReleaseDate())
         .voteAverage(movieDetailDTO.getVoteAverage())
         .popularity(movieDetailDTO.getPopularity())
-        .overview(movieDetailDTO.getOverview())
         .genreIds(movieDetailDTO.getGenreIds())
         .backdropPath(movieDetailDTO.getBackdropPath())
         .voteCount(movieDetailDTO.getVoteCount())
