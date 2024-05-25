@@ -1,7 +1,7 @@
 package com.example.desarrollodeaplicaciones.router;
 
 import com.example.desarrollodeaplicaciones.dtos.GoogleTokenDto;
-import com.example.desarrollodeaplicaciones.dtos.SessionDto;
+import com.example.desarrollodeaplicaciones.dtos.Token;
 import com.example.desarrollodeaplicaciones.usecases.Login;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +18,7 @@ public class LoginRouter extends AuthRouter {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<SessionDto> post(@RequestBody GoogleTokenDto googleToken) {
+  public ResponseEntity<Token> post(@RequestBody GoogleTokenDto googleToken) {
     return ResponseEntity.ok(login.apply(googleToken));
   }
 }
