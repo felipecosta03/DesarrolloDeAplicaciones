@@ -28,7 +28,8 @@ public class SecurityConfig {
                     .requestMatchers("/api/v1/auth/**")
                     .permitAll()
                     .anyRequest()
-                    .authenticated())
+                    // .authenticated()) TODO
+                    .permitAll())
         .sessionManagement(
             sessionManagement ->
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
