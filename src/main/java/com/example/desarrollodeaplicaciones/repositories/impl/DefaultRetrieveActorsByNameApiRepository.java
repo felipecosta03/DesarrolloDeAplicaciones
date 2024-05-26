@@ -6,6 +6,7 @@ import com.example.desarrollodeaplicaciones.dtos.ActorDto;
 import com.example.desarrollodeaplicaciones.exceptions.repository.BadRequestRepositoryException;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseActorsSearchApi;
 import com.example.desarrollodeaplicaciones.repositories.RetrieveActorsByNameApiRepository;
+import com.example.desarrollodeaplicaciones.usecases.FixMovie;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +17,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Component
 public class DefaultRetrieveActorsByNameApiRepository implements RetrieveActorsByNameApiRepository {
   private final WebClient webClient;
+  private final FixMovie fixMovie;
 
-  public DefaultRetrieveActorsByNameApiRepository(WebClient webClient) {
+  public DefaultRetrieveActorsByNameApiRepository(WebClient webClient, FixMovie fixMovie) {
     this.webClient = webClient;
+    this.fixMovie = fixMovie;
   }
 
   @Override
@@ -46,7 +49,12 @@ public class DefaultRetrieveActorsByNameApiRepository implements RetrieveActorsB
                       response -> response.bodyToMono(String.class).map(Exception::new))
                   .bodyToMono(ResponseActorsSearchApi.class)
                   .block())
-          .map(ResponseActorsSearchApi::getResults);
+          .map(ResponseActorsSearchApi::getResults)
+          .map(
+              actors -> {
+                actors.forEach(actorDto -> actorDto.getKnownFor().forEach(fixMovie));
+                return actors;
+              });
     } catch (Exception e) {
       return Optional.empty();
     }

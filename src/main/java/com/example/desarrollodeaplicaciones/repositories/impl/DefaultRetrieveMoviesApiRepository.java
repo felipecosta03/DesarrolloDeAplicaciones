@@ -6,6 +6,7 @@ import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.repository.BadRequestRepositoryException;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseDiscoverMoviesApi;
 import com.example.desarrollodeaplicaciones.repositories.RetrieveMoviesApiRepository;
+import com.example.desarrollodeaplicaciones.usecases.FixMovie;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -17,9 +18,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class DefaultRetrieveMoviesApiRepository implements RetrieveMoviesApiRepository {
 
   private final WebClient webClient;
+  private final FixMovie fixMovie;
 
-  public DefaultRetrieveMoviesApiRepository(WebClient webClient) {
+  public DefaultRetrieveMoviesApiRepository(WebClient webClient, FixMovie fixMovie) {
     this.webClient = webClient;
+    this.fixMovie = fixMovie;
   }
 
   @Override
@@ -47,7 +50,12 @@ public class DefaultRetrieveMoviesApiRepository implements RetrieveMoviesApiRepo
                       response -> response.bodyToMono(String.class).map(Exception::new))
                   .bodyToMono(ResponseDiscoverMoviesApi.class)
                   .block())
-          .map(ResponseDiscoverMoviesApi::getResults);
+          .map(ResponseDiscoverMoviesApi::getResults)
+          .map(
+              movies -> {
+                movies.forEach(fixMovie);
+                return movies;
+              });
     } catch (Exception e) {
       return Optional.empty();
     }

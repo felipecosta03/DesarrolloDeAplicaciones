@@ -11,7 +11,7 @@ public class DefaultCreateAccessToken implements CreateAccessToken {
 
   @Override
   public String apply(String email, Key key) {
-    final int expirationTime = 1000 * 60 * 15;
+    final int expirationTime = 1000 * 60 * 2;
     Date now = new Date();
     Date validity = new Date(now.getTime() + expirationTime);
     return Jwts.builder().subject(email).issuedAt(now).expiration(validity).signWith(key).compact();

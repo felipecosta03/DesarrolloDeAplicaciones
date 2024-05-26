@@ -25,7 +25,6 @@ public class DefaultFixMovieImage implements FixImage<MovieSimpleDto> {
       movieSimpleDto.setPosterPath(buildImageUrl.apply(movieSimpleDto.getPosterPath()));
     }
     if (!isNull(movieSimpleDto.getBackdropPath())) {
-
       movieSimpleDto.setBackdropPath(buildImageUrl.apply(movieSimpleDto.getBackdropPath()));
     }
   }

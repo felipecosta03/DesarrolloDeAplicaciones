@@ -1,7 +1,5 @@
 package com.example.desarrollodeaplicaciones.usecases.impl;
 
-import static java.util.Objects.isNull;
-
 import com.example.desarrollodeaplicaciones.dtos.ActorDto;
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.usecases.FixImage;
@@ -51,19 +49,7 @@ public class DefaultRetrieveActorsByName implements RetrieveActorsByName {
               .size(model.getSize())
               .build());
     }
-    actors
-        .get()
-        .forEach(
-            actorDto ->
-                actorDto
-                    .getKnownFor()
-                    .forEach(
-                        movieSimpleDto -> {
-                          fixImage.accept(movieSimpleDto);
-                          if (isNull(movieSimpleDto.getReleaseDate())) {
-                            movieSimpleDto.setReleaseDate("");
-                          }
-                        }));
+    actors.get().forEach(actorDto -> actorDto.getKnownFor().forEach(fixImage));
     saveActorsDto.accept(actors.get());
     return actors;
   }

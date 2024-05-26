@@ -6,6 +6,7 @@ import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.repository.BadRequestRepositoryException;
 import com.example.desarrollodeaplicaciones.models.moviesapi.response.ResponseDiscoverMoviesApi;
 import com.example.desarrollodeaplicaciones.repositories.RetrieveMoviesByGenreApiRepository;
+import com.example.desarrollodeaplicaciones.usecases.FixMovie;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -18,9 +19,11 @@ public class DefaultRetrieveMoviesByGenreApiRepository
     implements RetrieveMoviesByGenreApiRepository {
 
   private final WebClient webClient;
+  private final FixMovie fixMovie;
 
-  public DefaultRetrieveMoviesByGenreApiRepository(WebClient webClient) {
+  public DefaultRetrieveMoviesByGenreApiRepository(WebClient webClient, FixMovie fixMovie) {
     this.webClient = webClient;
+    this.fixMovie = fixMovie;
   }
 
   @Override
@@ -49,7 +52,12 @@ public class DefaultRetrieveMoviesByGenreApiRepository
                       response -> response.bodyToMono(String.class).map(Exception::new))
                   .bodyToMono(ResponseDiscoverMoviesApi.class)
                   .block())
-          .map(ResponseDiscoverMoviesApi::getResults);
+          .map(ResponseDiscoverMoviesApi::getResults)
+          .map(
+              movies -> {
+                movies.forEach(fixMovie);
+                return movies;
+              });
     } catch (Exception e) {
       return Optional.empty();
     }

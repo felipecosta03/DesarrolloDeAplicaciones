@@ -40,16 +40,13 @@ public class DefaultRetrieveMoviesByTitleApi implements RetrieveMoviesByTitleApi
                   .build())
           .ifPresent(movies::addAll);
     }
-    movies.stream()
-        .filter(movie -> isNull(movie.getReleaseDate()))
-        .toList()
-        .forEach(movie -> movie.setReleaseDate(""));
     Comparator<MovieSimpleDto> comparator =
         buildMoviesComparator.apply(
             BuildMoviesComparator.Model.builder()
                 .dateOrder(model.getDateOrder())
                 .qualificationOrder(model.getQualificationOrder())
                 .build());
+
     movies.sort(comparator);
     int initialIndex = model.getPage() * model.getSize();
     if (initialIndex >= movies.size()) {
