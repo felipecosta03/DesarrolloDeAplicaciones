@@ -6,8 +6,8 @@ import java.util.function.Function;
 import lombok.Builder;
 import lombok.Getter;
 
-public interface RetrieveMoviesSimpleById
-    extends Function<RetrieveMoviesSimpleById.Model, List<MovieSimpleDto>> {
+public interface RetrieveMoviesSimpleByIds
+    extends Function<RetrieveMoviesSimpleByIds.Model, List<MovieSimpleDto>> {
   @Getter
   @Builder
   class Model {

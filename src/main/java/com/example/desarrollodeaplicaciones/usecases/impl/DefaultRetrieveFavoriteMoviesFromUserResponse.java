@@ -6,7 +6,7 @@ import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.models.User;
 import com.example.desarrollodeaplicaciones.usecases.BuildMoviesDto;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveFavoriteMoviesFromUserResponse;
-import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesSimpleById;
+import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesSimpleByIds;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveUserById;
 import java.util.List;
 import java.util.Optional;
@@ -17,15 +17,15 @@ public class DefaultRetrieveFavoriteMoviesFromUserResponse
     implements RetrieveFavoriteMoviesFromUserResponse {
   private final BuildMoviesDto buildMoviesDto;
   private final RetrieveUserById retrieveUserById;
-  private final RetrieveMoviesSimpleById retrieveMoviesSimpleById;
+  private final RetrieveMoviesSimpleByIds retrieveMoviesSimpleByIds;
 
   public DefaultRetrieveFavoriteMoviesFromUserResponse(
       BuildMoviesDto buildMoviesDto,
       RetrieveUserById retrieveUserById,
-      RetrieveMoviesSimpleById retrieveMoviesSimpleById) {
+      RetrieveMoviesSimpleByIds retrieveMoviesSimpleByIds) {
     this.buildMoviesDto = buildMoviesDto;
     this.retrieveUserById = retrieveUserById;
-    this.retrieveMoviesSimpleById = retrieveMoviesSimpleById;
+    this.retrieveMoviesSimpleByIds = retrieveMoviesSimpleByIds;
   }
 
   @Override
@@ -35,8 +35,8 @@ public class DefaultRetrieveFavoriteMoviesFromUserResponse
         retrieveUserById.apply(RetrieveUserById.Model.builder().userId(model.getUserId()).build());
 
     return Optional.of(
-        retrieveMoviesSimpleById.apply(
-            RetrieveMoviesSimpleById.Model.builder().moviesId(user.getFavoriteMovies()).build()));
+        retrieveMoviesSimpleByIds.apply(
+            RetrieveMoviesSimpleByIds.Model.builder().moviesId(user.getFavoriteMovies()).build()));
   }
 
   private void validateModel(Model model) {

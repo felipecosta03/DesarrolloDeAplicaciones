@@ -37,6 +37,7 @@ public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailRe
             RetrieveUserByEmail.Model.builder().email(model.getUserEmail()).build());
 
     if (user.isEmpty()) {
+      log.info(model.getUserEmail());
       throw new BadRequestUseCaseException("User not found");
     }
 
