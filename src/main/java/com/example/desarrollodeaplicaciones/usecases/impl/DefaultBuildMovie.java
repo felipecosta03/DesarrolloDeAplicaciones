@@ -11,27 +11,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultBuildMovie implements BuildMovie {
   @Override
-  public MovieSimple apply(MovieSimpleDto movieDetailDTO) {
-    validateMovieDTO(movieDetailDTO);
+  public MovieSimple apply(MovieSimpleDto movieDetailDto) {
+    validateMovieDto(movieDetailDto);
     return MovieSimple.builder()
-        .id(movieDetailDTO.getId())
-        .title(movieDetailDTO.getTitle())
-        .posterPath(movieDetailDTO.getPosterPath())
-        .releaseDate(movieDetailDTO.getReleaseDate())
-        .voteAverage(movieDetailDTO.getVoteAverage())
-        .popularity(movieDetailDTO.getPopularity())
-        .genreIds(movieDetailDTO.getGenreIds())
-        .backdropPath(movieDetailDTO.getBackdropPath())
-        .voteCount(movieDetailDTO.getVoteCount())
+        .id(movieDetailDto.getId())
+        .title(movieDetailDto.getTitle())
+        .posterPath(movieDetailDto.getPosterPath())
+        .releaseDate(movieDetailDto.getReleaseDate())
+        .voteAverage(movieDetailDto.getVoteAverage())
+        .popularity(movieDetailDto.getPopularity())
+        .genreIds(movieDetailDto.getGenreIds())
+        .backdropPath(movieDetailDto.getBackdropPath())
+        .voteCount(movieDetailDto.getVoteCount())
         .build();
   }
 
-  private void validateMovieDTO(MovieSimpleDto movieDetailDTO) {
-    if (isNull(movieDetailDTO)) {
+  private void validateMovieDto(MovieSimpleDto movieDetailDto) {
+    if (isNull(movieDetailDto)) {
       throw new BadRequestUseCaseException("movieDetailDto is required");
     }
 
-    if (isNull(movieDetailDTO.getId())) {
+    if (isNull(movieDetailDto.getId())) {
       throw new BadRequestUseCaseException("movie id is required");
     }
   }

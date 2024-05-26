@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AddFavoriteMoveRouter extends UserRouter {
+public class AddFavoriteMovieRouter extends UserRouter {
 
   private final AddFavoriteMovie addFavoriteMovie;
 
-  public AddFavoriteMoveRouter(AddFavoriteMovie addFavoriteMovie) {
+  public AddFavoriteMovieRouter(AddFavoriteMovie addFavoriteMovie) {
     this.addFavoriteMovie = addFavoriteMovie;
   }
 

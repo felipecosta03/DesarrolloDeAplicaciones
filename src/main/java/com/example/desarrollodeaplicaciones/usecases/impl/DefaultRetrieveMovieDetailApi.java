@@ -38,11 +38,11 @@ public class DefaultRetrieveMovieDetailApi implements RetrieveMovieDetailApi {
   @Override
   public Optional<MovieDetailDto> apply(Model model) {
     validateModel(model);
-    Optional<MovieDetailDto> movieDetailDTO =
+    Optional<MovieDetailDto> movieDetailDto =
         retrieveMovieDetailApiRepository.apply(
             RetrieveMovieDetailApiRepository.Model.builder().movieId(model.getMovieId()).build());
 
-    if (movieDetailDTO.isEmpty()) {
+    if (movieDetailDto.isEmpty()) {
       return Optional.empty();
     }
 
@@ -59,14 +59,14 @@ public class DefaultRetrieveMovieDetailApi implements RetrieveMovieDetailApi {
             RetrieveMoviePeopleRepository.Model.builder().movieId(model.getMovieId()).build());
 
     responseMovieImagesApi.ifPresent(
-        images -> movieDetailDTO.get().setImages(images.getBackdrops()));
+        images -> movieDetailDto.get().setImages(images.getBackdrops()));
     responseMovieCreditsApi.ifPresent(
         credits -> {
-          getDirector(credits).ifPresent(director -> movieDetailDTO.get().setDirector(director));
-          movieDetailDTO.get().setCast(credits.getCast());
+          getDirector(credits).ifPresent(director -> movieDetailDto.get().setDirector(director));
+          movieDetailDto.get().setCast(credits.getCast());
         });
-    responseMovieVideoApi.ifPresent(videos -> movieDetailDTO.get().setVideos(videos.getResults()));
-    return movieDetailDTO;
+    responseMovieVideoApi.ifPresent(videos -> movieDetailDto.get().setVideos(videos.getResults()));
+    return movieDetailDto;
   }
 
   private Optional<PeopleCrewDto> getDirector(ResponseMovieCreditsApi responseMovieCreditsApi) {

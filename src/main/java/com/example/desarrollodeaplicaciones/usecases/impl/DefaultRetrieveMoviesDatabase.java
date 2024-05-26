@@ -18,15 +18,15 @@ import org.springframework.stereotype.Component;
 public class DefaultRetrieveMoviesDatabase implements RetrieveMoviesDatabase {
 
   private final RetrieveMoviesDatabaseRepository retrieveMoviesDatabaseRepository;
-  private final BuildMoviesDto buildMoviesDTO;
+  private final BuildMoviesDto buildMoviesDto;
   private final BuildRetrieveMoviesDatabaseSort buildRetrieveMoviesDatabaseSort;
 
   public DefaultRetrieveMoviesDatabase(
       RetrieveMoviesDatabaseRepository retrieveMoviesDatabaseRepository,
-      BuildMoviesDto buildMoviesDTO,
+      BuildMoviesDto buildMoviesDto,
       BuildRetrieveMoviesDatabaseSort buildRetrieveMoviesDatabaseSort) {
     this.retrieveMoviesDatabaseRepository = retrieveMoviesDatabaseRepository;
-    this.buildMoviesDTO = buildMoviesDTO;
+    this.buildMoviesDto = buildMoviesDto;
     this.buildRetrieveMoviesDatabaseSort = buildRetrieveMoviesDatabaseSort;
   }
 
@@ -43,7 +43,7 @@ public class DefaultRetrieveMoviesDatabase implements RetrieveMoviesDatabase {
                     .dateOrder(model.getDateOrder())
                     .build()));
     return Optional.of(
-        buildMoviesDTO.apply(retrieveMoviesDatabaseRepository.findAll(pageable).getContent()));
+        buildMoviesDto.apply(retrieveMoviesDatabaseRepository.findAll(pageable).getContent()));
   }
 
   private void validateModel(Model model) {

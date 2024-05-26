@@ -1,10 +1,12 @@
-package com.example.desarrollodeaplicaciones.usecases;
+package com.example.desarrollodeaplicaciones.usecases.impl;
 
 import com.example.desarrollodeaplicaciones.dtos.Token;
 import com.example.desarrollodeaplicaciones.exceptions.ForbiddenUseCaseException;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.NotFoundUseCaseException;
 import com.example.desarrollodeaplicaciones.models.User;
 import com.example.desarrollodeaplicaciones.repositories.TokenRepository;
+import com.example.desarrollodeaplicaciones.usecases.Refresh;
+import com.example.desarrollodeaplicaciones.usecases.RetrieveUserByEmail;
 import com.example.desarrollodeaplicaciones.usecases.security.CleanToken;
 import com.example.desarrollodeaplicaciones.usecases.security.CreateToken;
 import com.example.desarrollodeaplicaciones.usecases.security.IsRefreshTokenValid;

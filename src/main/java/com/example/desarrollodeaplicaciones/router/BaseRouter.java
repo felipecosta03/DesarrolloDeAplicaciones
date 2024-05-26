@@ -17,10 +17,6 @@ public abstract class BaseRouter {
     return SecurityContextHolder.getContext().getAuthentication().getName();
   }
 
-  protected final String getToken(HttpServletRequest request) {
-    return request.getHeader("Authorization");
-  }
-
   protected HttpServletRequest getRequest() {
     return ((ServletRequestAttributes)
             Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))

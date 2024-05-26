@@ -18,15 +18,15 @@ import org.springframework.stereotype.Component;
 public class DefaultRetrieveMoviesByTitleDatabase implements RetrieveMoviesByTitleDatabase {
 
   private final RetrieveMoviesByTitleDatabaseRepository retrieveMoviesByTitleDatabaseRepository;
-  private final BuildMoviesDto buildMoviesDTO;
+  private final BuildMoviesDto buildMoviesDto;
   private final BuildRetrieveMoviesDatabaseSort buildRetrieveMoviesDatabaseSort;
 
   public DefaultRetrieveMoviesByTitleDatabase(
       RetrieveMoviesByTitleDatabaseRepository retrieveMoviesByTitleDatabaseRepository,
-      BuildMoviesDto buildMoviesDTO,
+      BuildMoviesDto buildMoviesDto,
       BuildRetrieveMoviesDatabaseSort buildRetrieveMoviesDatabaseSort) {
     this.retrieveMoviesByTitleDatabaseRepository = retrieveMoviesByTitleDatabaseRepository;
-    this.buildMoviesDTO = buildMoviesDTO;
+    this.buildMoviesDto = buildMoviesDto;
     this.buildRetrieveMoviesDatabaseSort = buildRetrieveMoviesDatabaseSort;
   }
 
@@ -44,7 +44,7 @@ public class DefaultRetrieveMoviesByTitleDatabase implements RetrieveMoviesByTit
                     .build()));
     return retrieveMoviesByTitleDatabaseRepository
         .findAllByTitleContaining(model.getTitle(), pageable)
-        .map(buildMoviesDTO);
+        .map(buildMoviesDto);
   }
 
   private void validateModel(Model model) {

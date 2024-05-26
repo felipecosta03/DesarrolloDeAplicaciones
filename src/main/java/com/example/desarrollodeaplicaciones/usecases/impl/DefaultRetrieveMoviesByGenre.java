@@ -21,19 +21,19 @@ public class DefaultRetrieveMoviesByGenre implements RetrieveMoviesByGenre {
   private final RetrieveGenreIdByGenreName retrieveGenreIdByGenreName;
   private final RetrieveMoviesByGenreDatabase retrieveMoviesByGenreDatabase;
   private final RetrieveMoviesByGenreApi retrieveMoviesByGenreApi;
-  private final SaveMoviesDto saveMoviesDTO;
+  private final SaveMoviesDto saveMoviesDto;
   private final FixImage<MovieSimpleDto> fixImage;
 
   public DefaultRetrieveMoviesByGenre(
       RetrieveGenreIdByGenreName retrieveGenreIdByGenreName,
       RetrieveMoviesByGenreDatabase retrieveMoviesByGenreDatabase,
       RetrieveMoviesByGenreApi retrieveMoviesByGenreApi,
-      SaveMoviesDto saveMoviesDTO,
+      SaveMoviesDto saveMoviesDto,
       FixImage<MovieSimpleDto> fixImage) {
     this.retrieveGenreIdByGenreName = retrieveGenreIdByGenreName;
     this.retrieveMoviesByGenreDatabase = retrieveMoviesByGenreDatabase;
     this.retrieveMoviesByGenreApi = retrieveMoviesByGenreApi;
-    this.saveMoviesDTO = saveMoviesDTO;
+    this.saveMoviesDto = saveMoviesDto;
     this.fixImage = fixImage;
   }
 
@@ -45,7 +45,7 @@ public class DefaultRetrieveMoviesByGenre implements RetrieveMoviesByGenre {
 
     if (genreId.isPresent()) {
       // get from api
-      Optional<List<MovieSimpleDto>> moviesDTO =
+      Optional<List<MovieSimpleDto>> moviesDto =
           retrieveMoviesByGenreApi.apply(
               RetrieveMoviesByGenreApi.Model.builder()
                   .dateOrder(model.getDateOrder())
@@ -55,10 +55,10 @@ public class DefaultRetrieveMoviesByGenre implements RetrieveMoviesByGenre {
                   .size(model.getSize())
                   .build());
 
-      if (moviesDTO.isPresent()) {
-        moviesDTO.get().forEach(fixImage);
-        saveMoviesDTO.accept(moviesDTO.get());
-        return moviesDTO;
+      if (moviesDto.isPresent()) {
+        moviesDto.get().forEach(fixImage);
+        saveMoviesDto.accept(moviesDto.get());
+        return moviesDto;
       }
 
       // Get from database

@@ -17,15 +17,15 @@ public class DefaultRetrieveGenreIdByGenreName implements RetrieveGenreIdByGenre
 
   private final RetrieveGenresRepository retrieveGenresRepository;
   private final RetrieveGenresApiRepository retrieveGenresApiRepository;
-  private final SaveGenresDto saveGenresDTO;
+  private final SaveGenresDto saveGenresDto;
 
   public DefaultRetrieveGenreIdByGenreName(
       RetrieveGenresRepository retrieveGenresRepository,
       RetrieveGenresApiRepository retrieveGenresApiRepository,
-      SaveGenresDto saveGenresDTO) {
+      SaveGenresDto saveGenresDto) {
     this.retrieveGenresRepository = retrieveGenresRepository;
     this.retrieveGenresApiRepository = retrieveGenresApiRepository;
-    this.saveGenresDTO = saveGenresDTO;
+    this.saveGenresDto = saveGenresDto;
   }
 
   @Override
@@ -39,13 +39,13 @@ public class DefaultRetrieveGenreIdByGenreName implements RetrieveGenreIdByGenre
       }
     }
 
-    final Optional<List<GenreDto>> genresDTO = retrieveGenresApiRepository.get();
+    final Optional<List<GenreDto>> genresDto = retrieveGenresApiRepository.get();
 
-    if (genresDTO.isPresent()) {
-      saveGenresDTO.accept(genresDTO.get());
-      Optional<GenreDto> genreDTO =
-          genresDTO.get().stream().filter(g -> g.getName().equals(genreName)).findFirst();
-      return genreDTO.map(GenreDto::getId);
+    if (genresDto.isPresent()) {
+      saveGenresDto.accept(genresDto.get());
+      Optional<GenreDto> genreDto =
+          genresDto.get().stream().filter(g -> g.getName().equals(genreName)).findFirst();
+      return genreDto.map(GenreDto::getId);
     }
     return Optional.empty();
   }

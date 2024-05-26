@@ -15,33 +15,33 @@ public class DefaultRetrievePopularMovies implements RetrievePopularMovies {
 
   private final RetrievePopularMoviesApi retrievePopularMoviesApi;
   private final RetrievePopularMoviesDatabase retrievePopularMoviesDatabase;
-  private final SaveMoviesDto saveMoviesDTO;
+  private final SaveMoviesDto saveMoviesDto;
   private final FixImage<MovieSimpleDto> fixImage;
 
   public DefaultRetrievePopularMovies(
       RetrievePopularMoviesApi retrievePopularMoviesApi,
       RetrievePopularMoviesDatabase retrievePopularMoviesDatabase,
-      SaveMoviesDto saveMoviesDTO,
+      SaveMoviesDto saveMoviesDto,
       FixImage<MovieSimpleDto> fixImage) {
     this.retrievePopularMoviesApi = retrievePopularMoviesApi;
     this.retrievePopularMoviesDatabase = retrievePopularMoviesDatabase;
-    this.saveMoviesDTO = saveMoviesDTO;
+    this.saveMoviesDto = saveMoviesDto;
     this.fixImage = fixImage;
   }
 
   @Override
   public Optional<List<MovieSimpleDto>> apply(Model model) {
-    Optional<List<MovieSimpleDto>> moviesDTO =
+    Optional<List<MovieSimpleDto>> moviesDto =
         retrievePopularMoviesApi.apply(
             RetrievePopularMoviesApi.Model.builder()
                 .size(model.getSize())
                 .page(model.getPage())
                 .build());
 
-    if (moviesDTO.isPresent()) {
-      moviesDTO.get().forEach(fixImage);
-      saveMoviesDTO.accept(moviesDTO.get());
-      return moviesDTO;
+    if (moviesDto.isPresent()) {
+      moviesDto.get().forEach(fixImage);
+      saveMoviesDto.accept(moviesDto.get());
+      return moviesDto;
     }
     return retrievePopularMoviesDatabase.apply(
         RetrievePopularMoviesDatabase.Model.builder()

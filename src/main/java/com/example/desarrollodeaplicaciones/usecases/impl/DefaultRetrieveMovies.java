@@ -17,17 +17,17 @@ import org.springframework.stereotype.Component;
 public class DefaultRetrieveMovies implements RetrieveMovies {
   private final RetrieveMoviesDatabase retrieveMoviesDatabase;
   private final RetrieveMoviesApi retrieveMoviesApi;
-  private final SaveMoviesDto saveMoviesDTO;
+  private final SaveMoviesDto saveMoviesDto;
   private final FixImage<MovieSimpleDto> fixImage;
 
   public DefaultRetrieveMovies(
       RetrieveMoviesDatabase retrieveMoviesDatabase,
       RetrieveMoviesApi retrieveMoviesApi,
-      SaveMoviesDto saveMoviesDTO,
+      SaveMoviesDto saveMoviesDto,
       DefaultFixMovieImage fixImage) {
     this.retrieveMoviesDatabase = retrieveMoviesDatabase;
     this.retrieveMoviesApi = retrieveMoviesApi;
-    this.saveMoviesDTO = saveMoviesDTO;
+    this.saveMoviesDto = saveMoviesDto;
     this.fixImage = fixImage;
   }
 
@@ -53,7 +53,7 @@ public class DefaultRetrieveMovies implements RetrieveMovies {
               .build());
     }
     moviesDto.get().forEach(fixImage);
-    saveMoviesDTO.accept(moviesDto.get());
+    saveMoviesDto.accept(moviesDto.get());
     return moviesDto;
   }
 

@@ -11,6 +11,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents an actor in the movies API.
+ */
 @Data
 @Builder
 @Entity
@@ -20,7 +23,6 @@ public class Actor {
 
   @Id private Long id;
   private String name;
-
   @JsonProperty("known_for")
   @ManyToMany(cascade = CascadeType.ALL)
   private List<MovieSimple> knownFor;

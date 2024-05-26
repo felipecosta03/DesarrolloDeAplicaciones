@@ -19,7 +19,7 @@ public class DefaultRetrieveMovieDetail implements RetrieveMovieDetail {
   private final RetrieveMovieDetailDatabase retrieveMovieDetailDatabase;
   private final SaveMovieDetail saveMovieDetail;
   private final BuildMovieDetail buildMovieDetail;
-  private final BuildMovieDetailDto buildMovieDetailDTO;
+  private final BuildMovieDetailDto buildMovieDetailDto;
   private final FixImage<MovieDetailDto> fixImage;
   private final BuildVideoUrl buildVideoUrl;
 
@@ -28,14 +28,14 @@ public class DefaultRetrieveMovieDetail implements RetrieveMovieDetail {
       RetrieveMovieDetailDatabase retrieveMovieDetailDatabase,
       SaveMovieDetail saveMovieDetail,
       BuildMovieDetail buildMovieDetail,
-      BuildMovieDetailDto buildMovieDetailDTO,
+      BuildMovieDetailDto buildMovieDetailDto,
       FixImage<MovieDetailDto> fixImage,
       BuildVideoUrl buildVideoUrl) {
     this.retrieveMovieDetailApi = retrieveMovieDetailApi;
     this.retrieveMovieDetailDatabase = retrieveMovieDetailDatabase;
     this.saveMovieDetail = saveMovieDetail;
     this.buildMovieDetail = buildMovieDetail;
-    this.buildMovieDetailDTO = buildMovieDetailDTO;
+    this.buildMovieDetailDto = buildMovieDetailDto;
     this.fixImage = fixImage;
     this.buildVideoUrl = buildVideoUrl;
   }
@@ -46,7 +46,7 @@ public class DefaultRetrieveMovieDetail implements RetrieveMovieDetail {
         retrieveMovieDetailDatabase.apply(
             RetrieveMovieDetailDatabase.Model.builder().movieId(model.getMovieId()).build());
 
-    Optional<MovieDetailDto> movieDetailDto = movieDetail.map(buildMovieDetailDTO);
+    Optional<MovieDetailDto> movieDetailDto = movieDetail.map(buildMovieDetailDto);
 
     if (movieDetailDto.isPresent()) {
       return movieDetailDto;
