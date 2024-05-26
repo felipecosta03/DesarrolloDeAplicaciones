@@ -4,6 +4,7 @@ import static java.util.Objects.isNull;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
+import com.example.desarrollodeaplicaciones.models.moviesapi.MovieSimple;
 import com.example.desarrollodeaplicaciones.repositories.RetrieveMoviesByTitleDatabaseRepository;
 import com.example.desarrollodeaplicaciones.usecases.BuildMoviesDto;
 import com.example.desarrollodeaplicaciones.usecases.BuildRetrieveMoviesDatabaseSort;
@@ -35,16 +36,21 @@ public class DefaultRetrieveMoviesByTitleDatabase implements RetrieveMoviesByTit
     validateModel(model);
     Pageable pageable =
         PageRequest.of(
-            model.getPage(),
+            model.getPage().equals(0) ? 1 : model.getPage(),
             model.getSize(),
             buildRetrieveMoviesDatabaseSort.apply(
                 BuildRetrieveMoviesDatabaseSort.Model.builder()
                     .dateOrder(model.getDateOrder())
                     .qualificationOrder(model.getQualificationOrder())
                     .build()));
-    return retrieveMoviesByTitleDatabaseRepository
-        .findAllByTitleContaining(model.getTitle(), pageable)
-        .map(buildMoviesDto);
+    final List<MovieSimple> movies =
+        retrieveMoviesByTitleDatabaseRepository.findAllByTitleContaining(
+            model.getTitle(), pageable);
+
+    if (movies.isEmpty()) {
+      return Optional.empty();
+    }
+    return Optional.of(buildMoviesDto.apply(movies));
   }
 
   private void validateModel(Model model) {

@@ -38,7 +38,7 @@ public class MovieSimple {
   private String posterPath;
 
   @JsonProperty("release_date")
-  private LocalDate releaseDate;
+  private String releaseDate;
 
   @JsonProperty("vote_average")
   private double voteAverage;

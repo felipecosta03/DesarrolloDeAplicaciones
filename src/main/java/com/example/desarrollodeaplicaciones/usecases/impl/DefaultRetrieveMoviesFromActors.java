@@ -27,7 +27,11 @@ public class DefaultRetrieveMoviesFromActors implements RetrieveMoviesFromActors
     // Retrieve actors by their names
     Optional<List<ActorDto>> actors =
         retrieveActorsByName.apply(
-            RetrieveActorsByName.Model.builder().actorName(model.getActorName()).build());
+            RetrieveActorsByName.Model.builder()
+                .actorName(model.getActorName())
+                .page(model.getPage())
+                .size(model.getSize())
+                .build());
     // Get movies from the actors retrieved
     List<MovieSimpleDto> movies = new ArrayList<>();
 

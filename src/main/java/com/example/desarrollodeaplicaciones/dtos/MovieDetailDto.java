@@ -34,7 +34,7 @@ public class MovieDetailDto {
   private String posterPath;
 
   @JsonProperty("release_date")
-  private LocalDate releaseDate;
+  private String releaseDate;
 
   private int runtime;
   private String tagline;

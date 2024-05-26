@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 
 public interface BuildRetrieveMoviesDatabaseSort
     extends Function<BuildRetrieveMoviesDatabaseSort.Model, Sort> {
+
   @Builder
   @Getter
   class Model {

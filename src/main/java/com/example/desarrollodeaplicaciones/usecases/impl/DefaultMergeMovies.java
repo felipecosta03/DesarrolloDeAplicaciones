@@ -18,13 +18,9 @@ public class DefaultMergeMovies implements MergeMovies {
   }
 
   @Override
-  public Optional<List<MovieSimpleDto>> apply(
-      List<MovieSimpleDto> movies1, List<MovieSimpleDto> movies2) {
+  public List<MovieSimpleDto> apply(List<MovieSimpleDto> movies1, List<MovieSimpleDto> movies2) {
     final List<MovieSimpleDto> mergedMovies = new ArrayList<>(movies1);
     mergedMovies.addAll(movies2);
-    if (mergedMovies.isEmpty()) {
-      return Optional.empty();
-    }
-    return Optional.of(removeDuplicatedMovies.apply(mergedMovies));
+    return removeDuplicatedMovies.apply(mergedMovies);
   }
 }

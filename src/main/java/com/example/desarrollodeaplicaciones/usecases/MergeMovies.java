@@ -7,5 +7,4 @@ import java.util.function.BiFunction;
 
 @FunctionalInterface
 public interface MergeMovies
-    extends BiFunction<
-        List<MovieSimpleDto>, List<MovieSimpleDto>, Optional<List<MovieSimpleDto>>> {}
+    extends BiFunction<List<MovieSimpleDto>, List<MovieSimpleDto>, List<MovieSimpleDto>> {}

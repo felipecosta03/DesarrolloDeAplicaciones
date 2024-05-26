@@ -4,11 +4,13 @@ import static java.util.Objects.isNull;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
+import com.example.desarrollodeaplicaciones.usecases.BuildMoviesComparator;
 import com.example.desarrollodeaplicaciones.usecases.MergeMovies;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesBySearch;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByTitle;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesFromActors;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -21,14 +23,17 @@ public class DefaultRetrieveMoviesBySearch implements RetrieveMoviesBySearch {
   private final RetrieveMoviesByTitle retrieveMoviesByTitle;
   private final RetrieveMoviesFromActors retrieveMoviesFromActors;
   private final MergeMovies mergeMovies;
+  private final BuildMoviesComparator buildMoviesComparator;
 
   public DefaultRetrieveMoviesBySearch(
       RetrieveMoviesByTitle retrieveMoviesByTitle,
       RetrieveMoviesFromActors retrieveMoviesFromActors,
-      MergeMovies mergeMovies) {
+      MergeMovies mergeMovies,
+      BuildMoviesComparator buildMoviesComparator) {
     this.retrieveMoviesByTitle = retrieveMoviesByTitle;
     this.retrieveMoviesFromActors = retrieveMoviesFromActors;
     this.mergeMovies = mergeMovies;
+    this.buildMoviesComparator = buildMoviesComparator;
   }
 
   @Override
@@ -59,9 +64,21 @@ public class DefaultRetrieveMoviesBySearch implements RetrieveMoviesBySearch {
                 .build());
 
     // Merge movies of actors with the movies retrieved by the search
-    return mergeMovies.apply(
-        moviesByTitle.orElse(Collections.emptyList()),
-        moviesFromActors.orElse(Collections.emptyList()));
+    Comparator<MovieSimpleDto> comparator =
+        buildMoviesComparator.apply(
+            BuildMoviesComparator.Model.builder()
+                .dateOrder(model.getDateOrder())
+                .qualificationOrder(model.getQualificationOrder())
+                .build());
+    final List<MovieSimpleDto> movies =
+        mergeMovies.apply(
+            moviesByTitle.orElse(Collections.emptyList()),
+            moviesFromActors.orElse(Collections.emptyList()));
+    movies.sort(comparator);
+    if (movies.isEmpty()) {
+      return Optional.empty();
+    }
+    return Optional.of(movies);
   }
 
   private void validateModel(Model model) {

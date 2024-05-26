@@ -36,7 +36,6 @@ public class DefaultRetrieveMoviesByTitleApiRepository
                               .queryParam("language", "es-es")
                               .queryParam("page", model.getPage())
                               .queryParam("primary_release_date.lte", LocalDate.now())
-                              .queryParam("sort_by", model.getSort())
                               .queryParam("query", model.getTitle())
                               .build())
                   .retrieve()
@@ -59,8 +58,5 @@ public class DefaultRetrieveMoviesByTitleApiRepository
       throw new BadRequestRepositoryException("Model is required");
     }
 
-    if (isNull(model.getSort())) {
-      throw new BadRequestRepositoryException("Sort is required");
-    }
   }
 }

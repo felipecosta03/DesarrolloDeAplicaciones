@@ -42,6 +42,9 @@ public class DefaultRetrieveMoviesByTitle implements RetrieveMoviesByTitle {
             RetrieveMoviesByTitleApi.Model.builder()
                 .title(model.getTitle())
                 .page(model.getPage())
+                .dateOrder(model.getDateOrder())
+                .qualificationOrder(model.getQualificationOrder())
+                .size(model.getSize())
                 .build());
 
     // Retrieve movies by title from the database if an API error occurs (Optional is empty)

@@ -81,6 +81,7 @@ com/example/desarrollodeaplicaciones/usecases/RetrieveMovieDetailResponse$Model.
 com/example/desarrollodeaplicaciones/repositories/RetrieveMoviesApiRepository$Model$ModelBuilder.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesFromActors$Model.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesDatabase$Model.class
+com/example/desarrollodeaplicaciones/usecases/impl/DefaultRefresh.class
 com/example/desarrollodeaplicaciones/usecases/SaveGenresDto.class
 com/example/desarrollodeaplicaciones/repositories/RetrieveMovieDetailDatabaseRepository.class
 com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveMovieDetailDatabase.class
@@ -200,7 +201,6 @@ com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveMoviesSimpleBy
 com/example/desarrollodeaplicaciones/dtos/Token.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveUserById.class
 com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveActorsByNameApi.class
-com/example/desarrollodeaplicaciones/usecases/DefaultRefresh.class
 com/example/desarrollodeaplicaciones/usecases/SaveMoviesDto.class
 com/example/desarrollodeaplicaciones/usecases/impl/DefaultSaveMovies.class
 com/example/desarrollodeaplicaciones/usecases/security/IsAccessTokenValid.class
@@ -241,7 +241,6 @@ com/example/desarrollodeaplicaciones/dtos/MovieDetailDto.class
 com/example/desarrollodeaplicaciones/configs/JwtAuthenticationFilter.class
 com/example/desarrollodeaplicaciones/dtos/PeopleCastDto.class
 com/example/desarrollodeaplicaciones/usecases/RetrievePopularMoviesApi$Model$ModelBuilder.class
-com/example/desarrollodeaplicaciones/router/AddFavoriteMoveRouter.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesByTitle$Model.class
 com/example/desarrollodeaplicaciones/models/moviesapi/response/ResponseMovieVideoApi.class
 com/example/desarrollodeaplicaciones/models/User$UserBuilder.class
@@ -286,13 +285,17 @@ com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesByTitle.class
 com/example/desarrollodeaplicaciones/usecases/BuildRetrieveMoviesApiSort$Model.class
 com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveUserByEmail.class
 com/example/desarrollodeaplicaciones/repositories/RetrieveActorsByNameDatabaseRepository.class
+com/example/desarrollodeaplicaciones/usecases/BuildMoviesComparator$Model$ModelBuilder.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesByTitleApi$Model.class
+com/example/desarrollodeaplicaciones/usecases/BuildMoviesComparator$Model.class
 com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveFavoriteMoviesFromUserResponse.class
 com/example/desarrollodeaplicaciones/exceptions/usecases/BadRequestUseCaseException.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesSimpleById$Model$ModelBuilder.class
 com/example/desarrollodeaplicaciones/repositories/RetrieveMovieDetailApiRepository$Model.class
+com/example/desarrollodeaplicaciones/usecases/impl/DefaultBuildMoviesComparator.class
 com/example/desarrollodeaplicaciones/usecases/security/impl/DefaultCreateAccessToken.class
 com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveMoviesResponse.class
+com/example/desarrollodeaplicaciones/router/AddFavoriteMovieRouter.class
 com/example/desarrollodeaplicaciones/router/AddVoteToMovieRouter.class
 com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveMovieDetailResponse.class
 com/example/desarrollodeaplicaciones/repositories/RetrieveMoviesByGenreApiRepository.class
@@ -356,6 +359,7 @@ com/example/desarrollodeaplicaciones/models/moviesapi/Actor$ActorBuilder.class
 com/example/desarrollodeaplicaciones/usecases/AddVoteToMovie$Model$ModelBuilder.class
 com/example/desarrollodeaplicaciones/usecases/BuildRetrieveMoviesDatabaseSort$Model$ModelBuilder.class
 com/example/desarrollodeaplicaciones/usecases/impl/DefaultUpdateUser.class
+com/example/desarrollodeaplicaciones/usecases/BuildMoviesComparator.class
 com/example/desarrollodeaplicaciones/exceptions/usecases/InternalServerErrorUseCaseException.class
 com/example/desarrollodeaplicaciones/usecases/RetrievePopularMoviesDatabase.class
 com/example/desarrollodeaplicaciones/repositories/RetrieveMoviesByTitleApiRepository$Model.class

@@ -25,7 +25,7 @@ public class MovieSimpleDto {
   private String backdropPath;
 
   @JsonProperty("release_date")
-  private LocalDate releaseDate;
+  private String releaseDate;
 
   @JsonProperty("genre_ids")
   private List<Integer> genreIds;

@@ -96,6 +96,7 @@
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/repositories/SaveMovieDetailRepository.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultSaveActorsDto.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/BuildMovies.java
+/Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/router/AddFavoriteMovieRouter.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/RetrieveActorsByName.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesByGenreApi.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultBuildMovieSimpleDtoByMovieDetailDto.java
@@ -105,6 +106,7 @@
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/security/impl/DefaultRetrieveJwtKey.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultBuildMovies.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/repositories/RetrieveMoviesDatabaseRepository.java
+/Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/BuildMoviesComparator.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/VerifyGoogleToken.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesByGenreDatabase.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/RetrieveUserById.java
@@ -116,6 +118,7 @@
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/RetrieveMovieDetailDatabase.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/router/LoginRouter.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/exceptions/router/BadRequestRouterException.java
+/Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultRefresh.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/exceptions/repository/NotFoundRepositoryException.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultAddVoteToMovie.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/repositories/impl/DefaultRetrieveActorsByNameApiRepository.java
@@ -174,7 +177,6 @@
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/MergeMovies.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultUpdateUser.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/FixImage.java
-/Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/DefaultRefresh.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/RetrieveGenreIdByGenreName.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/dtos/Token.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/security/impl/DefaultIsAccessTokenValid.java
@@ -218,7 +220,6 @@
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/dtos/MovieVideoDto.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/RetrieveMovieDetail.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/repositories/RetrieveMovieDetailApiRepository.java
-/Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/router/AddFavoriteMoveRouter.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/models/User.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesResponse.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveGenreIdByGenreName.java
@@ -226,6 +227,7 @@
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveUserById.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultBuildMoviesDto.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultBuildActorDto.java
+/Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultBuildMoviesComparator.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/dtos/VoteDto.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/SaveActorsDto.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultBuildImageUrl.java

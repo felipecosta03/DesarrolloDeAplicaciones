@@ -41,7 +41,7 @@ public class MovieDetail {
   private String posterPath;
 
   @JsonProperty("release_date")
-  private LocalDate releaseDate;
+  private String releaseDate;
 
   @JsonProperty("backdrop_path")
   private String backdropPath;
