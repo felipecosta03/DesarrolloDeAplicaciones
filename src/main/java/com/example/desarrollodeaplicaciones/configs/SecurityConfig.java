@@ -25,10 +25,7 @@ public class SecurityConfig {
         .authorizeHttpRequests(
             authRequest ->
                 authRequest
-                    .requestMatchers("/api/v1/auth/**")
-                    .permitAll()
-                    .anyRequest()
-                    // .authenticated()) TODO
+                    .requestMatchers("/api/v1/**")
                     .permitAll())
         .sessionManagement(
             sessionManagement ->
