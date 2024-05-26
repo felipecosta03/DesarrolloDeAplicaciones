@@ -1,6 +1,6 @@
 package com.example.desarrollodeaplicaciones.configs;
 
-import com.example.desarrollodeaplicaciones.usecases.security.IsTokenValid;
+import com.example.desarrollodeaplicaciones.usecases.security.IsAccessTokenValid;
 import com.example.desarrollodeaplicaciones.usecases.security.RetrieveTokenFromRequest;
 import com.example.desarrollodeaplicaciones.usecases.security.RetrieveUsernameFromToken;
 import jakarta.servlet.FilterChain;
@@ -21,7 +21,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-  private final IsTokenValid isTokenValid;
+  private final IsAccessTokenValid isAccessTokenValid;
   private final RetrieveUsernameFromToken retrieveUsernameFromToken;
   private final RetrieveTokenFromRequest retrieveTokenFromRequest;
 
@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
     String token = retrieveTokenFromRequest.apply(request);
-    if (token != null && isTokenValid.test(token)) {
+    if (token != null && isAccessTokenValid.test(token)) {
       String username = retrieveUsernameFromToken.apply(token);
       UsernamePasswordAuthenticationToken auth =
           new UsernamePasswordAuthenticationToken(username, null, Collections.emptyList());

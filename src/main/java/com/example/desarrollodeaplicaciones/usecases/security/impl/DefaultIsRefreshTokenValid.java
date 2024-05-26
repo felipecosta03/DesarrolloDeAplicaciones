@@ -5,16 +5,17 @@ import static java.util.Objects.isNull;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.repositories.TokenRepository;
 import com.example.desarrollodeaplicaciones.usecases.security.BuildJwtParser;
-import com.example.desarrollodeaplicaciones.usecases.security.IsTokenValid;
+import com.example.desarrollodeaplicaciones.usecases.security.IsRefreshTokenValid;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DefaultIsTokenValid implements IsTokenValid {
+public class DefaultIsRefreshTokenValid implements IsRefreshTokenValid {
 
   private final BuildJwtParser buildJwtParser;
   private final TokenRepository tokenRepository;
 
-  public DefaultIsTokenValid(BuildJwtParser buildJwtParser, TokenRepository tokenRepository) {
+  public DefaultIsRefreshTokenValid(
+      BuildJwtParser buildJwtParser, TokenRepository tokenRepository) {
     this.buildJwtParser = buildJwtParser;
     this.tokenRepository = tokenRepository;
   }
@@ -24,7 +25,7 @@ public class DefaultIsTokenValid implements IsTokenValid {
     validateToken(token);
     try {
       buildJwtParser.get().parseClaimsJws(token);
-      return tokenRepository.findByAccessToken(token).map(t -> !t.isLoggedOut()).orElse(false);
+      return tokenRepository.findByRefreshToken(token).map(t -> !t.isLoggedOut()).orElse(false);
     } catch (Exception e) {
       return false;
     }
