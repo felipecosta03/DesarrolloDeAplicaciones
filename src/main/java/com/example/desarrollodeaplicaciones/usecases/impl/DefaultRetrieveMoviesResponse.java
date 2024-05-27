@@ -37,7 +37,7 @@ public class DefaultRetrieveMoviesResponse implements RetrieveMoviesResponse {
   @Override
   public Optional<List<MovieSimpleDto>> apply(Model model) {
     validateModel(model);
-    final Integer page = model.getPage().orElse(1);
+    final Integer page = model.getPage().orElse(0);
     final Integer size = model.getSize().orElse(20);
     final String dateOrder = model.getDateOrder().orElse(null);
     final String qualificationOrder = model.getQualificationOrder().orElse(null);
