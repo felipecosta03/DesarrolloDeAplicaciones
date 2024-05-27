@@ -8,8 +8,10 @@ import com.example.desarrollodeaplicaciones.usecases.RetrievePopularMoviesDataba
 import com.example.desarrollodeaplicaciones.usecases.SaveMoviesDto;
 import java.util.List;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class DefaultRetrievePopularMovies implements RetrievePopularMovies {
 
@@ -43,6 +45,7 @@ public class DefaultRetrievePopularMovies implements RetrievePopularMovies {
       saveMoviesDto.accept(moviesDto.get());
       return moviesDto;
     }
+    log.info("Retrieve popular movies from api failed, trying from database");
     return retrievePopularMoviesDatabase.apply(
         RetrievePopularMoviesDatabase.Model.builder()
             .size(model.getSize())
