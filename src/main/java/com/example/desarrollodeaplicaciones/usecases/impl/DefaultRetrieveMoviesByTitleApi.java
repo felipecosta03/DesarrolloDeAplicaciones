@@ -30,12 +30,22 @@ public class DefaultRetrieveMoviesByTitleApi implements RetrieveMoviesByTitleApi
   public Optional<List<MovieSimpleDto>> apply(Model model) {
     validateModel(model);
     final List<MovieSimpleDto> movies = new ArrayList<>();
+
+    if (model.getPage() <= 1) {
+      return retrieveMoviesByTitleApiRepository.apply(
+          RetrieveMoviesByTitleApiRepository.Model.builder()
+              .title(model.getTitle())
+              .page(model.getPage())
+              .size(model.getSize())
+              .build());
+    }
     for (int i = 1; i <= 10; i++) {
+      int page = (model.getPage() / 10) * 10 + i;
       retrieveMoviesByTitleApiRepository
           .apply(
               RetrieveMoviesByTitleApiRepository.Model.builder()
                   .title(model.getTitle())
-                  .page((model.getPage() / 10) * 10 + i)
+                  .page(page)
                   .size(model.getSize())
                   .build())
           .ifPresent(movies::addAll);
@@ -48,7 +58,7 @@ public class DefaultRetrieveMoviesByTitleApi implements RetrieveMoviesByTitleApi
                 .build());
 
     movies.sort(comparator);
-    int initialIndex = model.getPage() * model.getSize();
+    int initialIndex = (model.getPage() - 1) * model.getSize();
     if (initialIndex >= movies.size()) {
       return Optional.empty();
     }
