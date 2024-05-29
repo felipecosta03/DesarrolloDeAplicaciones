@@ -19,7 +19,6 @@ public class DefaultBuildUserDto implements BuildUserDto {
         .email(user.getEmail())
         .lastName(user.getLastName())
         .nickName(user.getNickName())
-        .active(user.isActive())
         .image(user.getImage())
         .build();
   }

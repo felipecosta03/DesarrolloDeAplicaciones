@@ -27,7 +27,6 @@ public class DefaultUpdateUser implements UpdateUser {
     validateUser(userDto);
     User user =
         retrieveUserById.apply(RetrieveUserById.Model.builder().userId(userDto.getId()).build());
-    user.setActive(userDto.isActive());
     user.setImage(userDto.getImage());
     user.setNickName(userDto.getNickName());
     saveUserRepository.save(user);

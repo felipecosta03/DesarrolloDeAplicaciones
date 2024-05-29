@@ -32,6 +32,5 @@ public class User {
 
   private String image;
 
-  private boolean active;
   @ElementCollection private List<Long> favoriteMovies;
 }
