@@ -16,7 +16,7 @@ public class LogoutRouter extends AuthRouter {
 
   @PostMapping("/logout")
   public ResponseEntity<Void> post() {
-    logout.accept(getUserEmail()); // TODO
+    logout.accept(getUserEmail());
     return ResponseEntity.status(204).build();
   }
 }

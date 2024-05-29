@@ -77,6 +77,8 @@
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveMoviesResponse.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/Refresh.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/FixMovie.java
+/Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/repositories/DeleteUserRepository.java
+/Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/DeleteUser.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/repositories/RetrieveMoviesByTitleDatabaseRepository.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveMoviesByGenre.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/RetrieveMovieDetailResponse.java
@@ -137,6 +139,7 @@
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/DeleteImage.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/BuildActors.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultBuildMovieDetailDto.java
+/Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/router/DeleteUserRouter.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/models/moviesapi/response/ResponseMovieImagesApi.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/repositories/RetrieveMovieImageRepository.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/exceptions/usecases/InternalServerErrorUseCaseException.java
@@ -155,6 +158,7 @@
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveActorsByNameApi.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/repositories/TokenRepository.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/repositories/impl/DefaultRetrievePopularMoviesApiRepository.java
+/Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/repositories/ExistUserByIdRepository.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/repositories/impl/DefaultRetrieveMoviePeopleRepository.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/models/moviesapi/MovieSimple.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultSaveMovieDetail.java
@@ -173,6 +177,7 @@
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveMoviesDatabase.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesByTitleDatabase.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/repositories/impl/DefaultRetrieveMovieDetailApiRepository.java
+/Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultDeleteUser.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultSaveUser.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/security/RetrieveJwtKey.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/BuildRetrieveMoviesApiSort.java
