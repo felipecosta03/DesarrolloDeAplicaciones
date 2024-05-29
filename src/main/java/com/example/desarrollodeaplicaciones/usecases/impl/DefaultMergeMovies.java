@@ -5,7 +5,6 @@ import com.example.desarrollodeaplicaciones.usecases.MergeMovies;
 import com.example.desarrollodeaplicaciones.usecases.RemoveDuplicatedMovies;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 @Component

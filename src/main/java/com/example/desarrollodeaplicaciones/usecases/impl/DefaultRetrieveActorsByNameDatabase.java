@@ -30,7 +30,8 @@ public class DefaultRetrieveActorsByNameDatabase implements RetrieveActorsByName
   @Override
   public Optional<List<ActorDto>> apply(Model model) {
     validateModel(model);
-    Pageable pageable = PageRequest.of(model.getPage(), model.getSize(), Sort.by(Sort.Order.asc("name")));
+    Pageable pageable =
+        PageRequest.of(model.getPage(), model.getSize(), Sort.by(Sort.Order.asc("name")));
     return retrieveActorsByNamesDatabaseRepository
         .findAllByNameContaining(model.getActorName(), pageable)
         .map(buildActorsDto);
