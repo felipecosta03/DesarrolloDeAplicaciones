@@ -44,11 +44,6 @@ public class DefaultVerifyGoogleToken implements VerifyGoogleToken {
     if (idToken != null) {
       GoogleIdToken.Payload payload = idToken.getPayload();
 
-      // Print user identifier
-      String userId = payload.getSubject();
-      System.out.println("User ID: " + userId);
-
-      // Get profile information from payload
       String email = payload.getEmail();
       String name = (String) payload.get("name");
       String pictureUrl = (String) payload.get("picture");
@@ -60,13 +55,13 @@ public class DefaultVerifyGoogleToken implements VerifyGoogleToken {
           .name(givenName)
           .lastName(familyName)
           .image(pictureUrl)
-          .nickName(name)
+          .nickName(buildNickName(name))
           .build();
-      // Use or store profile information
-      // ...
-
     } else {
       throw new ForbiddenUseCaseException("Invalid Google ID token.");
     }
+  }
+  private String buildNickName(String name) {
+    return name.replace(" ", "").toLowerCase();
   }
 }
