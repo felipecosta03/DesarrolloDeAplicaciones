@@ -2,6 +2,7 @@ com/example/desarrollodeaplicaciones/router/PingRouter.class
 com/example/desarrollodeaplicaciones/repositories/RetrieveUserByEmailRepository.class
 com/example/desarrollodeaplicaciones/router/RetrieveFavoriteMoviesFromUserRouter.class
 com/example/desarrollodeaplicaciones/models/moviesapi/Image$ImageBuilder.class
+com/example/desarrollodeaplicaciones/dtos/UserUpdateDto$UserUpdateDtoBuilder.class
 com/example/desarrollodeaplicaciones/usecases/SaveMovies.class
 com/example/desarrollodeaplicaciones/repositories/impl/DefaultRetrieveActorsByNameApiRepository.class
 com/example/desarrollodeaplicaciones/repositories/RetrievePopularMoviesApiRepository.class
@@ -264,6 +265,7 @@ com/example/desarrollodeaplicaciones/usecases/AddVoteToMovie$Model.class
 com/example/desarrollodeaplicaciones/usecases/BuildRetrieveMoviesApiSort$Model$ModelBuilder.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveFavoriteMoviesFromUserResponse$Model.class
 com/example/desarrollodeaplicaciones/models/moviesapi/MovieSimple.class
+com/example/desarrollodeaplicaciones/dtos/UserUpdateDto.class
 com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveMovieDetail.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveMovieDetailResponse.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesByTitle$Model$ModelBuilder.class
