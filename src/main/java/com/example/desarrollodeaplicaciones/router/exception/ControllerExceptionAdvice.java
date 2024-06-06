@@ -25,6 +25,7 @@ public class ControllerExceptionAdvice {
     NotFoundUseCaseException.class
   })
   public ResponseEntity<ApiError> notFoundException(Exception e) {
+    log.error(e.getMessage());
     final ApiError apiError =
         ApiError.builder()
             .error(e.getClass().getSimpleName())
@@ -37,14 +38,14 @@ public class ControllerExceptionAdvice {
 
   @ExceptionHandler({BadRequestRouterException.class, BadRequestUseCaseException.class})
   public ResponseEntity<ApiError> badRequestException(Exception e) {
+    log.error(e.getMessage());
+
     final ApiError apiError =
         ApiError.builder()
             .error(e.getClass().getSimpleName())
             .message(e.getMessage())
             .status(HttpStatus.BAD_REQUEST.value())
             .build();
-
-    e.printStackTrace();
     return ResponseEntity.status(apiError.getStatus()).body(apiError);
   }
 
@@ -54,18 +55,19 @@ public class ControllerExceptionAdvice {
     Exception.class
   })
   public ResponseEntity<ApiError> failedDependencyException(Exception e) {
+    log.error(e.getMessage());
     final ApiError apiError =
         ApiError.builder()
             .error(e.getClass().getSimpleName())
             .message(e.getMessage())
             .status(HttpStatus.FAILED_DEPENDENCY.value())
             .build();
-    e.printStackTrace();
     return ResponseEntity.status(apiError.getStatus()).body(apiError);
   }
 
   @ExceptionHandler({InternalServerErrorUseCaseException.class})
   public ResponseEntity<ApiError> internalServerErrorException(Exception e) {
+    log.error(e.getMessage());
     final ApiError apiError =
         ApiError.builder()
             .error(e.getClass().getSimpleName())
@@ -77,6 +79,7 @@ public class ControllerExceptionAdvice {
 
   @ExceptionHandler({ForbiddenUseCaseException.class})
   public ResponseEntity<ApiError> forbiddenException(Exception e) {
+    log.error(e.getMessage());
     final ApiError apiError =
         ApiError.builder()
             .error(e.getClass().getSimpleName())
