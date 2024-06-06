@@ -22,7 +22,7 @@ public class DefaultSaveUser implements SaveUser {
   @Override
   public User apply(User user) {
     validateUser(user);
-    if (isNull(user.getImage())) {
+    if (!isNull(user.getImage())) {
       user.setImage(
           uploadImage.apply(UploadImage.Model.builder().imageUrl(user.getImage()).build()));
     }
