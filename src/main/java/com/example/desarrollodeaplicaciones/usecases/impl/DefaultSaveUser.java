@@ -6,19 +6,26 @@ import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCas
 import com.example.desarrollodeaplicaciones.models.User;
 import com.example.desarrollodeaplicaciones.repositories.SaveUserRepository;
 import com.example.desarrollodeaplicaciones.usecases.SaveUser;
+import com.example.desarrollodeaplicaciones.usecases.UploadImage;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DefaultSaveUser implements SaveUser {
   private final SaveUserRepository saveUserRepository;
+  private final UploadImage uploadImage;
 
-  public DefaultSaveUser(SaveUserRepository saveUserRepository) {
+  public DefaultSaveUser(SaveUserRepository saveUserRepository, UploadImage uploadImage) {
     this.saveUserRepository = saveUserRepository;
+    this.uploadImage = uploadImage;
   }
 
   @Override
   public User apply(User user) {
     validateUser(user);
+    if (isNull(user.getImage())) {
+      user.setImage(
+          uploadImage.apply(UploadImage.Model.builder().imageUrl(user.getImage()).build()));
+    }
     return saveUserRepository.save(user);
   }
 

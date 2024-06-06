@@ -1,6 +1,6 @@
 package com.example.desarrollodeaplicaciones.router;
 
-import com.example.desarrollodeaplicaciones.dtos.UserDto;
+import com.example.desarrollodeaplicaciones.dtos.UserUpdateDto;
 import com.example.desarrollodeaplicaciones.usecases.UpdateUser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,7 +16,7 @@ public class UpdateUserRouter extends UserRouter {
   }
 
   @PutMapping
-  public ResponseEntity<Void> update(@RequestBody UserDto userDto) {
+  public ResponseEntity<Void> update(@RequestBody UserUpdateDto userDto) {
     updateUser.accept(userDto);
     return ResponseEntity.ok().build();
   }
