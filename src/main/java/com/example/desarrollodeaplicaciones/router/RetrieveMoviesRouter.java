@@ -2,8 +2,8 @@ package com.example.desarrollodeaplicaciones.router;
 
 import com.azure.core.annotation.QueryParam;
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
-import com.example.desarrollodeaplicaciones.exceptions.usecases.NotFoundUseCaseException;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +43,6 @@ public class RetrieveMoviesRouter extends MovieRouter {
                 .size(size)
                 .build())
         .map(ResponseEntity::ok)
-        .orElseThrow(() -> new NotFoundUseCaseException("Movies not found"));
+        .orElse(ResponseEntity.ok(new ArrayList<>()));
   }
 }
