@@ -14,6 +14,11 @@ public class DefaultCreateAccessToken implements CreateAccessToken {
     final int expirationTime = 1000 * 60 * 2;
     Date now = new Date();
     Date validity = new Date(now.getTime() + expirationTime);
-    return Jwts.builder().subject(id.toString()).issuedAt(now).expiration(validity).signWith(key).compact();
+    return Jwts.builder()
+        .subject(id.toString())
+        .issuedAt(now)
+        .expiration(validity)
+        .signWith(key)
+        .compact();
   }
 }

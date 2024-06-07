@@ -61,6 +61,7 @@ public class DefaultVerifyGoogleToken implements VerifyGoogleToken {
       throw new ForbiddenUseCaseException("Invalid Google ID token.");
     }
   }
+
   private String buildNickName(String name) {
     return name.replace(" ", "").toLowerCase();
   }

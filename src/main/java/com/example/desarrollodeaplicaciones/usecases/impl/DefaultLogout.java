@@ -5,7 +5,6 @@ import static java.util.Objects.isNull;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.usecases.Logout;
 import com.example.desarrollodeaplicaciones.usecases.security.RevokeAllTokens;
-import com.google.common.base.Strings;
 import org.springframework.stereotype.Component;
 
 @Component

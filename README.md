@@ -2,7 +2,10 @@
 
 # Trailbit
 
-Trailbit es una aplicación móvil revolucionaria desarrollada para MoviePlay, una empresa recientemente establecida en Argentina y especializada en la industria cinematográfica. La aplicación permite a los usuarios ver y recomendar películas, prometiendo transformar el mercado. Desarrollada con un backend robusto y desplegada en la nube, Trailbit busca mejorar la experiencia de ver películas para todos los usuarios.
+Trailbit es una aplicación móvil revolucionaria desarrollada para MoviePlay, una empresa recientemente establecida en
+Argentina y especializada en la industria cinematográfica. La aplicación permite a los usuarios ver y recomendar
+películas, prometiendo transformar el mercado. Desarrollada con un backend robusto y desplegada en la nube, Trailbit
+busca mejorar la experiencia de ver películas para todos los usuarios.
 
 ## Integrantes del Equipo 04
 
@@ -18,7 +21,6 @@ Antes de comenzar, asegúrate de tener instalado lo siguiente:
 
 - Java 22
 - Git
-
 
 ## Configuración Inicial
 
