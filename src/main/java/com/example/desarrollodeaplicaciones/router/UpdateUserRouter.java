@@ -17,7 +17,7 @@ public class UpdateUserRouter extends UserRouter {
 
   @PutMapping
   public ResponseEntity<Void> update(@RequestBody UserUpdateDto userDto) {
-    updateUser.accept(userDto);
+    updateUser.accept(getUserId(), userDto);
     return ResponseEntity.ok().build();
   }
 }

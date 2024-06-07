@@ -13,6 +13,6 @@ public interface RetrieveMovieDetailResponse
   @Builder
   class Model {
     private final Long movieId;
-    private final String userEmail;
+    private final Long userId;
   }
 }

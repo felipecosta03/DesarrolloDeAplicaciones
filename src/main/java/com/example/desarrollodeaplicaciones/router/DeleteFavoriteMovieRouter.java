@@ -15,11 +15,10 @@ public class DeleteFavoriteMovieRouter extends UserRouter {
     this.deleteFavoriteMovie = deleteFavoriteMovie;
   }
 
-  @DeleteMapping("/{userId}/movies/{movieId}/favorites")
-  public ResponseEntity<Void> delete(
-      @PathVariable("userId") Long userId, @PathVariable("movieId") Long movieId) {
+  @DeleteMapping("/movies/{movieId}/favorites")
+  public ResponseEntity<Void> delete(@PathVariable("movieId") Long movieId) {
     deleteFavoriteMovie.accept(
-        DeleteFavoriteMovie.Model.builder().userId(userId).movieId(movieId).build());
+        DeleteFavoriteMovie.Model.builder().userId(getUserId()).movieId(movieId).build());
     return ResponseEntity.ok().build();
   }
 }

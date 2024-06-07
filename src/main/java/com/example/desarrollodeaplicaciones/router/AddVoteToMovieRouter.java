@@ -25,7 +25,7 @@ public class AddVoteToMovieRouter extends MovieRouter {
     addVoteToMovie.accept(
         AddVoteToMovie.Model.builder()
             .movieId(movieId)
-            .userId(voteDto.getUserId())
+            .userId(getUserId())
             .score(voteDto.getScore())
             .build());
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

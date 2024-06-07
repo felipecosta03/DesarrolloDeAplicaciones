@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -19,11 +18,11 @@ public class RetrieveFavoriteMoviesFromUserRouter extends UserRouter {
     this.retrieveFavoriteMoviesFromUserResponse = retrieveFavoriteMoviesFromUserResponse;
   }
 
-  @GetMapping("/{userId}/favorites")
-  public ResponseEntity<List<MovieSimpleDto>> get(@PathVariable Long userId) {
+  @GetMapping("/favorites")
+  public ResponseEntity<List<MovieSimpleDto>> get() {
     Optional<List<MovieSimpleDto>> response =
         retrieveFavoriteMoviesFromUserResponse.apply(
-            RetrieveFavoriteMoviesFromUserResponse.Model.builder().userId(userId).build());
+            RetrieveFavoriteMoviesFromUserResponse.Model.builder().userId(getUserId()).build());
 
     return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
   }

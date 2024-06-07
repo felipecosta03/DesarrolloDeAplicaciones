@@ -2,11 +2,10 @@ package com.example.desarrollodeaplicaciones.usecases.impl;
 
 import com.example.desarrollodeaplicaciones.dtos.Token;
 import com.example.desarrollodeaplicaciones.exceptions.ForbiddenUseCaseException;
-import com.example.desarrollodeaplicaciones.exceptions.usecases.NotFoundUseCaseException;
 import com.example.desarrollodeaplicaciones.models.User;
 import com.example.desarrollodeaplicaciones.repositories.TokenRepository;
 import com.example.desarrollodeaplicaciones.usecases.Refresh;
-import com.example.desarrollodeaplicaciones.usecases.RetrieveUserByEmail;
+import com.example.desarrollodeaplicaciones.usecases.RetrieveUserById;
 import com.example.desarrollodeaplicaciones.usecases.security.CleanToken;
 import com.example.desarrollodeaplicaciones.usecases.security.CreateToken;
 import com.example.desarrollodeaplicaciones.usecases.security.IsRefreshTokenValid;
@@ -24,7 +23,7 @@ public class DefaultRefresh implements Refresh {
   private final RevokeAllTokens revokeAllTokens;
   private final RetrieveUsernameFromToken retrieveUsernameFromToken;
   private final CreateToken createToken;
-  private final RetrieveUserByEmail retrieveUserByEmail;
+  private final RetrieveUserById retrieveUserById;
 
   public DefaultRefresh(
       CleanToken cleanToken,
@@ -33,14 +32,14 @@ public class DefaultRefresh implements Refresh {
       RevokeAllTokens revokeAllTokens,
       RetrieveUsernameFromToken retrieveUsernameFromToken,
       CreateToken createToken,
-      RetrieveUserByEmail retrieveUserByEmail) {
+      RetrieveUserById retrieveUserById) {
     this.cleanToken = cleanToken;
     this.isRefreshTokenValid = isRefreshTokenValid;
     this.tokenRepository = tokenRepository;
     this.revokeAllTokens = revokeAllTokens;
     this.retrieveUsernameFromToken = retrieveUsernameFromToken;
     this.createToken = createToken;
-    this.retrieveUserByEmail = retrieveUserByEmail;
+    this.retrieveUserById = retrieveUserById;
   }
 
   @Override
@@ -49,17 +48,14 @@ public class DefaultRefresh implements Refresh {
       throw new ForbiddenUseCaseException("Invalid token");
     }
     String token = cleanToken.apply(authToken);
-    String email = retrieveUsernameFromToken.apply(token);
+    Long userId = Long.valueOf(retrieveUsernameFromToken.apply(token));
     if (isRefreshTokenValid.test(token)) {
-      revokeAllTokens.accept(email);
+      revokeAllTokens.accept(userId);
     } else {
       throw new ForbiddenUseCaseException("Invalid token");
     }
 
-    User user =
-        retrieveUserByEmail
-            .apply(RetrieveUserByEmail.Model.builder().email(email).build())
-            .orElseThrow(() -> new NotFoundUseCaseException("User not found"));
+    User user = retrieveUserById.apply(RetrieveUserById.Model.builder().userId(userId).build());
     return tokenRepository.save(createToken.apply(user));
   }
 }

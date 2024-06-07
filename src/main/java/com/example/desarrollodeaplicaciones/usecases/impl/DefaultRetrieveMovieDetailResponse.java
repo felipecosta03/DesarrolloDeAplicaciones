@@ -7,7 +7,7 @@ import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCas
 import com.example.desarrollodeaplicaciones.models.User;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetail;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailResponse;
-import com.example.desarrollodeaplicaciones.usecases.RetrieveUserByEmail;
+import com.example.desarrollodeaplicaciones.usecases.RetrieveUserById;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,12 +17,12 @@ import org.springframework.stereotype.Component;
 public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailResponse {
 
   private final RetrieveMovieDetail retrieveMovieDetail;
-  private final RetrieveUserByEmail retrieveUserByEmail;
+  private final RetrieveUserById retrieveUserById;
 
   public DefaultRetrieveMovieDetailResponse(
-      RetrieveMovieDetail retrieveMovieDetail, RetrieveUserByEmail retrieveUserByEmail) {
+      RetrieveMovieDetail retrieveMovieDetail, RetrieveUserById retrieveUserById) {
     this.retrieveMovieDetail = retrieveMovieDetail;
-    this.retrieveUserByEmail = retrieveUserByEmail;
+    this.retrieveUserById = retrieveUserById;
   }
 
   @Override
@@ -32,17 +32,12 @@ public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailRe
     Optional<MovieDetailDto> movieDetailDto =
         retrieveMovieDetail.apply(
             RetrieveMovieDetail.Model.builder().movieId(model.getMovieId()).build());
-    Optional<User> user =
-        retrieveUserByEmail.apply(
-            RetrieveUserByEmail.Model.builder().email(model.getUserEmail()).build());
 
-    if (user.isEmpty()) {
-      log.info(model.getUserEmail());
-      throw new BadRequestUseCaseException("User not found");
-    }
+    User user =
+        retrieveUserById.apply(RetrieveUserById.Model.builder().userId(model.getUserId()).build());
 
     movieDetailDto.ifPresent(
-        movie -> movie.setFavorite(user.get().getFavoriteMovies().contains(movie.getId())));
+        movie -> movie.setFavorite(user.getFavoriteMovies().contains(movie.getId())));
 
     return movieDetailDto;
   }
@@ -54,8 +49,8 @@ public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailRe
     if (isNull(model.getMovieId())) {
       throw new BadRequestUseCaseException("Movie id is required");
     }
-    if (isNull(model.getUserEmail())) {
-      throw new BadRequestUseCaseException("User email is required");
+    if (isNull(model.getUserId())) {
+      throw new BadRequestUseCaseException("User id is required");
     }
   }
 }

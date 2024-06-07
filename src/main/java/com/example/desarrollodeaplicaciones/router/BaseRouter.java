@@ -13,8 +13,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @RequestMapping("/api/v1")
 public abstract class BaseRouter {
 
-  protected final String getUserEmail() {
-    return SecurityContextHolder.getContext().getAuthentication().getName();
+  protected final Long getUserId() {
+    return Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getName());
   }
 
   protected HttpServletRequest getRequest() {

@@ -25,13 +25,12 @@ public class SecurityConfig {
         .authorizeHttpRequests(
             authRequest ->
                 authRequest
-                    .requestMatchers("/api/v1/**")
+                    .requestMatchers("/api/v1/auth/**")
                     .permitAll()
                     .requestMatchers("/api-docs.yaml")
                     .permitAll()
-            // .anyRequest()
-            // .authenticated()
-            )
+                    .anyRequest()
+                    .authenticated())
         .sessionManagement(
             sessionManagement ->
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

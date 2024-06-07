@@ -16,10 +16,10 @@ public class AddFavoriteMovieRouter extends UserRouter {
     this.addFavoriteMovie = addFavoriteMovie;
   }
 
-  @PostMapping("/{userId}/movies/{movieId}/favorites")
-  public ResponseEntity<Void> post(@PathVariable Long userId, @PathVariable Long movieId) {
+  @PostMapping("/movies/{movieId}/favorites")
+  public ResponseEntity<Void> post(@PathVariable Long movieId) {
     addFavoriteMovie.accept(
-        AddFavoriteMovie.Model.builder().userId(userId).movieId(movieId).build());
+        AddFavoriteMovie.Model.builder().userId(getUserId()).movieId(movieId).build());
 
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }

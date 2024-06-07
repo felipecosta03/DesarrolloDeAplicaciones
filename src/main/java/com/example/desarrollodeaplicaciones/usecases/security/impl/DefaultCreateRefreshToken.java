@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 public class DefaultCreateRefreshToken implements CreateRefreshToken {
 
   @Override
-  public String apply(String email, Key key) {
+  public String apply(Long id, Key key) {
     final int expirationTime = 1000 * 3600 * 24 * 7;
     Date now = new Date();
     Date validity = new Date(now.getTime() + expirationTime);
-    return Jwts.builder().subject(email).issuedAt(now).expiration(validity).signWith(key).compact();
+    return Jwts.builder().subject(id.toString()).issuedAt(now).expiration(validity).signWith(key).compact();
   }
 }

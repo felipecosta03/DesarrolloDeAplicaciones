@@ -1,5 +1,7 @@
 package com.example.desarrollodeaplicaciones.usecases.impl;
 
+import static java.util.Objects.isNull;
+
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.usecases.Logout;
 import com.example.desarrollodeaplicaciones.usecases.security.RevokeAllTokens;
@@ -16,10 +18,10 @@ public class DefaultLogout implements Logout {
   }
 
   @Override
-  public void accept(String email) {
-    if (Strings.isNullOrEmpty(email)) {
+  public void accept(Long userId) {
+    if (isNull(userId)) {
       throw new BadRequestUseCaseException("Email is required");
     }
-    revokeAllTokens.accept(email);
+    revokeAllTokens.accept(userId);
   }
 }

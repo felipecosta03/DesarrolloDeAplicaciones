@@ -29,8 +29,8 @@ public class DefaultCreateToken implements CreateToken {
   public Token apply(User user) {
     final Key key = retrieveJwtKey.get();
     return Token.builder()
-        .accessToken(createAccessToken.apply(user.getEmail(), key))
-        .refreshToken(createRefreshToken.apply(user.getEmail(), key))
+        .accessToken(createAccessToken.apply(user.getId(), key))
+        .refreshToken(createRefreshToken.apply(user.getId(), key))
         .userId(user.getId())
         .loggedOut(false)
         .build();
