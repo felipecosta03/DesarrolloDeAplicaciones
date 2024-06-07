@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AddFavoriteMovieRouter extends UserRouter {
+public class AddFavoriteMovieRouter extends FavoritesRouter {
 
   private final AddFavoriteMovie addFavoriteMovie;
 
@@ -16,7 +16,7 @@ public class AddFavoriteMovieRouter extends UserRouter {
     this.addFavoriteMovie = addFavoriteMovie;
   }
 
-  @PostMapping("/movies/{movieId}/favorites")
+  @PostMapping("/{movieId}")
   public ResponseEntity<Void> post(@PathVariable Long movieId) {
     addFavoriteMovie.accept(
         AddFavoriteMovie.Model.builder().userId(getUserId()).movieId(movieId).build());

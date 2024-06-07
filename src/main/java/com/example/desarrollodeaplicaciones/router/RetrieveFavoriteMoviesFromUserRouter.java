@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class RetrieveFavoriteMoviesFromUserRouter extends UserRouter {
+public class RetrieveFavoriteMoviesFromUserRouter extends FavoritesRouter {
 
   private final RetrieveFavoriteMoviesFromUserResponse retrieveFavoriteMoviesFromUserResponse;
 
@@ -18,7 +18,7 @@ public class RetrieveFavoriteMoviesFromUserRouter extends UserRouter {
     this.retrieveFavoriteMoviesFromUserResponse = retrieveFavoriteMoviesFromUserResponse;
   }
 
-  @GetMapping("/favorites")
+  @GetMapping
   public ResponseEntity<List<MovieSimpleDto>> get() {
     Optional<List<MovieSimpleDto>> response =
         retrieveFavoriteMoviesFromUserResponse.apply(

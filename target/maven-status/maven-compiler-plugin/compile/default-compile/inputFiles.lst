@@ -163,6 +163,7 @@
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/repositories/impl/DefaultRetrieveMoviePeopleRepository.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/models/moviesapi/MovieSimple.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultSaveMovieDetail.java
+/Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/router/FavoritesRouter.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/configs/CloudinaryStorageConfig.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultFixMovieImage.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveFavoriteMoviesFromUserResponse.java

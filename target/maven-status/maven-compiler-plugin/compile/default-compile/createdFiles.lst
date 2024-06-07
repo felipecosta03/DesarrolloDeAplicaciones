@@ -125,6 +125,7 @@ com/example/desarrollodeaplicaciones/usecases/impl/DefaultBuildActorsDto.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveMovies$Model$ModelBuilder.class
 com/example/desarrollodeaplicaciones/repositories/impl/DefaultRetrieveMovieDetailApiRepository.class
 com/example/desarrollodeaplicaciones/usecases/BuildActor.class
+com/example/desarrollodeaplicaciones/router/FavoritesRouter.class
 com/example/desarrollodeaplicaciones/configs/JwtAuthenticationFilter.class
 com/example/desarrollodeaplicaciones/dtos/PeopleCastDto.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesByTitle$Model.class

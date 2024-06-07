@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class DeleteFavoriteMovieRouter extends UserRouter {
+public class DeleteFavoriteMovieRouter extends FavoritesRouter {
 
   private final DeleteFavoriteMovie deleteFavoriteMovie;
 
@@ -15,7 +15,7 @@ public class DeleteFavoriteMovieRouter extends UserRouter {
     this.deleteFavoriteMovie = deleteFavoriteMovie;
   }
 
-  @DeleteMapping("/movies/{movieId}/favorites")
+  @DeleteMapping("/{movieId}")
   public ResponseEntity<Void> delete(@PathVariable("movieId") Long movieId) {
     deleteFavoriteMovie.accept(
         DeleteFavoriteMovie.Model.builder().userId(getUserId()).movieId(movieId).build());
