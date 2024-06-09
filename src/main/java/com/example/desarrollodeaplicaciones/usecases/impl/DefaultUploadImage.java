@@ -29,7 +29,7 @@ public class DefaultUploadImage implements UploadImage {
       Map<?, ?> imageInfo =
           cloudinary.uploader().upload(model.getImageUrl(), ObjectUtils.emptyMap());
       log.info("Image uploaded successfully");
-      return imageInfo.get("url").toString();
+      return imageInfo.get("url").toString().replace("http", "https");
     } catch (Exception e) {
       throw new InternalServerErrorUseCaseException(e.getMessage());
     }
