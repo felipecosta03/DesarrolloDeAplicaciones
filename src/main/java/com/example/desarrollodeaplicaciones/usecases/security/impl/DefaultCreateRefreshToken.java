@@ -11,7 +11,7 @@ public class DefaultCreateRefreshToken implements CreateRefreshToken {
 
   @Override
   public String apply(Long id, Key key) {
-    final int expirationTime = 1000 * 3600 * 24 * 7;
+    final long expirationTime = 1000L * 3600 * 24 * 7 * 4;
     Date now = new Date();
     Date validity = new Date(now.getTime() + expirationTime);
     return Jwts.builder()
