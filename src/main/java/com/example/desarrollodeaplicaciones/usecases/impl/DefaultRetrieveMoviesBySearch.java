@@ -77,7 +77,7 @@ public class DefaultRetrieveMoviesBySearch implements RetrieveMoviesBySearch {
                 mergeMovies.apply(
                         moviesByTitle.orElse(Collections.emptyList()),
                         moviesFromActors.orElse(Collections.emptyList()));
-        if (Strings.isNullOrEmpty(model.getQualificationOrder())) cleanDate(movies);
+        if (!Strings.isNullOrEmpty(model.getQualificationOrder())) cleanDate(movies);
         movies.sort(comparator);
         if (movies.isEmpty()) {
             return Optional.empty();
@@ -90,6 +90,7 @@ public class DefaultRetrieveMoviesBySearch implements RetrieveMoviesBySearch {
             if (!Strings.isNullOrEmpty(movie.getReleaseDate())) {
                 movie.setReleaseDate(movie.getReleaseDate().substring(0, 4));
             }
+            log.info(movie.getReleaseDate());
         });
     }
 
