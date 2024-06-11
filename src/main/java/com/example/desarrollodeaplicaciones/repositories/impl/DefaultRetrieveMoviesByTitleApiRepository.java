@@ -40,6 +40,7 @@ public class DefaultRetrieveMoviesByTitleApiRepository
                               .queryParam("page", model.getPage())
                               .queryParam("primary_release_date.lte", LocalDate.now())
                               .queryParam("query", model.getTitle())
+                              .queryParam("sort_by", "popularity.desc")
                               .build())
                   .retrieve()
                   .onStatus(
