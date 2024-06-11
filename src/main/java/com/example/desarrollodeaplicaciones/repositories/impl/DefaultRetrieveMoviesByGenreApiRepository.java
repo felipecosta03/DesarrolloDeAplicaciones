@@ -42,6 +42,7 @@ public class DefaultRetrieveMoviesByGenreApiRepository
                               .queryParam("primary_release_date.lte", LocalDate.now())
                               .queryParam("sort_by", model.getSort())
                               .queryParam("with_genres", model.getGenreId())
+                              .queryParam("vote_count.gte", 300)
                               .build())
                   .retrieve()
                   .onStatus(

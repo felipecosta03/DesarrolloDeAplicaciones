@@ -40,6 +40,7 @@ public class DefaultRetrieveMoviesApiRepository implements RetrieveMoviesApiRepo
                               .queryParam("page", model.getPage())
                               .queryParam("primary_release_date.lte", LocalDate.now())
                               .queryParam("sort_by", model.getSort())
+                              .queryParam("vote_count.gte", 300)
                               .build())
                   .retrieve()
                   .onStatus(
