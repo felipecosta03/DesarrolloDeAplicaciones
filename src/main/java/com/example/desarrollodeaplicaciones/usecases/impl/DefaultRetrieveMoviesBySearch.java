@@ -66,13 +66,13 @@ public class DefaultRetrieveMoviesBySearch implements RetrieveMoviesBySearch {
                                 .qualificationOrder(model.getQualificationOrder())
                                 .build());
 
-        // Merge movies of actors with the movies retrieved by the search
         Comparator<MovieSimpleDto> comparator =
                 buildMoviesComparator.apply(
                         BuildMoviesComparator.Model.builder()
                                 .dateOrder(model.getDateOrder())
                                 .qualificationOrder(model.getQualificationOrder())
                                 .build());
+        // Merge movies of actors with the movies retrieved by the search
         final List<MovieSimpleDto> movies =
                 mergeMovies.apply(
                         moviesByTitle.orElse(Collections.emptyList()),

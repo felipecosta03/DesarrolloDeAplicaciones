@@ -11,7 +11,7 @@ public class DefaultCreateAccessToken implements CreateAccessToken {
 
   @Override
   public String apply(Long id, Key key) {
-    final int expirationTime = 1000 * 60 * 2;
+    final int expirationTime = 1000 * 60 * 5;
     Date now = new Date();
     Date validity = new Date(now.getTime() + expirationTime);
     return Jwts.builder()

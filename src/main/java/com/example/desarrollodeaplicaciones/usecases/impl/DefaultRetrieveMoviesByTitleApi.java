@@ -57,7 +57,8 @@ public class DefaultRetrieveMoviesByTitleApi implements RetrieveMoviesByTitleApi
                 .qualificationOrder(model.getQualificationOrder())
                 .build());
 
-    movies.sort(comparator);
+    if (!isNull(comparator)) movies.sort(comparator);
+
     int initialIndex = (model.getPage() - 1) * model.getSize();
     if (initialIndex >= movies.size()) {
       return Optional.empty();

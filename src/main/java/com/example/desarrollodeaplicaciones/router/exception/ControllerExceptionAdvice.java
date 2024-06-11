@@ -32,7 +32,7 @@ public class ControllerExceptionAdvice {
             .message(e.getMessage())
             .status(HttpStatus.NOT_FOUND.value())
             .build();
-
+    System.out.println(e);
     return ResponseEntity.status(apiError.getStatus()).body(apiError);
   }
 
