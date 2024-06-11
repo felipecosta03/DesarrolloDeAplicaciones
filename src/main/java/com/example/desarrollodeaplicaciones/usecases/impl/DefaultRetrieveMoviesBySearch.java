@@ -78,7 +78,8 @@ public class DefaultRetrieveMoviesBySearch implements RetrieveMoviesBySearch {
                         moviesByTitle.orElse(Collections.emptyList()),
                         moviesFromActors.orElse(Collections.emptyList()));
         if (!Strings.isNullOrEmpty(model.getQualificationOrder())) cleanDate(movies);
-        movies.sort(comparator);
+        if (!isNull(comparator)) movies.sort(comparator);
+
         if (movies.isEmpty()) {
             return Optional.empty();
         }

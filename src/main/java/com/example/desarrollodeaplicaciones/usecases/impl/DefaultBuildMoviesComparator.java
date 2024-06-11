@@ -30,7 +30,7 @@ public class DefaultBuildMoviesComparator implements BuildMoviesComparator {
       qualificationComparator = Comparator.comparing(MovieSimpleDto::getVoteAverage).reversed();
     }
     if (isNull(dateComparator) && isNull(qualificationComparator)) {
-      return Comparator.comparing(MovieSimpleDto::getReleaseDate).reversed();
+      return null;
     } else if (isNull(dateComparator)) {
       return qualificationComparator;
     } else if (isNull(qualificationComparator)) {
