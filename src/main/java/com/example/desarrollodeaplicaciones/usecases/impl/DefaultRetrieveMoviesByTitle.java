@@ -11,6 +11,7 @@ import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByTitleDataba
 import com.example.desarrollodeaplicaciones.usecases.SaveMoviesDto;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -38,14 +39,15 @@ public class DefaultRetrieveMoviesByTitle implements RetrieveMoviesByTitle {
 
     // Retrieve movies by title from the API
     final Optional<List<MovieSimpleDto>> movies =
-        retrieveMoviesByTitleApi.apply(
-            RetrieveMoviesByTitleApi.Model.builder()
-                .title(model.getTitle())
-                .page(model.getPage())
-                .dateOrder(model.getDateOrder())
-                .qualificationOrder(model.getQualificationOrder())
-                .size(model.getSize())
-                .build());
+        retrieveMoviesByTitleApi
+            .apply(
+                RetrieveMoviesByTitleApi.Model.builder()
+                    .title(model.getTitle())
+                    .page(model.getPage())
+                    .dateOrder(model.getDateOrder())
+                    .qualificationOrder(model.getQualificationOrder())
+                    .size(model.getSize())
+                    .build());
 
     // Retrieve movies by title from the database if an API error occurs (Optional is empty)
     if (movies.isEmpty()) {

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -32,12 +33,18 @@ public class DefaultRetrieveMoviesByTitleApi implements RetrieveMoviesByTitleApi
     final List<MovieSimpleDto> movies = new ArrayList<>();
 
     if (model.getPage() <= 1) {
-      return retrieveMoviesByTitleApiRepository.apply(
-          RetrieveMoviesByTitleApiRepository.Model.builder()
-              .title(model.getTitle())
-              .page(model.getPage())
-              .size(model.getSize())
-              .build());
+      return retrieveMoviesByTitleApiRepository
+          .apply(
+              RetrieveMoviesByTitleApiRepository.Model.builder()
+                  .title(model.getTitle())
+                  .page(model.getPage())
+                  .size(model.getSize())
+                  .build())
+          .map(
+              moviesDto ->
+                  moviesDto.stream()
+                      .filter(movie -> movie.getVoteCount() >= 250)
+                      .collect(Collectors.toList()));
     }
     for (int i = 1; i <= 10; i++) {
       int page = (model.getPage() / 10) * 10 + i;
@@ -50,6 +57,7 @@ public class DefaultRetrieveMoviesByTitleApi implements RetrieveMoviesByTitleApi
                   .build())
           .ifPresent(movies::addAll);
     }
+    movies.stream().filter(movie -> movie.getVoteCount() >= 250).collect(Collectors.toList());
     Comparator<MovieSimpleDto> comparator =
         buildMoviesComparator.apply(
             BuildMoviesComparator.Model.builder()
