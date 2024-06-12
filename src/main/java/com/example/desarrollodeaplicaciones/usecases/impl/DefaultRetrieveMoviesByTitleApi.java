@@ -7,6 +7,7 @@ import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCas
 import com.example.desarrollodeaplicaciones.repositories.RetrieveMoviesByTitleApiRepository;
 import com.example.desarrollodeaplicaciones.usecases.BuildMoviesComparator;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByTitleApi;
+import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesFromActors;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -19,12 +20,15 @@ public class DefaultRetrieveMoviesByTitleApi implements RetrieveMoviesByTitleApi
 
   private final RetrieveMoviesByTitleApiRepository retrieveMoviesByTitleApiRepository;
   private final BuildMoviesComparator buildMoviesComparator;
+  private final RetrieveMoviesFromActors retrieveMoviesFromActors;
 
   public DefaultRetrieveMoviesByTitleApi(
       RetrieveMoviesByTitleApiRepository retrieveMoviesByTitleApiRepository,
-      BuildMoviesComparator buildMoviesComparator) {
+      BuildMoviesComparator buildMoviesComparator,
+      RetrieveMoviesFromActors retrieveMoviesFromActors) {
     this.retrieveMoviesByTitleApiRepository = retrieveMoviesByTitleApiRepository;
     this.buildMoviesComparator = buildMoviesComparator;
+    this.retrieveMoviesFromActors = retrieveMoviesFromActors;
   }
 
   @Override
@@ -32,20 +36,15 @@ public class DefaultRetrieveMoviesByTitleApi implements RetrieveMoviesByTitleApi
     validateModel(model);
     List<MovieSimpleDto> movies = new ArrayList<>();
 
-    if (model.getPage() <= 1) {
-      return retrieveMoviesByTitleApiRepository
-          .apply(
-              RetrieveMoviesByTitleApiRepository.Model.builder()
-                  .title(model.getTitle())
-                  .page(model.getPage())
-                  .size(model.getSize())
-                  .build())
-          .map(
-              moviesDto ->
-                  moviesDto.stream()
-                      .filter(movie -> movie.getVoteCount() >= 70)
-                      .collect(Collectors.toList()));
-    }
+    retrieveMoviesFromActors
+        .apply(
+            RetrieveMoviesFromActors.Model.builder()
+                .actorName(model.getTitle())
+                .page(1)
+                .size(model.getSize())
+                .build())
+        .ifPresent(movies::addAll);
+
     for (int i = 1; i <= 10; i++) {
       int page = (model.getPage() / 10) * 10 + i;
       retrieveMoviesByTitleApiRepository
@@ -57,7 +56,8 @@ public class DefaultRetrieveMoviesByTitleApi implements RetrieveMoviesByTitleApi
                   .build())
           .ifPresent(movies::addAll);
     }
-    movies=movies.stream().filter(movie -> movie.getVoteCount() >= 70).collect(Collectors.toList());
+    movies =
+        movies.stream().filter(movie -> movie.getVoteCount() >= 70).collect(Collectors.toList());
     Comparator<MovieSimpleDto> comparator =
         buildMoviesComparator.apply(
             BuildMoviesComparator.Model.builder()
