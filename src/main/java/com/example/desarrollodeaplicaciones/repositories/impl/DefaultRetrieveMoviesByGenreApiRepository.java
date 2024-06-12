@@ -43,7 +43,7 @@ public class DefaultRetrieveMoviesByGenreApiRepository
                               //.queryParam("sort_by", model.getSort())
                               .queryParam("sort_by", "popularity.desc")
                               .queryParam("with_genres", model.getGenreId())
-                              .queryParam("vote_count.gte", 300)
+                              .queryParam("vote_count.gte", 70)
                               .build())
                   .retrieve()
                   .onStatus(

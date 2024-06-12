@@ -40,7 +40,7 @@ public class DefaultRetrievePopularMoviesApiRepository
                               .queryParam("page", model.getPage())
                               .queryParam("primary_release_date.lte", LocalDate.now())
                               .queryParam("sort_by", "popularity.desc")
-                              .queryParam("vote_count.gte", 300)
+                              .queryParam("vote_count.gte", 70)
                               .build())
                   .retrieve()
                   .onStatus(

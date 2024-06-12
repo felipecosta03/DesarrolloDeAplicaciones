@@ -43,7 +43,7 @@ public class DefaultRetrieveMoviesByTitleApi implements RetrieveMoviesByTitleApi
           .map(
               moviesDto ->
                   moviesDto.stream()
-                      .filter(movie -> movie.getVoteCount() >= 250)
+                      .filter(movie -> movie.getVoteCount() >= 70)
                       .collect(Collectors.toList()));
     }
     for (int i = 1; i <= 10; i++) {
@@ -57,7 +57,7 @@ public class DefaultRetrieveMoviesByTitleApi implements RetrieveMoviesByTitleApi
                   .build())
           .ifPresent(movies::addAll);
     }
-    movies.stream().filter(movie -> movie.getVoteCount() >= 250).collect(Collectors.toList());
+    movies.stream().filter(movie -> movie.getVoteCount() >= 70).collect(Collectors.toList());
     Comparator<MovieSimpleDto> comparator =
         buildMoviesComparator.apply(
             BuildMoviesComparator.Model.builder()
