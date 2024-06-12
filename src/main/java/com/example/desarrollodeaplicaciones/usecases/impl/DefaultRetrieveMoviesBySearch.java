@@ -5,17 +5,13 @@ import static java.util.Objects.isNull;
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.usecases.BuildMoviesComparator;
-import com.example.desarrollodeaplicaciones.usecases.MergeMovies;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesBySearch;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByTitle;
-import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesFromActors;
-
+import com.google.common.base.Strings;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-
-import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -24,18 +20,11 @@ import org.springframework.stereotype.Component;
 public class DefaultRetrieveMoviesBySearch implements RetrieveMoviesBySearch {
 
   private final RetrieveMoviesByTitle retrieveMoviesByTitle;
-  private final RetrieveMoviesFromActors retrieveMoviesFromActors;
-  private final MergeMovies mergeMovies;
   private final BuildMoviesComparator buildMoviesComparator;
 
   public DefaultRetrieveMoviesBySearch(
-      RetrieveMoviesByTitle retrieveMoviesByTitle,
-      RetrieveMoviesFromActors retrieveMoviesFromActors,
-      MergeMovies mergeMovies,
-      BuildMoviesComparator buildMoviesComparator) {
+      RetrieveMoviesByTitle retrieveMoviesByTitle, BuildMoviesComparator buildMoviesComparator) {
     this.retrieveMoviesByTitle = retrieveMoviesByTitle;
-    this.retrieveMoviesFromActors = retrieveMoviesFromActors;
-    this.mergeMovies = mergeMovies;
     this.buildMoviesComparator = buildMoviesComparator;
   }
 
