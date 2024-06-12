@@ -30,7 +30,7 @@ public class DefaultRetrieveMoviesByTitleApi implements RetrieveMoviesByTitleApi
   @Override
   public Optional<List<MovieSimpleDto>> apply(Model model) {
     validateModel(model);
-    final List<MovieSimpleDto> movies = new ArrayList<>();
+    List<MovieSimpleDto> movies = new ArrayList<>();
 
     if (model.getPage() <= 1) {
       return retrieveMoviesByTitleApiRepository
@@ -57,7 +57,7 @@ public class DefaultRetrieveMoviesByTitleApi implements RetrieveMoviesByTitleApi
                   .build())
           .ifPresent(movies::addAll);
     }
-    movies.stream().filter(movie -> movie.getVoteCount() >= 70).collect(Collectors.toList());
+    movies=movies.stream().filter(movie -> movie.getVoteCount() >= 70).collect(Collectors.toList());
     Comparator<MovieSimpleDto> comparator =
         buildMoviesComparator.apply(
             BuildMoviesComparator.Model.builder()

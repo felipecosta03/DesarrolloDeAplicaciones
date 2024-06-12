@@ -10,6 +10,7 @@ import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesFromActors;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -40,7 +41,10 @@ public class DefaultRetrieveMoviesFromActors implements RetrieveMoviesFromActors
     if (movies.isEmpty()) {
       return Optional.empty();
     }
-    return Optional.of(movies);
+    return Optional.of(
+        movies.stream()
+            .filter(movieSimpleDto -> movieSimpleDto.getVoteCount() > 70)
+            .collect(Collectors.toList()));
   }
 
   private void validateModel(Model model) {
