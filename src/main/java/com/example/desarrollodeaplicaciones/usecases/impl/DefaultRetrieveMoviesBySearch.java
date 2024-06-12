@@ -46,6 +46,9 @@ public class DefaultRetrieveMoviesBySearch implements RetrieveMoviesBySearch {
 
     // Retrieve movies by a search from the API or database if an api error occurs
     log.info("Retrieving movies by title value: {}", model.getValue());
+    if (model.getPage() > 11) {
+      return Optional.empty();
+    }
     final Optional<List<MovieSimpleDto>> moviesByTitle =
         retrieveMoviesByTitle.apply(
             RetrieveMoviesByTitle.Model.builder()
@@ -64,8 +67,10 @@ public class DefaultRetrieveMoviesBySearch implements RetrieveMoviesBySearch {
                 .build());
 
     // Merge movies of actors with the movies retrieved by the search
-    if (!Strings.isNullOrEmpty(model.getQualificationOrder())) cleanDate(moviesByTitle.orElse(Collections.emptyList()));
-    if (!isNull(comparator)) moviesByTitle.ifPresent(movieSimpleDtos -> movieSimpleDtos.sort(comparator));
+    if (!Strings.isNullOrEmpty(model.getQualificationOrder()))
+      cleanDate(moviesByTitle.orElse(Collections.emptyList()));
+    if (!isNull(comparator))
+      moviesByTitle.ifPresent(movieSimpleDtos -> movieSimpleDtos.sort(comparator));
 
     if (moviesByTitle.isEmpty()) {
       return Optional.empty();
