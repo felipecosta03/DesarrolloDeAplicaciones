@@ -80,7 +80,7 @@ public class DefaultRetrieveMovieDetailApi implements RetrieveMovieDetailApi {
     return responseMovieCreditsApi.getCrew().stream()
         .filter(
             crew ->
-                "Director".equals(crew.getJob()) && Strings.isNullOrEmpty(crew.getProfilePath()))
+                "Director".equals(crew.getJob()) && !Strings.isNullOrEmpty(crew.getProfilePath()))
         .findFirst();
   }
 
