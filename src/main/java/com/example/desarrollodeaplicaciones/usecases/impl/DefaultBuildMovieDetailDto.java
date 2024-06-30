@@ -34,6 +34,7 @@ public class DefaultBuildMovieDetailDto implements BuildMovieDetailDto {
         .posterPath(movieDetail.getPosterPath())
         .runtime(movieDetail.getRuntime())
         .releaseDate(movieDetail.getReleaseDate())
+        .backdropPath(movieDetail.getBackdropPath())
         .tagline(movieDetail.getTagline())
         .voteAverage(calculateVoteAverage(movieDetail))
         .voteCount(movieDetail.getVoteCount() + movieDetail.getVotes().size())
