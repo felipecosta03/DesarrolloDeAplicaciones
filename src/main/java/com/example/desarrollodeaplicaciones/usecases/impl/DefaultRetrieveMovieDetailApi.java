@@ -13,6 +13,7 @@ import com.example.desarrollodeaplicaciones.repositories.RetrieveMovieImageRepos
 import com.example.desarrollodeaplicaciones.repositories.RetrieveMoviePeopleRepository;
 import com.example.desarrollodeaplicaciones.repositories.RetrieveMovieVideoRepository;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailApi;
+import com.google.common.base.Strings;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
 
@@ -63,7 +64,13 @@ public class DefaultRetrieveMovieDetailApi implements RetrieveMovieDetailApi {
     responseMovieCreditsApi.ifPresent(
         credits -> {
           getDirector(credits).ifPresent(director -> movieDetailDto.get().setDirector(director));
-          movieDetailDto.get().setCast(credits.getCast());
+          movieDetailDto
+              .get()
+              .setCast(
+                  credits.getCast().stream()
+                      .filter(
+                          cast -> !isNull(cast) && !Strings.isNullOrEmpty(cast.getProfilePath()))
+                      .toList());
         });
     responseMovieVideoApi.ifPresent(videos -> movieDetailDto.get().setVideos(videos.getResults()));
     return movieDetailDto;
@@ -71,7 +78,9 @@ public class DefaultRetrieveMovieDetailApi implements RetrieveMovieDetailApi {
 
   private Optional<PeopleCrewDto> getDirector(ResponseMovieCreditsApi responseMovieCreditsApi) {
     return responseMovieCreditsApi.getCrew().stream()
-        .filter(crew -> "Director".equals(crew.getJob()))
+        .filter(
+            crew ->
+                "Director".equals(crew.getJob()) && Strings.isNullOrEmpty(crew.getProfilePath()))
         .findFirst();
   }
 
