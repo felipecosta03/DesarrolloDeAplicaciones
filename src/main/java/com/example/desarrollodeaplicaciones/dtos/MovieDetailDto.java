@@ -1,5 +1,6 @@
 package com.example.desarrollodeaplicaciones.dtos;
 
+import com.example.desarrollodeaplicaciones.models.Vote;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
@@ -43,6 +44,9 @@ public class MovieDetailDto {
   @JsonProperty("vote_count")
   private int voteCount;
 
+  @JsonProperty("user_vote")
+  private int userVote;
+
   @JsonProperty("backdrop_path")
   private String backdropPath;
 
@@ -54,4 +58,7 @@ public class MovieDetailDto {
 
   @JsonProperty("is_favorite")
   private boolean isFavorite;
+
+  private List<Vote> votes;
+
 }

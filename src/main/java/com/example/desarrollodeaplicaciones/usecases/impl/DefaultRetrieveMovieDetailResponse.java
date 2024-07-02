@@ -5,6 +5,7 @@ import static java.util.Objects.isNull;
 import com.example.desarrollodeaplicaciones.dtos.MovieDetailDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
 import com.example.desarrollodeaplicaciones.models.User;
+import com.example.desarrollodeaplicaciones.models.Vote;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetail;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailResponse;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveUserById;
@@ -37,7 +38,15 @@ public class DefaultRetrieveMovieDetailResponse implements RetrieveMovieDetailRe
         retrieveUserById.apply(RetrieveUserById.Model.builder().userId(model.getUserId()).build());
 
     movieDetailDto.ifPresent(
-        movie -> movie.setFavorite(user.getFavoriteMovies().contains(movie.getId())));
+        movie -> {
+          movie.setFavorite(user.getFavoriteMovies().contains(movie.getId()));
+          movie.setUserVote(
+              movie.getVotes().stream()
+                  .filter(vote -> vote.getUserId().equals(user.getId()))
+                  .findFirst()
+                  .map(Vote::getScore)
+                  .orElse(0));
+        });
 
     return movieDetailDto;
   }
