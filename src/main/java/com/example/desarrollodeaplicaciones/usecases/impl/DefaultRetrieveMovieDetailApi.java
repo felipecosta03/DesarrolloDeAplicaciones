@@ -14,6 +14,7 @@ import com.example.desarrollodeaplicaciones.repositories.RetrieveMoviePeopleRepo
 import com.example.desarrollodeaplicaciones.repositories.RetrieveMovieVideoRepository;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovieDetailApi;
 import com.google.common.base.Strings;
+import java.util.ArrayList;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
 
@@ -46,7 +47,7 @@ public class DefaultRetrieveMovieDetailApi implements RetrieveMovieDetailApi {
     if (movieDetailDto.isEmpty()) {
       return Optional.empty();
     }
-
+    movieDetailDto.get().setVotes(new ArrayList<>());
     Optional<ResponseMovieImagesApi> responseMovieImagesApi =
         retrieveMovieImageRepository.apply(
             RetrieveMovieImageRepository.Model.builder().movieId(model.getMovieId()).build());

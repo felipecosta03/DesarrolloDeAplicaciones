@@ -55,7 +55,7 @@ public class DefaultBuildMovieDetailDto implements BuildMovieDetailDto {
             Optional.ofNullable(movieDetail.getCast())
                 .map(cast -> cast.stream().map(this::buildPeopleCrew).toList())
                 .orElse(new ArrayList<>()))
-        .votes(movieDetail.getVotes())
+        .votes(Optional.ofNullable(movieDetail.getVotes()).orElse(new ArrayList<>()))
         .build();
   }
 
