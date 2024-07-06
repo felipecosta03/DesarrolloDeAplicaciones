@@ -82,7 +82,12 @@ public class DefaultRetrieveMovieDetailApi implements RetrieveMovieDetailApi {
         .filter(
             crew ->
                 "Director".equals(crew.getJob()) && !Strings.isNullOrEmpty(crew.getProfilePath()))
-        .findFirst();
+        .findFirst()
+        .map(
+            crew -> {
+              crew.setKnownForDepartment("Director");
+              return crew;
+            });
   }
 
   private void validateModel(Model model) {

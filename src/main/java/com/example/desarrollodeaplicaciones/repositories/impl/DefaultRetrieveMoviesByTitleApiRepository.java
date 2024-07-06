@@ -36,7 +36,7 @@ public class DefaultRetrieveMoviesByTitleApiRepository
                       uriBuilder ->
                           uriBuilder
                               .path("/search/movie")
-                              .queryParam("language", "es-es")
+                              .queryParam("language", "es-MX")
                               .queryParam("page", model.getPage())
                               .queryParam("primary_release_date.lte", LocalDate.now())
                               .queryParam("query", model.getTitle())

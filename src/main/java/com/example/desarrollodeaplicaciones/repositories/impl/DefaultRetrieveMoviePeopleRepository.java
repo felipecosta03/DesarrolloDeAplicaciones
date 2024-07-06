@@ -1,5 +1,7 @@
 package com.example.desarrollodeaplicaciones.repositories.impl;
 
+import static java.util.Objects.isNull;
+
 import com.example.desarrollodeaplicaciones.exceptions.repository.BadRequestRepositoryException;
 import com.example.desarrollodeaplicaciones.exceptions.repository.FailedDependencyRepositoryException;
 import com.example.desarrollodeaplicaciones.exceptions.repository.NotFoundRepositoryException;
@@ -22,7 +24,7 @@ public class DefaultRetrieveMoviePeopleRepository implements RetrieveMoviePeople
   @Override
   public Optional<ResponseMovieCreditsApi> apply(RetrieveMoviePeopleRepository.Model model) {
     try {
-      return Optional.ofNullable(
+      ResponseMovieCreditsApi response =
           webClient
               .get()
               .uri(
@@ -47,9 +49,27 @@ public class DefaultRetrieveMoviePeopleRepository implements RetrieveMoviePeople
                     throw new FailedDependencyRepositoryException(clientResponse.logPrefix());
                   })
               .bodyToMono(ResponseMovieCreditsApi.class)
-              .block());
+              .block();
+
+      return translateCast(response);
     } catch (Exception e) {
       return Optional.empty();
     }
+  }
+
+  private Optional<ResponseMovieCreditsApi> translateCast(ResponseMovieCreditsApi response) {
+    if (isNull(response) || isNull(response.getCast()) || isNull(response.getCrew())) {
+      return Optional.empty();
+    }
+    response
+        .getCast()
+        .forEach(
+            cast -> {
+              if (!isNull(cast) && "Acting".equalsIgnoreCase(cast.getKnownForDepartment())) {
+                cast.setKnownForDepartment("Actor");
+              }
+            });
+
+    return Optional.of(response);
   }
 }

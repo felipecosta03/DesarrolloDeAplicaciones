@@ -29,7 +29,7 @@ public class DefaultRetrieveMovieDetailApiRepository implements RetrieveMovieDet
                   uriBuilder ->
                       uriBuilder
                           .path(String.format("/movie/%s", model.getMovieId()))
-                          .queryParam("language", "es-es")
+                          .queryParam("language", "es-MX")
                           .build())
               .retrieve()
               .onStatus(

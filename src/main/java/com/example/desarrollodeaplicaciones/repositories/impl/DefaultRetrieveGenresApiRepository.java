@@ -29,7 +29,7 @@ public class DefaultRetrieveGenresApiRepository implements RetrieveGenresApiRepo
                   .get()
                   .uri(
                       uriBuilder ->
-                          uriBuilder.path("/genre/movie/list").queryParam("language", "es").build())
+                          uriBuilder.path("/genre/movie/list").queryParam("language", "es-MX").build())
                   .retrieve()
                   .onStatus(
                       HttpStatus.NOT_FOUND::equals,
