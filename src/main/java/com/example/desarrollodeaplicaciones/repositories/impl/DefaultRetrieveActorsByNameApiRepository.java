@@ -35,7 +35,7 @@ public class DefaultRetrieveActorsByNameApiRepository implements RetrieveActorsB
                       uriBuilder ->
                           uriBuilder
                               .path("/search/person")
-                              .queryParam("language", "es-es")
+                              .queryParam("language", "es-MX")
                               .queryParam("page", model.getPage())
                               .queryParam("primary_release_date.lte", LocalDate.now())
                               .queryParam("query", model.getActorName())

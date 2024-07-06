@@ -37,7 +37,7 @@ public class DefaultRetrieveMoviesByGenreApiRepository
                       uriBuilder ->
                           uriBuilder
                               .path("/discover/movie")
-                              .queryParam("language", "es-es")
+                              .queryParam("language", "es-MX")
                               .queryParam("page", model.getPage())
                               .queryParam("primary_release_date.lte", LocalDate.now())
                               //.queryParam("sort_by", model.getSort())
