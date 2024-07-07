@@ -61,7 +61,11 @@ public class DefaultRetrieveMovieDetailApi implements RetrieveMovieDetailApi {
             RetrieveMoviePeopleRepository.Model.builder().movieId(model.getMovieId()).build());
 
     responseMovieImagesApi.ifPresent(
-        images -> movieDetailDto.get().setImages(images.getBackdrops()));
+        images ->
+            movieDetailDto
+                .get()
+                .setImages(
+                    images.getBackdrops().subList(0, Math.min(images.getBackdrops().size(), 4))));
     responseMovieCreditsApi.ifPresent(
         credits -> {
           getDirector(credits).ifPresent(director -> movieDetailDto.get().setDirector(director));
