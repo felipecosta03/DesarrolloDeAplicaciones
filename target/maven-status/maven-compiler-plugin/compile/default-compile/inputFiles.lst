@@ -25,6 +25,7 @@
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveMoviesByTitle.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/dtos/GenreDto.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/exceptions/repository/BadRequestRepositoryException.java
+/Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesDetailsByIds.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/RetrievePopularMoviesApi.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrievePopularMoviesDatabase.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/models/moviesapi/Video.java
@@ -104,6 +105,7 @@
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultSaveActorsDto.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/BuildMovies.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/router/AddFavoriteMovieRouter.java
+/Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveMoviesDetailsByIds.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/RetrieveActorsByName.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesByGenreApi.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultBuildMovieSimpleDtoByMovieDetailDto.java
@@ -239,6 +241,7 @@
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveUserById.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultBuildMoviesDto.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultBuildActorDto.java
+/Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/repositories/RetrieveMoviesDetailsByIdsDatabaseRepository.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/impl/DefaultBuildMoviesComparator.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/dtos/VoteDto.java
 /Users/felipcosta/Documents/Personal/DesarrolloDeAplicaciones/src/main/java/com/example/desarrollodeaplicaciones/usecases/SaveActorsDto.java

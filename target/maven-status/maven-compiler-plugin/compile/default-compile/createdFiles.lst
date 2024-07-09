@@ -20,6 +20,7 @@ com/example/desarrollodeaplicaciones/usecases/DeleteUser.class
 com/example/desarrollodeaplicaciones/dtos/GoogleTokenDto$GoogleTokenDtoBuilder.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesByTitleDatabase.class
 com/example/desarrollodeaplicaciones/usecases/BuildActorDto.class
+com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveMoviesDetailsByIds.class
 com/example/desarrollodeaplicaciones/usecases/DeleteImage$Model$ModelBuilder.class
 com/example/desarrollodeaplicaciones/repositories/RetrieveMoviesByTitleApiRepository$Model$ModelBuilder.class
 com/example/desarrollodeaplicaciones/repositories/DeleteUserRepository.class
@@ -95,6 +96,7 @@ com/example/desarrollodeaplicaciones/models/moviesapi/PeopleCast$PeopleCastBuild
 com/example/desarrollodeaplicaciones/usecases/RetrieveUserResponse.class
 com/example/desarrollodeaplicaciones/models/moviesapi/response/ResponseDiscoverMoviesApi.class
 com/example/desarrollodeaplicaciones/router/UserRouter.class
+com/example/desarrollodeaplicaciones/repositories/RetrieveMoviesDetailsByIdsDatabaseRepository.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveActorsByNameDatabase.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesByGenreDatabase$Model$ModelBuilder.class
 com/example/desarrollodeaplicaciones/usecases/impl/DefaultDeleteImage.class
@@ -358,6 +360,7 @@ com/example/desarrollodeaplicaciones/usecases/security/impl/DefaultCreateToken.c
 com/example/desarrollodeaplicaciones/usecases/impl/DefaultFixMovieDetailImage.class
 com/example/desarrollodeaplicaciones/models/moviesapi/Video$VideoBuilder.class
 com/example/desarrollodeaplicaciones/usecases/security/impl/DefaultIsAccessTokenValid.class
+com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesDetailsByIds.class
 com/example/desarrollodeaplicaciones/dtos/MovieVideoDto.class
 com/example/desarrollodeaplicaciones/repositories/RetrieveMoviesByGenreDatabaseRepository.class
 com/example/desarrollodeaplicaciones/usecases/security/CreateToken.class

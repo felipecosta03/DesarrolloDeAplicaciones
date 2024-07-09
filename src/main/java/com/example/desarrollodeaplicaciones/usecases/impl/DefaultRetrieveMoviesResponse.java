@@ -4,13 +4,17 @@ import static java.util.Objects.isNull;
 
 import com.example.desarrollodeaplicaciones.dtos.MovieSimpleDto;
 import com.example.desarrollodeaplicaciones.exceptions.usecases.BadRequestUseCaseException;
+import com.example.desarrollodeaplicaciones.models.Vote;
+import com.example.desarrollodeaplicaciones.models.moviesapi.MovieDetail;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMovies;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesByGenre;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesBySearch;
+import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesDetailsByIds;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesResponse;
 import com.example.desarrollodeaplicaciones.usecases.RetrievePopularMovies;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -22,16 +26,19 @@ public class DefaultRetrieveMoviesResponse implements RetrieveMoviesResponse {
   private final RetrieveMoviesByGenre retrieveMoviesByGenre;
   private final RetrievePopularMovies retrievePopularMovies;
   private final RetrieveMoviesBySearch retrieveMoviesBySearch;
+  private final RetrieveMoviesDetailsByIds retrieveMoviesDetailsByIds;
 
   public DefaultRetrieveMoviesResponse(
       RetrieveMovies retrieveMovies,
       RetrieveMoviesByGenre retrieveMoviesByGenre,
       RetrievePopularMovies retrievePopularMovies,
-      RetrieveMoviesBySearch retrieveMoviesBySearch) {
+      RetrieveMoviesBySearch retrieveMoviesBySearch,
+      RetrieveMoviesDetailsByIds retrieveMoviesDetailsByIds) {
     this.retrieveMovies = retrieveMovies;
     this.retrieveMoviesByGenre = retrieveMoviesByGenre;
     this.retrievePopularMovies = retrievePopularMovies;
     this.retrieveMoviesBySearch = retrieveMoviesBySearch;
+    this.retrieveMoviesDetailsByIds = retrieveMoviesDetailsByIds;
   }
 
   @Override
@@ -41,48 +48,76 @@ public class DefaultRetrieveMoviesResponse implements RetrieveMoviesResponse {
     final Integer size = model.getSize().orElse(20);
     final String dateOrder = model.getDateOrder().orElse(null);
     final String qualificationOrder = model.getQualificationOrder().orElse(null);
-
+    Optional<List<MovieSimpleDto>> movies = Optional.empty();
     if (model.getGenre().isPresent() && !model.getGenre().get().isBlank()) {
       log.info("Retrieving movies by genre: {}", model.getGenre().get());
-      return retrieveMoviesByGenre.apply(
-          RetrieveMoviesByGenre.Model.builder()
-              .genre(model.getGenre().get())
-              .dateOrder(dateOrder)
-              .qualificationOrder(qualificationOrder)
-              .page(page)
-              .size(size)
-              .build());
+      movies =
+          retrieveMoviesByGenre.apply(
+              RetrieveMoviesByGenre.Model.builder()
+                  .genre(model.getGenre().get())
+                  .dateOrder(dateOrder)
+                  .qualificationOrder(qualificationOrder)
+                  .page(page)
+                  .size(size)
+                  .build());
     } else if (model.getValue().isPresent() && !model.getValue().get().isBlank()) {
       log.info("Retrieving movies by search: {}", model.getValue().get());
-      return retrieveMoviesBySearch.apply(
-          RetrieveMoviesBySearch.Model.builder()
-              .value(model.getValue().get())
-              .page(page)
-              .size(size)
-              .dateOrder(dateOrder)
-              .qualificationOrder(qualificationOrder)
-              .build());
+      movies =
+          retrieveMoviesBySearch.apply(
+              RetrieveMoviesBySearch.Model.builder()
+                  .value(model.getValue().get())
+                  .page(page)
+                  .size(size)
+                  .dateOrder(dateOrder)
+                  .qualificationOrder(qualificationOrder)
+                  .build());
 
     } else if (model.getPopularMovies().isPresent() && model.getPopularMovies().get()) {
       log.info("Retrieving popular movies");
-      return retrievePopularMovies.apply(
-          RetrievePopularMovies.Model.builder().page(page).size(size).build());
+      movies =
+          retrievePopularMovies.apply(
+              RetrievePopularMovies.Model.builder().page(page).size(size).build());
 
     } else {
       log.info("Retrieving movies");
-      return retrieveMovies.apply(
-          RetrieveMovies.Model.builder()
-              .page(page)
-              .size(size)
-              .dateOrder(dateOrder)
-              .qualificationOrder(qualificationOrder)
-              .build());
+      movies =
+          retrieveMovies.apply(
+              RetrieveMovies.Model.builder()
+                  .page(page)
+                  .size(size)
+                  .dateOrder(dateOrder)
+                  .qualificationOrder(qualificationOrder)
+                  .build());
     }
+    if (movies.isPresent()) {
+      Optional<List<MovieDetail>> movieDetails =
+          retrieveMoviesDetailsByIds.apply(
+              movies.get().stream().map(MovieSimpleDto::getId).collect(Collectors.toList()));
+
+      if (movieDetails.isPresent()) {
+        for (MovieSimpleDto movieSimpleDto : movies.get()) {
+          for (MovieDetail movieDetail : movieDetails.get()) {
+            if (movieSimpleDto.getId().equals(movieDetail.getId())) {
+              movieSimpleDto.setVoteCount(
+                  movieDetail.getVotes().size() + movieDetail.getVoteCount());
+              movieSimpleDto.setVoteAverage(calculateVoteAverage(movieDetail));
+            }
+          }
+        }
+      }
+    }
+    return movies;
   }
 
   private void validateModel(Model model) {
     if (isNull(model)) {
       throw new BadRequestUseCaseException("Model is required");
     }
+  }
+
+  private Double calculateVoteAverage(MovieDetail movieDetail) {
+    return ((movieDetail.getVoteAverage() * movieDetail.getVoteCount())
+            + movieDetail.getVotes().stream().mapToDouble(Vote::getScore).sum())
+        / (movieDetail.getVoteCount() + movieDetail.getVotes().size());
   }
 }
