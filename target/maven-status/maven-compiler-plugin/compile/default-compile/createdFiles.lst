@@ -63,6 +63,7 @@ com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesByGenreApi$Model$Mod
 com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesApi.class
 com/example/desarrollodeaplicaciones/repositories/SaveUserRepository.class
 com/example/desarrollodeaplicaciones/dtos/VoteDto$VoteDtoBuilder.class
+com/example/desarrollodeaplicaciones/usecases/impl/DefaultRetrieveGenres.class
 com/example/desarrollodeaplicaciones/usecases/DeleteFavoriteMovie$Model.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveMoviesByGenre.class
 com/example/desarrollodeaplicaciones/usecases/security/CreateAccessToken.class
@@ -174,6 +175,7 @@ com/example/desarrollodeaplicaciones/router/MovieRouter.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveActorsByNameApi.class
 com/example/desarrollodeaplicaciones/repositories/RetrieveMoviesDatabaseRepository.class
 com/example/desarrollodeaplicaciones/repositories/RetrieveMoviesByGenreApiRepository$Model.class
+com/example/desarrollodeaplicaciones/usecases/RetrieveGenres.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveActorsByName$Model.class
 com/example/desarrollodeaplicaciones/usecases/impl/DefaultBuildActor.class
 com/example/desarrollodeaplicaciones/usecases/security/impl/DefaultRevokeAllTokens.class
@@ -318,6 +320,7 @@ com/example/desarrollodeaplicaciones/usecases/impl/DefaultSaveGenresDto.class
 com/example/desarrollodeaplicaciones/router/AuthRouter.class
 com/example/desarrollodeaplicaciones/repositories/RetrieveMovieImageRepository$Model$ModelBuilder.class
 com/example/desarrollodeaplicaciones/usecases/RetrieveFavoriteMoviesFromUserResponse.class
+com/example/desarrollodeaplicaciones/router/RetrieveGenresRouter.class
 com/example/desarrollodeaplicaciones/dtos/MovieDetailDto.class
 com/example/desarrollodeaplicaciones/usecases/RetrievePopularMoviesApi$Model$ModelBuilder.class
 com/example/desarrollodeaplicaciones/models/moviesapi/response/ResponseMovieVideoApi.class

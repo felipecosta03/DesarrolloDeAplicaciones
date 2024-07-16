@@ -48,7 +48,7 @@ public class DefaultRetrieveMoviesResponse implements RetrieveMoviesResponse {
     final Integer size = model.getSize().orElse(20);
     final String dateOrder = model.getDateOrder().orElse(null);
     final String qualificationOrder = model.getQualificationOrder().orElse(null);
-    Optional<List<MovieSimpleDto>> movies = Optional.empty();
+    Optional<List<MovieSimpleDto>> movies;
     if (model.getGenre().isPresent() && !model.getGenre().get().isBlank()) {
       log.info("Retrieving movies by genre: {}", model.getGenre().get());
       movies =
