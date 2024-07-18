@@ -74,21 +74,22 @@ public class DefaultBuildMovieDetailDto implements BuildMovieDetailDto {
 
   private MovieImageDto buildImage(Image image) {
     if (isNull(image)) {
-      throw new FailedDependencyUseCaseException("image cannot be null");
+      return null;
+
     }
     return MovieImageDto.builder().filePath(image.getFilePath()).id(image.getId()).build();
   }
 
   private MovieVideoDto buildVideo(Video video) {
     if (isNull(video)) {
-      throw new FailedDependencyUseCaseException("video cannot be null");
+      return null;
     }
     return MovieVideoDto.builder().key(video.getKey()).id(video.getId()).build();
   }
 
   private PeopleCastDto buildPeopleCrew(PeopleCast peopleCast) {
     if (isNull(peopleCast)) {
-      throw new FailedDependencyUseCaseException("peopleCast cannot be null");
+      return null;
     }
     return PeopleCastDto.builder()
         .character(peopleCast.getCharacter())
@@ -101,7 +102,7 @@ public class DefaultBuildMovieDetailDto implements BuildMovieDetailDto {
 
   private PeopleCrewDto buildPeopleCrew(PeopleCrew peopleCrew) {
     if (isNull(peopleCrew)) {
-      throw new FailedDependencyUseCaseException("peopleCrew cannot be null");
+      return null;
     }
     return PeopleCrewDto.builder()
         .name(peopleCrew.getName())
