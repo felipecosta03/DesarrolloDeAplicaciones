@@ -113,7 +113,6 @@ public class DefaultBuildMovieDetail implements BuildMovieDetail {
         .name(peopleCastDto.getName())
         .profilePath(peopleCastDto.getProfilePath())
         .knownForDepartment(peopleCastDto.getKnownForDepartment())
-        .id(peopleCastDto.getId())
         .build();
   }
 
