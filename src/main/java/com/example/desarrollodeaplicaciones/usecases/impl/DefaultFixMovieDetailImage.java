@@ -45,11 +45,5 @@ public class DefaultFixMovieDetailImage implements FixImage<MovieDetailDto> {
     if (isNull(movieDetailDto.getId())) {
       throw new BadRequestUseCaseException("MovieDetailDto id cannot be null");
     }
-    if (isNull(movieDetailDto.getPosterPath())) {
-      throw new BadRequestUseCaseException("MovieDetailDto posterPath cannot be null");
-    }
-    if (isNull(movieDetailDto.getBackdropPath())) {
-      throw new BadRequestUseCaseException("MovieDetailDto backdropPath cannot be null");
-    }
   }
 }

@@ -101,7 +101,7 @@ public class DefaultBuildMovieDetail implements BuildMovieDetail {
 
   private PeopleCast buildPeopleCrew(PeopleCastDto peopleCastDto) {
     if (isNull(peopleCastDto)) {
-      throw new FailedDependencyUseCaseException("peopleCastDto cannot be null");
+      return null;
     }
 
     if (!StringUtils.isNullOrEmpty(peopleCastDto.getProfilePath())) {
@@ -119,9 +119,8 @@ public class DefaultBuildMovieDetail implements BuildMovieDetail {
 
   private PeopleCrew buildPeopleCrew(PeopleCrewDto peopleCrewDto) {
     if (isNull(peopleCrewDto)) {
-      throw new FailedDependencyUseCaseException("peopleCrewDto cannot be null");
+      return null;
     }
-
     if (!StringUtils.isNullOrEmpty(peopleCrewDto.getProfilePath())) {
       peopleCrewDto.setProfilePath(buildImageUrl.apply(peopleCrewDto.getProfilePath()));
     }
