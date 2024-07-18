@@ -96,8 +96,9 @@ public class DefaultRetrieveMoviesResponse implements RetrieveMoviesResponse {
 
       moviesDto =
           movies.get().stream()
-              .filter(movie -> movie.getId() != null && !Strings.isNullOrEmpty(movie.getTitle()))
+              .filter(movie -> movie.getId() != null || !Strings.isNullOrEmpty(movie.getTitle()))
               .collect(Collectors.toList());
+
       Optional<List<MovieDetail>> movieDetails =
           retrieveMoviesDetailsByIds.apply(
               moviesDto.stream().map(MovieSimpleDto::getId).collect(Collectors.toList()));
