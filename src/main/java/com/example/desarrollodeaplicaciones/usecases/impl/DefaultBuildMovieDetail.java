@@ -36,10 +36,10 @@ public class DefaultBuildMovieDetail implements BuildMovieDetail {
   public MovieDetail apply(MovieDetailDto movieDetailDto) {
     validateMovieDetailDto(movieDetailDto);
 
-    if (!movieDetailDto.getBackdropPath().isBlank()) {
+    if (!isNull(movieDetailDto.getBackdropPath()) && !movieDetailDto.getBackdropPath().isBlank()) {
       movieDetailDto.setBackdropPath(buildImageUrl.apply(movieDetailDto.getBackdropPath()));
     }
-    if (!movieDetailDto.getPosterPath().isBlank()) {
+    if (!isNull(movieDetailDto.getPosterPath()) && !movieDetailDto.getPosterPath().isBlank()) {
       movieDetailDto.setPosterPath(buildImageUrl.apply(movieDetailDto.getPosterPath()));
     }
 

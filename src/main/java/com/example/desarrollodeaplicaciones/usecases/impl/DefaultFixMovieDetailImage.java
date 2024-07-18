@@ -27,15 +27,27 @@ public class DefaultFixMovieDetailImage implements FixImage<MovieDetailDto> {
 
     movieDetailDto
         .getImages()
-        .forEach(image -> image.setFilePath(buildImageUrl.apply(image.getFilePath())));
+        .forEach(
+            image -> {
+              if (!isNull(image.getFilePath())) {
+                image.setFilePath(buildImageUrl.apply(image.getFilePath()));
+              }
+            });
 
-    movieDetailDto
-        .getDirector()
-        .setProfilePath(buildImageUrl.apply(movieDetailDto.getDirector().getProfilePath()));
+    if (!isNull(movieDetailDto.getDirector())) {
+      movieDetailDto
+          .getDirector()
+          .setProfilePath(buildImageUrl.apply(movieDetailDto.getDirector().getProfilePath()));
+    }
 
     movieDetailDto
         .getCast()
-        .forEach(actor -> actor.setProfilePath(buildImageUrl.apply(actor.getProfilePath())));
+        .forEach(
+            actor -> {
+              if (!isNull(actor.getProfilePath())) {
+                actor.setProfilePath(buildImageUrl.apply(actor.getProfilePath()));
+              }
+            });
   }
 
   private void validateMovieDetailDto(MovieDetailDto movieDetailDto) {
