@@ -38,6 +38,7 @@ public class DefaultSaveMovieDetail implements SaveMovieDetail {
   @Async
   public void accept(MovieDetail movieDetail) {
     validateMovieDetail(movieDetail);
+    saveMovieDetailRepository.save(movieDetail);
     log.info("Saving movie detail with id: {}", movieDetail.getId());
     movieDetail.setPosterPath(
         uploadImage.apply(
