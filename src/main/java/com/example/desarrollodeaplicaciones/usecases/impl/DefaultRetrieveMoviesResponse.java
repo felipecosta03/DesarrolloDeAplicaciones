@@ -12,6 +12,8 @@ import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesBySearch;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesDetailsByIds;
 import com.example.desarrollodeaplicaciones.usecases.RetrieveMoviesResponse;
 import com.example.desarrollodeaplicaciones.usecases.RetrievePopularMovies;
+import com.google.common.base.Strings;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -89,13 +91,19 @@ public class DefaultRetrieveMoviesResponse implements RetrieveMoviesResponse {
                   .qualificationOrder(qualificationOrder)
                   .build());
     }
+    List<MovieSimpleDto> moviesDto = new ArrayList<>();
     if (movies.isPresent()) {
+
+      moviesDto =
+          movies.get().stream()
+              .filter(movie -> movie.getId() != null && !Strings.isNullOrEmpty(movie.getTitle()))
+              .collect(Collectors.toList());
       Optional<List<MovieDetail>> movieDetails =
           retrieveMoviesDetailsByIds.apply(
-              movies.get().stream().map(MovieSimpleDto::getId).collect(Collectors.toList()));
+              moviesDto.stream().map(MovieSimpleDto::getId).collect(Collectors.toList()));
 
       if (movieDetails.isPresent()) {
-        for (MovieSimpleDto movieSimpleDto : movies.get()) {
+        for (MovieSimpleDto movieSimpleDto : moviesDto) {
           for (MovieDetail movieDetail : movieDetails.get()) {
             if (movieSimpleDto.getId().equals(movieDetail.getId())) {
               movieSimpleDto.setVoteCount(
@@ -106,7 +114,7 @@ public class DefaultRetrieveMoviesResponse implements RetrieveMoviesResponse {
         }
       }
     }
-    return movies;
+    return Optional.of(moviesDto);
   }
 
   private void validateModel(Model model) {
